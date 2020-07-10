@@ -20,17 +20,27 @@ Route::get('/', function () {
 
 Auth::routes();
 
-// Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home', function(){
     return view('home');
 })->name('home');
 
-// Route::get('/home',function(){
-//     return "welcome home";
-// })->name('home');
+
+Route::resource('buyer', 'BuyerController')->only([
+    'show','edit','update','destroy' 
+]);
 
 
-Route::get('/test', function(){
-     
-return     Auth::guard('buyer')->user()?Auth::guard('buyer')->user()->name:Auth::guard('seller')->user()->name;
-})->middleware('auth:seller,buyer');
+Route::get('/{route}',function($route){
+
+    // $route=Route::current()->uri;
+    if($route=='buyer'){
+        return 'buyer here';
+    }else if ($route=='seller'){
+        return 'seller';
+    }else{
+        abort(404);  //404 page
+    }
+    // dd(Route::current()->uri);
+
+
+});

@@ -63,7 +63,7 @@ input.hidden {
     <div class="clearfix"></div>
     <div class="bot-border"></div>
 
-    <div class="col-sm-5 col-xs-6 tital " >Deposit amount</div>
+    <div class="col-sm-5 col-xs-6 tital " id="title_deposit_amount">Deposit amount</div>
     <div class="col-sm-5" id="deposit_amount" value="111"> {{$buyer->deposit_amount}}</div>  
     <div class="col-sm-2" id="edit"> <span class="glyphicon glyphicon-edit" class="btn btn-primary" id="btn-edit" ></span> </div>
     <div class="clearfix"></div>
@@ -101,9 +101,15 @@ window.onload= function(e){
 
     //create element that will show input
     let newElt=document.createElement("input")
-        newElt.classList.add('col-sm-5')
+        // newElt.classList.add('col-sm-5')
         newElt.setAttribute("id", "deposit_amount")
+        newElt.setAttribute("name", "deposit_amount")
         newElt.value='test'
+
+    //Create form element
+    let formElt=document.createElement("form")
+    formElt.setAttribute('id','form1')
+        newElt.classList.add('col-sm-5')
 
     //create element that wil show update icon
     let newEditBtn=document.createElement("span")
@@ -111,7 +117,10 @@ window.onload= function(e){
         newEditBtn.setAttribute('id','update')
         newEditBtn.setAttribute('type','submit')
 
-    //Onclick to show input
+    let title_deposit_amount=document.getElementById("title_deposit_amount")
+
+
+    //Onclick to show input + wrap it by formElt
     editBtn.addEventListener("click",function(){
 
         console.log("deposit amount")
@@ -120,18 +129,26 @@ window.onload= function(e){
 
         //replace edit icon by validate one
         editBtn.parentNode.replaceChild(newEditBtn,editBtn)
+
+        newElt.parentNode.appendChild(formElt)
+        formElt.appendChild(newElt)
+        title_deposit_amount.parentNode.insertBefore(formElt, title_deposit_amount.nextSibling)
+
     });
 
     //Onclick to send input value
     newEditBtn.addEventListener("click", function(e){
 
-        console.log("click update")
+            //Get form sublitted values
+        let val=document.getElementById("form1").elements[0].value
+        console.log(val)
         
-        // window.axios.put('http://127.0.0.1/auction-app/public/api/buyer/'+1)
-        //     .then((response) => {
-        //     console.log(response);
-        // });        
+        window.axios.put('http://127.0.0.1/auction-app/public/api/buyer/'+1,val)
+            .then((response) => {
+            console.log(response);
+        });        
     })
+
 
 
 

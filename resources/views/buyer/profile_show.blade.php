@@ -30,6 +30,8 @@ input.hidden {
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 @endpush
 
+
+
 <!------ Include the above in your HEAD tag ---------->
 
 <div class="container">
@@ -61,7 +63,9 @@ input.hidden {
     <div class="clearfix"></div>
     <div class="bot-border"></div>
 
-    <div class="col-sm-5 col-xs-6 tital " >Deposit amount</div><div class="col-sm-7"> {{$buyer->deposit_amount}}</div>
+    <div class="col-sm-5 col-xs-6 tital " >Deposit amount</div>
+    <div class="col-sm-5" id="deposit_amount" value="111"> {{$buyer->deposit_amount}}</div>  
+    <div class="col-sm-2" id="edit"> <span class="glyphicon glyphicon-edit" class="btn btn-primary" id="btn-edit" ></span> </div>
     <div class="clearfix"></div>
     <div class="bot-border"></div>
 
@@ -72,14 +76,71 @@ input.hidden {
             </div>
 
         </div> 
-        <div style="display:inline-block;margin-left:10%;margin-right:50%;"><button type="button" class="btn btn-primary">Edit details</button></div>
-        <div style="display:inline-block;"><button type="button" class="btn btn-danger">Delete account</button></div>
-       
+        <div style="margin: auto;text-align: center;"><button type="button" class="btn btn-danger" id="delete">Delete account</button></div>
+
 
         </div>
 </div>  
         
    </div>
 </div>
+
+@push('scripts')
+
+<script>
+
+    // $("div button").one("click", false)
+
+window.onload= function(e){
+
+    let editBtn=document.getElementById("btn-edit")
+    // editbtn.setAttribute('onclick', 'update()')
+    // editbtn.setAttribute.onclick=function(){update();}
+
+    let deposit_amount_elt=document.getElementById("deposit_amount")
+
+    //create element that will show input
+    let newElt=document.createElement("input")
+        newElt.classList.add('col-sm-5')
+        newElt.setAttribute("id", "deposit_amount")
+        newElt.value='test'
+
+    //create element that wil show update icon
+    let newEditBtn=document.createElement("span")
+        newEditBtn.classList.add('glyphicon','glyphicon-check','col-sm-2')
+        newEditBtn.setAttribute('id','update')
+        newEditBtn.setAttribute('type','submit')
+
+    //Onclick to show input
+    editBtn.addEventListener("click",function(){
+
+        console.log("deposit amount")
+        //replace existing deposit_amount value by input field
+        deposit_amount_elt.parentNode.replaceChild(newElt,deposit_amount_elt)
+
+        //replace edit icon by validate one
+        editBtn.parentNode.replaceChild(newEditBtn,editBtn)
+    });
+
+    //Onclick to send input value
+    newEditBtn.addEventListener("click", function(e){
+
+        console.log("click update")
+        
+        // window.axios.put('http://127.0.0.1/auction-app/public/api/buyer/'+1)
+        //     .then((response) => {
+        //     console.log(response);
+        // });        
+    })
+
+
+
+
+}
+
+</script>
+
+
+@endpush
 
 @endsection

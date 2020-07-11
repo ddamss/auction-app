@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Buyer;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class BuyerController extends Controller
@@ -34,13 +36,7 @@ class BuyerController extends Controller
      */
     public function edit(Buyer $buyer)
     {
-        if (Auth::guard('buyer')->user()->id==$buyer->id)
-        {
-            $id=$buyer->id;
-            return view('buyer.profile_edit', ['buyer' => Buyer::findOrFail($id)]);
-        }else{
-            return 'you\'re trying to access to another user';
-        }    
+        dd('edit controller');
     }
 
     /**
@@ -52,7 +48,19 @@ class BuyerController extends Controller
      */
     public function update(Request $request, Buyer $buyer)
     {
-        //
+        // return 'update here';
+        // dd (response($buyer->jsonSerialize(),Response::HTTP_CREATED));
+        // $buyer = Buyer::find(1);
+
+        // $buyer->name = response($buyer->jsonSerialize());
+
+        // $buyer->save();
+
+        // Log::debug(response($buyer->jsonSerialize()));
+        $buyer->deposit_amount=91;
+        
+        Log::debug($buyer);
+        return response($buyer->jsonSerialize(),Response::HTTP_CREATED);
     }
 
     /**

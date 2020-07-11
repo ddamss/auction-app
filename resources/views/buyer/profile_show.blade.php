@@ -89,8 +89,6 @@ input.hidden {
 
 <script>
 
-    // $("div button").one("click", false)
-
 window.onload= function(e){
 
     let editBtn=document.getElementById("btn-edit")
@@ -140,16 +138,17 @@ window.onload= function(e){
     newEditBtn.addEventListener("click", function(e){
 
             //Get form sublitted values
-        let val=document.getElementById("form1").elements[0].value
-        console.log(val)
+        let deposit_amount_val=document.getElementById("form1").elements[0].value
+        console.log(deposit_amount_val)
         
-        window.axios.put('http://127.0.0.1/auction-app/public/api/buyer/'+1,val)
+        window.axios.put('http://127.0.0.1/auction-app/public/api/buyer/'+1,{deposit_amount_val})
             .then((response) => {
             console.log(response);
         });        
     })
 
 
+    //Feature to get the buyer ID from the URL to pass to axios endpoint dynamically
 
 
 

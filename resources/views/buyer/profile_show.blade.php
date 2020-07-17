@@ -126,9 +126,14 @@ window.onload= function(e){
         let deposit_amount_val=document.getElementById("form1").elements[0].value
         console.log(deposit_amount_val)
         
-        window.axios.put('http://127.0.0.1/auction-app/public/api/buyer/'+Number(user_id),{deposit_amount_val})
+        window.axios.put('http://127.0.0.1/auction-app/public/api/buyer/'+Number(user_id),{deposit_amount_val},
+        {
+            headers:{
+                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYjllY2Q2MGRlYjA0MDhhOWU2NWU3NzAwYWUwM2M2MGRlNjRhNzA5YTUzZThlMDBiZTk2NTA5NDQyMTg1YjA5ZGZlOTgxYzEwZWJmYmJhNmYiLCJpYXQiOjE1OTUwMDU4NTgsIm5iZiI6MTU5NTAwNTg1OCwiZXhwIjoxNjI2NTQxODU4LCJzdWIiOiIzIiwic2NvcGVzIjpbXX0.Pf541YjNCy_Y5fe1529Zcw9_V8xTU-pnkR_JCXWRCfQjrTEAnIlBjdela27jFB8Nbo2KjvHD1Wj6HOBUI4uekVtsEGc277ql217sSsO1H0iO6FuBI8zc4XdivYLapA6ar4S0rTOFgow1pgA2L2DYn-MOypDp5cjF9tG2GuDTOYbU1ElEYbqZh5wn2-1XSovh4WzwYAHQP7HviuwxCrJ7GoB6BcMLXKrkZ0afGh2kYSM7aqtACNMYZIe6tq-PNo18fWM7-9tTEzRRWZwODE1o2btLcep9-sPvdBNJ7qomkHx0tE2PJcGlfgO-DVdkXFg_63gZHXgLXXFR4d7M0iFqU89CPGrApGAtTHdamhuNAT75gtQXahh9jzv55Dmzu-WZXsZsXA97oNKab3DYqxdSxlTTaaleae0KFO_Zc4l41Koqaq8p_UbtSjwBvYyeCu_pwhl79dndnchXBw52sgk3EqzydFOUIH9ln8hyuT3D_L9eKyBT4j7wrdFfJgjQMDrtuLR0b3M7RxBj7tpqh7pIIFRKZLQYm6e8kO6qL0D5RJjnY_jsmixXNNJz7OkKdlHSKq-Lrk2Kg7fKeN4kd8DTWuDkDG2WpbD3em07Cwekr-jnNHWiv-azd9vuSopiiYHAQp2FIYwH5gAfKmkPynGBv17bnPcUMtXbtyGUjRp3KUg'
+            }
+        })
             .then((response) => {
-                
+
             console.log(response);
             //Create div element to show with deposit_amount updated value
             let deposit_amount_upt=document.createElement("div")

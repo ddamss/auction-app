@@ -30,17 +30,17 @@ Route::resource('buyer', 'BuyerController')->only([
 ]);
 
 
-Route::get('/{route}',function($route){
+// Route::get('/{route}',function($route){
 
-    // $route=Route::current()->uri;
-    if($route=='buyer'){
-        return 'buyer here';
-    }else if ($route=='seller'){
-        return 'seller';
-    }else{
-        abort(404);  //404 page
-    }
-    // dd(Route::current()->uri);
+//     // $route=Route::current()->uri;
+//     if($route=='buyer'){
+//         return 'buyer here';
+//     }else if ($route=='seller'){
+//         return 'seller';
+//     }else{
+//         abort(404);  //404 page
+//     }
+//     // dd(Route::current()->uri);
 
 
-});
+// });

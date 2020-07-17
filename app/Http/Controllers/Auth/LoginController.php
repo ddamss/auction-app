@@ -51,7 +51,13 @@ class LoginController extends Controller
 
         if (Auth::guard('buyer')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
-            return redirect()->intended('/home');
+            //(1) Get current buyer App\Buyer::find(1)
+            //(2) Create token
+            //(3) Update auth_token fild of Buyer model with the token value above
+            $token = Auth::guard('buyer')->user()->createToken('authToken')->accessToken;
+            // dd($token);
+            // return redirect()->intended('/home');
+            return $token;
         }
         else if (Auth::guard('seller')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 

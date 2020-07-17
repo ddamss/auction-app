@@ -128,6 +128,7 @@ window.onload= function(e){
         
         window.axios.put('http://127.0.0.1/auction-app/public/api/buyer/'+Number(user_id),{deposit_amount_val})
             .then((response) => {
+                
             console.log(response);
             //Create div element to show with deposit_amount updated value
             let deposit_amount_upt=document.createElement("div")

@@ -48,21 +48,17 @@ class BuyerController extends Controller
      */
     public function update(Request $request, Buyer $buyer)
     {
-        // return 'update here';
-        // dd (response($buyer->jsonSerialize(),Response::HTTP_CREATED));
+
         $buyer = Buyer::find(1);
 
-        // $buyer->deposit_amount = response($buyer->jsonSerialize());
         $buyer->deposit_amount=$request->deposit_amount_val;
         $buyer->save();
-
-        // Log::debug(response($buyer->jsonSerialize()));
-        // $buyer->deposit_amount=91;
         
-        Log::debug($request->deposit_amount_val);
+        Log::debug($request);
         Log::debug($buyer->jsonSerialize());
 
         return response($buyer->jsonSerialize(),Response::HTTP_CREATED);
+
     }
 
     /**

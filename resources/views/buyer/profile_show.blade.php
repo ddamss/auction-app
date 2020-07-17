@@ -12,7 +12,6 @@ input.hidden {
     position: absolute;
     left: -9999px;
 }
-
 #profile-image1 {
     cursor: pointer;
   
@@ -63,9 +62,8 @@ input.hidden {
     <div class="clearfix"></div>
     <div class="bot-border"></div>
 
-    <input type="hidden" id="api_token" name="api_token" value="{{$buyer->api_token}}">
     <div class="col-sm-5 col-xs-6 tital " id="title_deposit_amount">Deposit amount</div>
-    <div class="col-sm-5" id="deposit_amount" value="111"> {{$buyer->deposit_amount}}</div>  
+    <div class="col-sm-5" id="deposit_amount" value="{{$buyer->deposit_amount}}"> {{$buyer->deposit_amount}}</div>  
     <div class="col-sm-2" id="edit"> <span class="glyphicon glyphicon-edit" class="btn btn-primary" id="btn-edit" ></span> </div>
     <div class="clearfix"></div>
     <div class="bot-border"></div>
@@ -89,77 +87,64 @@ input.hidden {
 @push('scripts')
 
 <script>
-
 window.onload= function(e){
-
+    //Get user_id from URL
+    let URL = window.location.href.split('/');
+    let user_id=URL.pop() || URL.pop();
     let editBtn=document.getElementById("btn-edit")
-    // editbtn.setAttribute('onclick', 'update()')
-    // editbtn.setAttribute.onclick=function(){update();}
-
     let deposit_amount_elt=document.getElementById("deposit_amount")
-
-    //Get api_token
-
-    let api_token = document.getElementById("api_token").value
-    console.log(api_token)
-
     //create element that will show input
     let newElt=document.createElement("input")
         // newElt.classList.add('col-sm-5')
         newElt.setAttribute("id", "deposit_amount")
         newElt.setAttribute("name", "deposit_amount")
-        newElt.value='test'
-
+        newElt.value=deposit_amount_elt.innerHTML
     //Create form element
     let formElt=document.createElement("form")
     formElt.setAttribute('id','form1')
-        newElt.classList.add('col-sm-5')
-
+    newElt.classList.add('col-sm-5')
     //create element that wil show update icon
     let newEditBtn=document.createElement("span")
         newEditBtn.classList.add('glyphicon','glyphicon-check','col-sm-2')
         newEditBtn.setAttribute('id','update')
         newEditBtn.setAttribute('type','submit')
-
     let title_deposit_amount=document.getElementById("title_deposit_amount")
-
-
     //Onclick to show input + wrap it by formElt
     editBtn.addEventListener("click",function(){
-
         console.log("deposit amount")
         //replace existing deposit_amount value by input field
         deposit_amount_elt.parentNode.replaceChild(newElt,deposit_amount_elt)
-
         //replace edit icon by validate one
         editBtn.parentNode.replaceChild(newEditBtn,editBtn)
-
         newElt.parentNode.appendChild(formElt)
         formElt.appendChild(newElt)
         title_deposit_amount.parentNode.insertBefore(formElt, title_deposit_amount.nextSibling)
-
     });
-
     //Onclick to send input value
     newEditBtn.addEventListener("click", function(e){
-
             //Get form sublitted values
         let deposit_amount_val=document.getElementById("form1").elements[0].value
         console.log(deposit_amount_val)
         
-        window.axios.put('http://127.0.0.1/auction-app/public/api/buyer/'+1,{deposit_amount_val})
+        window.axios.put('http://127.0.0.1/auction-app/public/api/buyer/'+Number(user_id),{deposit_amount_val})
             .then((response) => {
             console.log(response);
+            //Create div element to show with deposit_amount updated value
+            let deposit_amount_upt=document.createElement("div")
+            deposit_amount_upt.setAttribute('id','deposit_amount')
+            deposit_amount_upt.setAttribute('class','col-sm-5')
+            deposit_amount_upt.value=deposit_amount_val
+            deposit_amount_upt.innerHTML=deposit_amount_val    
+            newElt.parentNode.replaceChild(deposit_amount_upt,newElt)
+            //Put back the edit icon
+            let EditBtn=document.createElement("span")
+                EditBtn.classList.add('glyphicon','glyphicon-edit','col-sm-2')
+                EditBtn.setAttribute('id','btn-edit')
+                newEditBtn.parentNode.replaceChild(EditBtn,newEditBtn)
         });        
     })
-
-
     //Feature to get the buyer ID from the URL to pass to axios endpoint dynamically
-
-
-
 }
-
 </script>
 
 

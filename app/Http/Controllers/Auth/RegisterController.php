@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Buyer;
 use App\Seller;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -94,6 +95,7 @@ class RegisterController extends Controller
                 'name' => $data['name'],
                 'email' =>$data['email'],
                 'password' => Hash::make($data['password']),
+                'api_token' => Str::random(60),
             ]);
 
             // if($buyer) {Mail::to($data['email'])->send(new WelcomeUser($data));}

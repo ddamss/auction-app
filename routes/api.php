@@ -18,6 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('/buyer', 'BuyerController')->only([
+// Route::middleware('auth:api')->group(function(){
+//     Route::apiResource('/buyer', 'BuyerController')->only([
+//         'show','edit','update','destroy' 
+//     ]);
+// });
+
+Route::apiResource('/buyer', 'BuyerController')->only([
     'show','edit','update','destroy' 
 ]);

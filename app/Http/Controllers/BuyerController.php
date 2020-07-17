@@ -54,7 +54,6 @@ class BuyerController extends Controller
             Log::debug($request);
             Log::debug($buyer->jsonSerialize());            
             return response($buyer->jsonSerialize(),Response::HTTP_CREATED);
-
     }
 
     /**

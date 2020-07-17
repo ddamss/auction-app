@@ -63,6 +63,7 @@ input.hidden {
     <div class="clearfix"></div>
     <div class="bot-border"></div>
 
+    <input type="hidden" id="api_token" name="api_token" value="{{$buyer->api_token}}">
     <div class="col-sm-5 col-xs-6 tital " id="title_deposit_amount">Deposit amount</div>
     <div class="col-sm-5" id="deposit_amount" value="{{$buyer->deposit_amount}}"> {{$buyer->deposit_amount}}</div>  
     <div class="col-sm-2" id="edit"> <span class="glyphicon glyphicon-edit" class="btn btn-primary" id="btn-edit" ></span> </div>
@@ -98,6 +99,11 @@ window.onload= function(e){
     let editBtn=document.getElementById("btn-edit")
 
     let deposit_amount_elt=document.getElementById("deposit_amount")
+
+    //Get api_token
+
+    let api_token = document.getElementById("api_token").value
+    console.log(api_token)
 
     //create element that will show input
     let newElt=document.createElement("input")

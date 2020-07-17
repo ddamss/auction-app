@@ -48,6 +48,9 @@ class BuyerController extends Controller
      */
     public function update(Request $request, Buyer $buyer)
     {
+        // return 'update here';
+        // dd (response($buyer->jsonSerialize(),Response::HTTP_CREATED));
+        $buyer = Buyer::find(1);
 
             $buyer->deposit_amount=$request->deposit_amount_val;
             $buyer->save();

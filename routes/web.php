@@ -27,7 +27,7 @@ Route::get('/home', function(){
 
 Route::resource('buyer', 'BuyerController')->only([
     'show','edit','update','destroy' 
-])->middleware('auth:buyer');
+]);
 
 
 Route::get('/{route}',function($route){

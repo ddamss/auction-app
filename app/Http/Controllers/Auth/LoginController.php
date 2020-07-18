@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Buyer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -52,9 +53,11 @@ class LoginController extends Controller
         if (Auth::guard('buyer')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
             //(1) Get current buyer App\Buyer::find(1)
+            $buyer=Buyer::find(Auth::guard('buyer')->user()->id);
             //(2) Create token
-            //(3) Update auth_token fild of Buyer model with the token value above
             $token = Auth::guard('buyer')->user()->createToken('authToken')->accessToken;
+            //(3) Update auth_token fild of Buyer model with the token value above
+            $buyer->update(['access_token'=>$token]);
             // dd($token);
             // return redirect()->intended('/home');
             return $token;

@@ -35,5 +35,10 @@ class AuthServiceProvider extends ServiceProvider
         Passport::personalAccessClientSecret(
             config('passport.personal_access_client.secret')
         );
+
+        Passport::tokensExpireIn(now()->addMinutes(3));
+
+        Passport::refreshTokensExpireIn(now()->addDays(1));
+
     }
 }

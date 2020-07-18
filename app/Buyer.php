@@ -15,5 +15,5 @@ class Buyer extends Authenticatable
 
     protected $guard='buyer';
 
-    protected $fillable=['name','email','password','deposit_amount'];
+    protected $fillable=['name','email','password','deposit_amount','access_token'];
 }

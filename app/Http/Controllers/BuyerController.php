@@ -21,22 +21,11 @@ class BuyerController extends Controller
         if (Auth::guard('buyer')->user()->id==$buyer->id)
         {
             $id=$buyer->id;
-            return view('buyer.profile_show', ['buyer' => Buyer::findOrFail($id)]);
+            return view('buyer.profile', ['buyer' => Buyer::findOrFail($id)]);
         }else{
             return 'you\'re trying to access to another user';
         }
 
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Buyer  $buyer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Buyer $buyer)
-    {
-        dd('edit controller');
     }
 
     /**

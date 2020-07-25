@@ -26,9 +26,17 @@ Route::get('/home', function(){
 
 
 Route::resource('buyer', 'BuyerController')->only([
-    'show','edit','update','destroy' 
+    'show','update','destroy' 
 ]);
 
+Route::resource('auctions', 'AuctionController')->only([
+    'index','store','show','create','destroy' 
+])->middleware('auth:seller');
+
+
+Route::resource('auctions', 'AuctionController')->only([
+    'index','show','update'
+])->middleware('auth:buyer');
 
 // Route::get('/{route}',function($route){
 

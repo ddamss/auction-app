@@ -86,30 +86,34 @@ input.hidden {
 
 <script>
 window.onload= function(e){
-    let access_token=document.getElementById("access_token").value
-    console.log(access_token)
 
+    let access_token=document.getElementById("access_token").value
+    
     //Get user_id from URL
     let URL = window.location.href.split('/');
     let user_id=URL.pop() || URL.pop();
     let editBtn=document.getElementById("btn-edit")
     let deposit_amount_elt=document.getElementById("deposit_amount")
+
     //create element that will show input
     let newElt=document.createElement("input")
         // newElt.classList.add('col-sm-5')
         newElt.setAttribute("id", "deposit_amount")
         newElt.setAttribute("name", "deposit_amount")
         newElt.value=deposit_amount_elt.innerHTML
+
     //Create form element
     let formElt=document.createElement("form")
     formElt.setAttribute('id','form1')
     newElt.classList.add('col-sm-5')
+
     //create element that wil show update icon
     let newEditBtn=document.createElement("span")
         newEditBtn.classList.add('glyphicon','glyphicon-check','col-sm-2')
         newEditBtn.setAttribute('id','update')
         newEditBtn.setAttribute('type','submit')
     let title_deposit_amount=document.getElementById("title_deposit_amount")
+
     //Onclick to show input + wrap it by formElt
     editBtn.addEventListener("click",function(){
         console.log("deposit amount")
@@ -121,6 +125,7 @@ window.onload= function(e){
         formElt.appendChild(newElt)
         title_deposit_amount.parentNode.insertBefore(formElt, title_deposit_amount.nextSibling)
     });
+
     //Onclick to send input value
     newEditBtn.addEventListener("click", function(e){
             //Get form sublitted values
@@ -150,7 +155,6 @@ window.onload= function(e){
                 newEditBtn.parentNode.replaceChild(EditBtn,newEditBtn)
         });        
     })
-    //Feature to get the buyer ID from the URL to pass to axios endpoint dynamically
 }
 </script>
 

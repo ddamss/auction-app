@@ -38,17 +38,6 @@ Route::resource('auctions', 'AuctionController')->only([
     'index','show','update'
 ])->middleware('auth:buyer');
 
-// Route::get('/{route}',function($route){
-
-//     // $route=Route::current()->uri;
-//     if($route=='buyer'){
-//         return 'buyer here';
-//     }else if ($route=='seller'){
-//         return 'seller';
-//     }else{
-//         abort(404);  //404 page
-//     }
-//     // dd(Route::current()->uri);
-
-
-// });
+Route::get('date',function(){
+    return view('datepicker');
+});

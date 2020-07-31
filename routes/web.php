@@ -20,24 +20,28 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', function(){
+Route::get('/home', function () {
     return view('home');
 })->name('home');
 
 
 Route::resource('buyer', 'BuyerController')->only([
-    'show','update','destroy' 
+    'show', 'update', 'destroy'
 ]);
 
 Route::resource('auctions', 'AuctionController')->only([
-    'index','store','show','create','destroy' 
+    'index', 'store', 'show', 'create', 'destroy'
 ])->middleware('auth:seller');
 
 
 Route::resource('auctions', 'AuctionController')->only([
-    'index','show','update'
+    'index', 'show', 'update'
 ])->middleware('auth:buyer');
 
-Route::get('date',function(){
+Route::get('date', function () {
     return view('datepicker');
+});
+
+Route::get('date2', function () {
+    return view('datetimepicker2');
 });

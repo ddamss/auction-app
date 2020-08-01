@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app_2')
 
 @push('styles')
 
@@ -50,7 +50,7 @@
           </div>
         </div>
 
-        <input type="hidden" name="sellerID" value="{{$seller->id}}">
+        <input type="hidden" name="seller_id" value="{{$seller->id}}">
         <div style="margin-top:10px;"></div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>

@@ -26,11 +26,10 @@ class AuctionController extends Controller
      */
     public function create(Seller $seller)
     {
-        if (Auth::guard('seller')->user())
-        {
-            $id=Auth::guard('seller')->user()->id;
+        if (Auth::guard('seller')->user()) {
+            $id = Auth::guard('seller')->user()->id;
             return view('auctions/create_auction', ['seller' => Seller::findOrFail($id)]);
-        }else{
+        } else {
             return 'you\'re not connected';
         }
     }
@@ -43,7 +42,15 @@ class AuctionController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
+        Auction::create([
+            'seller_id' => $request->input('seller_id'),
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'start_price' => $request->input('start_price'),
+            'start_date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date')
+        ]);
     }
 
     /**
@@ -57,7 +64,7 @@ class AuctionController extends Controller
         return 'show auction';
     }
 
-        /**
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -66,6 +73,7 @@ class AuctionController extends Controller
      */
     public function update(Request $request, Buyer $buyer)
     {
+        // dd($request->all());
 
     }
 

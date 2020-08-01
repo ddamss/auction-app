@@ -45,3 +45,7 @@ Route::get('date', function () {
 Route::get('date2', function () {
     return view('datetimepicker2');
 });
+
+Route::get('test', function () {
+    return view('test');
+});

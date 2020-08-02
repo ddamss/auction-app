@@ -16,7 +16,7 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        return 'index auctions';
+        dd('index');
     }
 
     /**
@@ -51,6 +51,7 @@ class AuctionController extends Controller
             'start_date' => $request->input('start_date'),
             'end_date' => $request->input('end_date')
         ]);
+        return view('auctions.show_auction');
     }
 
     /**
@@ -61,7 +62,7 @@ class AuctionController extends Controller
      */
     public function show(Auction $auction)
     {
-        return 'show auction';
+        dd('show');
     }
 
     /**

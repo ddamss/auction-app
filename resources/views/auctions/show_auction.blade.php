@@ -156,21 +156,21 @@
         </div>
         <div class="col-xs-5" style="border:0px solid gray">
             <!-- Datos del vendedor y titulo del producto -->
-            <h3>Samsung Galaxy S4 I337 16GB 4G LTE Unlocked GSM Android Cell Phone</h3>
+            <h3>{{$auction->title}}</h3>
 
             <!-- Precios -->
             <h6 class="title-price"><small>Pice</small></h6>
-            <h3 style="margin-top:0px;">U$S 399</h3>
+            <h3 style="margin-top:0px;">{{$auction->current_price}} $</h3>
 
             <!-- Detalles especificos del producto -->
 
             <div class="section" style="padding-bottom:5px;">
-                <h6 class="title-attr"><small>CAPACIDAD</small></h6>
+                <h6 class="title-attr"><small>Start date : {{$auction->start_date}}</small></h6>
+                <h6 class="title-attr"><small>End date : {{$auction->end_date}}</small></h6>
+                <br>
                 <div>
                     <div> <small>
-                            Stay connected either on the phone or the Web with the Galaxy S4 I337 from Samsung. With 16 GB of memory and a 4G connection, this phone stores precious photos and video and lets you upload them to a cloud or social network at blinding-fast speed. With a 17-hour operating life from one charge, this phone allows you keep in touch even on the go.
-
-                            With its built-in photo editor, the Galaxy S4 allows you to edit photos with the touch of a finger, eliminating extraneous background items. Usable with most carriers, this smartphone is the perfect companion for work or entertainment.
+                            {{$auction->description}}
                         </small></div>
                 </div>
             </div>

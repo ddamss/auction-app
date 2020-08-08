@@ -16,7 +16,9 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        dd('index');
+        $auctions = Auction::all();
+        return view('auctions.all_auctions', compact('auctions'));
+        // dd($auctions);
     }
 
     /**
@@ -43,15 +45,16 @@ class AuctionController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        Auction::create([
+        $auction = Auction::create([
             'seller_id' => $request->input('seller_id'),
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'start_price' => $request->input('start_price'),
+            'current_price' => $request->input('start_price'),
             'start_date' => $request->input('start_date'),
             'end_date' => $request->input('end_date')
         ]);
-        return view('auctions.show_auction');
+        return view('auctions.show_auction', compact('auction'));
     }
 
     /**
@@ -62,7 +65,9 @@ class AuctionController extends Controller
      */
     public function show(Auction $auction)
     {
-        dd('show');
+        // dd('show');
+        // dd($auction);
+        return view('auctions.show_auction', compact('auction'));
     }
 
     /**

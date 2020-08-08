@@ -31,12 +31,12 @@ Route::resource('buyer', 'BuyerController')->only([
 
 Route::resource('auctions', 'AuctionController')->only([
     'index', 'store', 'show', 'create', 'destroy'
-])->middleware('auth:seller');
+])->middleware('auth:seller,buyer');
 
 
-Route::resource('auctions', 'AuctionController')->only([
-    'index', 'show', 'update'
-])->middleware('auth:buyer');
+// Route::resource('auctions', 'AuctionController')->only([
+//     'index', 'show', 'update'
+// ])->middleware('auth:buyer');
 
 Route::get('date', function () {
     return view('datepicker');
@@ -47,5 +47,5 @@ Route::get('date2', function () {
 });
 
 Route::get('test', function () {
-    return view('test');
+    return view('auctions.show_auction');
 });

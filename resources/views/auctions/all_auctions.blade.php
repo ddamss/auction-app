@@ -19,11 +19,11 @@
             <div class="card">
                 <div class="card-horizontal">
                     <div class="col-5 img-square-wrapper" style="width:auto;"><a href="{{route('auctions.show',$auction->id)}}" style="text-decoration: none;color:inherit;">
-                            <img class="" style="height:auto;max-width:30%;" src="{{$auction->image_url}}" alt="{{$auction->title}}">
+                            <img class="" style="height:auto;max-width:80%;" src="{{$auction->image_url}}" alt="{{$auction->title}}">
                         </a>
                     </div>
                     <div class="col-5 card-body">
-                        <h4 class="card-title" style="text-align: left;">{{$auction->title}}</h4>
+                        <h2 class="card-title" style="text-align: left;">{{$auction->title}}</h2>
                         <p class="card-text" style="text-align: left;">{{$auction->description}}</p>
                     </div>
                     <div style="margin: auto;" class="col-2">

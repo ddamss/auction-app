@@ -14,7 +14,7 @@
   <div class="row">
     <div class='col-sm-10'>
 
-      <form action="{{route('auctions.store')}}" method="POST">
+      <form method="POST" action="{{route('auctions.store')}}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
           <label for="title">Title</label>
@@ -24,6 +24,13 @@
           <label for="description">Description:</label>
           <input type="text" class="form-control" id="description" name="description">
         </div>
+
+        <div class="custom-file">
+          <label class="custom-file-label" for="image">Select the image </label>
+          <input type="file" class="custom-file-input" id="customFileLang" name="image" id="image" required>
+        </div>
+        <br>
+        <br>
 
         <div class="form-group">
           <label for="start_price">Start price :</label>

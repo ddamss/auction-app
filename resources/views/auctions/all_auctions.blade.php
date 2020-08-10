@@ -20,7 +20,7 @@
             <div class="card">
                 <div class="card-horizontal">
                     <div class="img-square-wrapper"><a href="{{route('auctions.show',$auction->id)}}" style="text-decoration: none;color:inherit;">
-                            <img class="" src="http://via.placeholder.com/300x180" alt="Card image cap">
+                            <img class="" src="{{$auction->image_url}}" style="max-width:30%;" alt="{{$auction->title}}">
                         </a>
                     </div>
                     <div class="card-body">

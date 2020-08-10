@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Seller;
 use App\Auction;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AuctionController extends Controller
 {
@@ -45,16 +47,27 @@ class AuctionController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        $auction = Auction::create([
-            'seller_id' => $request->input('seller_id'),
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'start_price' => $request->input('start_price'),
-            'current_price' => $request->input('start_price'),
-            'start_date' => $request->input('start_date'),
-            'end_date' => $request->input('end_date')
-        ]);
-        return view('auctions.show_auction', compact('auction'));
+
+        if ($request->hasFile('image')) {
+            Storage::disk('s3')->putFileAs(
+                'auction-images/',
+                new File($request->image->path()),
+                $request->image->getClientOriginalName()
+            );
+            $url = Storage::disk('s3')->url('auction-images/' . $request->image->getClientOriginalName());
+
+            $auction = Auction::create([
+                'seller_id' => $request->input('seller_id'),
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+                'image_url' => $url,
+                'start_price' => $request->input('start_price'),
+                'current_price' => $request->input('start_price'),
+                'start_date' => $request->input('start_date'),
+                'end_date' => $request->input('end_date')
+            ]);
+            return view('auctions.show_auction', compact('auction'));
+        }
     }
 
     /**

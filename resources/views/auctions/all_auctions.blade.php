@@ -12,23 +12,22 @@
 
 @section('content')
 
-
 @foreach ($auctions as $auction)
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 mt-3">
             <div class="card">
                 <div class="card-horizontal">
-                    <div class="img-square-wrapper"><a href="{{route('auctions.show',$auction->id)}}" style="text-decoration: none;color:inherit;">
-                            <img class="" src="{{$auction->image_url}}" style="max-width:30%;" alt="{{$auction->title}}">
+                    <div class="col-5 img-square-wrapper" style="width:auto;"><a href="{{route('auctions.show',$auction->id)}}" style="text-decoration: none;color:inherit;">
+                            <img class="" style="height:auto;max-width:30%;" src="{{$auction->image_url}}" alt="{{$auction->title}}">
                         </a>
                     </div>
-                    <div class="card-body">
-                        <h4 class="card-title">{{$auction->title}}</h4>
-                        <p class="card-text">{{$auction->description}}</p>
+                    <div class="col-5 card-body">
+                        <h4 class="card-title" style="text-align: left;">{{$auction->title}}</h4>
+                        <p class="card-text" style="text-align: left;">{{$auction->description}}</p>
                     </div>
-                    <div style="margin: auto;">
-                        <h4 class="card-title">{{$auction->current_price}} $ </h4>
+                    <div style="margin: auto;" class="col-2">
+                        <h4 class="card-title" style="text-align: center;">{{$auction->current_price}} $ </h4>
                     </div>
                     <div style="width:10px;">
                     </div>
@@ -43,50 +42,4 @@
 
 @endforeach
 
-<!-- @foreach ($auctions as $auction)
-
-<div class="card mb-3" style="max-width: 540px;">
-    <div class="row no-gutters">
-        <div class="col-md-4">
-            <svg class="bd-placeholder-img" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" role="img">
-                <title>{{$auction->title}}</title>
-                <rect width="100%" height="100%" fill="#868e96" /><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text>
-            </svg>
-
-        </div>
-        <div class="col-md-8">
-            <div class="card-body">
-                <h5 class="card-title">{{$auction->title}}</h5>
-                <p class="card-text">{{$auction->current_price}}</p>
-                <p class="card-text">{{$auction->description}}</p>
-                <p class="card-text"><small class="text-muted">{{$auction->start_date}}</small></p>
-                <p class="card-text"><small class="text-muted">{{$auction->end_date}}</small></p>
-            </div>
-        </div>
-    </div>
-</div>
-@endforeach
-
--->
-
-<div class="list-group" style="display:block;margin:50px 50px;">
-
-    @foreach($auctions as $auction)
-    <div class="list-group">
-        <div>
-            <svg class="bd-placeholder-img" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" role="img">
-                <title>{{$auction->title}}</title>
-                <rect width="100%" height="100%" fill="#868e96" /><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text>
-            </svg>
-        </div>
-        <div class="list-group-item list-group-item-action"><a href="{{route('auctions.show',$auction->id)}}" style="text-decoration: none;color:inherit;">
-                <div class="d-flex w-100 justify-content-between">
-                    <h4>{{$auction->title}}</h4>
-                    <b>{{$auction->id}}</b>
-                </div>
-                <p>{{$auction->description}}</p>
-        </div></a><br>
-    </div>
-    @endforeach
-</div>
 @endsection('content')

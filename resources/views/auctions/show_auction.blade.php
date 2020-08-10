@@ -159,7 +159,7 @@
             <h3>{{$auction->title}}</h3>
 
             <!-- Precios -->
-            <h6 class="title-price"><small>Pice</small></h6>
+            <h6 class="title-price"><small>Price</small></h6>
             <h3 style="margin-top:0px;">{{$auction->current_price}} $</h3>
 
             <!-- Detalles especificos del producto -->

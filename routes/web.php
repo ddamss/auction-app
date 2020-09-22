@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Auth::routes();
@@ -38,14 +38,14 @@ Route::resource('auctions', 'AuctionController')->only([
 //     'index', 'show', 'update'
 // ])->middleware('auth:buyer');
 
-Route::get('date', function () {
-    return view('datepicker');
-});
+// Route::get('date', function () {
+//     return view('datepicker');
+// });
 
-Route::get('date2', function () {
-    return view('datetimepicker2');
-});
+// Route::get('date2', function () {
+//     return view('datetimepicker2');
+// });
 
-Route::get('test', function () {
-    return view('auctions.show_auction');
-});
+// Route::get('test', function () {
+//     return view('auctions.show_auction');
+// });

@@ -35,10 +35,11 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link" href="{{ route('auctions.create') }}">New auction</a>
+                        <a class="nav-item nav-link" href="{{ route('auctions.index') }}">My auctions</a>
+                        <a class="nav-item nav-link" href="#">My profile</a>
+                    </div>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">

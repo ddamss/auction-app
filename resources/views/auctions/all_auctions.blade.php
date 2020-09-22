@@ -27,7 +27,7 @@
                         <p class="card-text" style="text-align: left;">{{$auction->description}}</p>
                     </div>
                     <div style="margin: auto;" class="col-2">
-                        <h2 class="card-title" style="text-align: center; color:grey;">{{$auction->current_price}} $ </h2>
+                        <h2 class="card-title" style="text-align: center; color:grey;">${{$auction->current_price}} </h2>
                     </div>
                     <div style="width:10px;">
                     </div>
@@ -41,5 +41,10 @@
 </div>
 
 @endforeach
+
+<div style="text-align:center;">
+    {{ $auctions->links() }}
+</div>
+
 
 @endsection('content')

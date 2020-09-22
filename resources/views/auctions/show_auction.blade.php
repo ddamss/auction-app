@@ -160,7 +160,7 @@
 
             <!-- Precios -->
             <h6 class="title-price"><small>Price</small></h6>
-            <h3 style="margin-top:0px;">{{$auction->current_price}} $</h3>
+            <h3 style="margin-top:0px;">${{$auction->current_price}}</h3>
 
             <!-- Detalles especificos del producto -->
 

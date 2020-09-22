@@ -35,10 +35,16 @@
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
+                    <div class="navbar-nav">
+                        @if (Auth::guard('seller')->user())
+                        <a class="nav-item nav-link" href="{{ route('auctions.create') }}">New auction</a>
+                        <a class="nav-item nav-link" href="{{ route('auctions.index') }}">My auctions</a>
+                        <a class="nav-item nav-link" href="#">My profile</a>
+                        @elseif (Auth::guard('buyer')->user())
+                        <a class="nav-item nav-link" href="{{ route('auctions.index') }}">My auctions</a>
+                        <a class="nav-item nav-link" href="{{ route('buyer.show',Auth::guard('buyer')->user()->id) }}">My buyer profile</a>
+                        @endif
+                    </div>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -65,6 +71,7 @@
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
+
                             </div>
                         </li>
                         @endif

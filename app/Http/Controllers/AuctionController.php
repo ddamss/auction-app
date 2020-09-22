@@ -18,9 +18,8 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        $auctions = Auction::all();
+        $auctions = Auction::paginate(5);;
         return view('auctions.all_auctions', compact('auctions'));
-        // dd($auctions);
     }
 
     /**
@@ -46,9 +45,8 @@ class AuctionController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
         if ($request->hasFile('image')) {
+
             Storage::disk('s3')->putFileAs(
                 'auction-images/',
                 new File($request->image->path()),
@@ -78,8 +76,6 @@ class AuctionController extends Controller
      */
     public function show(Auction $auction)
     {
-        // dd('show');
-        // dd($auction);
         return view('auctions.show_auction', compact('auction'));
     }
 
@@ -92,8 +88,7 @@ class AuctionController extends Controller
      */
     public function update(Request $request, Buyer $buyer)
     {
-        // dd($request->all());
-
+        //
     }
 
     /**

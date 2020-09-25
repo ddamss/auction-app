@@ -18,8 +18,13 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        $auctions = Auction::paginate(5);;
-        return view('auctions.all_auctions', compact('auctions'));
+        if (Auth::guard('seller')->user()) {
+            $auctions = Auction::where('seller_id', Auth::guard('seller')->user()->id)->paginate(5);
+            return view('auctions.all_auctions', compact('auctions'));
+        } else if (Auth::guard('buyer')->user()) {
+            $auctions = Auction::paginate(5);;
+            return view('auctions.all_auctions', compact('auctions'));
+        }
     }
 
     /**

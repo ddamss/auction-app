@@ -8,6 +8,8 @@ use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+
 
 class AuctionController extends Controller
 {
@@ -81,7 +83,16 @@ class AuctionController extends Controller
      */
     public function show(Auction $auction)
     {
-        return view('auctions.show_auction', compact('auction'));
+        if (Auth::guard('seller')->user()) {
+
+            $id = Auth::guard('seller')->user()->id;
+            $auction = Auction::where('seller_id', $id)
+                ->where('id', $auction->id)
+                ->firstOrFail();
+            return view('auctions.show_auction', compact('auction'));
+        } else if (Auth::guard('buyer')->user()) {
+            return view('auctions.show_auction', compact('auction'));
+        }
     }
 
     /**

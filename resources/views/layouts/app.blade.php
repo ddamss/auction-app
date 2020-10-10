@@ -83,8 +83,11 @@
 
         <main class="py-4">
             @yield('content')
+            <example-component></example-component>
+
         </main>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 </body>
 

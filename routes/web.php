@@ -33,6 +33,9 @@ Route::resource('auctions', 'AuctionController')->only([
     'index', 'store', 'show', 'create', 'destroy'
 ])->middleware('auth:seller,buyer');
 
+Route::get("/vue", function () {
+    return view("vuejs");
+});
 
 // Route::resource('auctions', 'AuctionController')->only([
 //     'index', 'show', 'update'

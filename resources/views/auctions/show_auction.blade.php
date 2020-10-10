@@ -178,6 +178,7 @@
         </div>
     </div>
 
+
     @endsection('content')
 
     @push('scripts')

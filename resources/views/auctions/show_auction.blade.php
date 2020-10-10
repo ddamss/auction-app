@@ -160,7 +160,8 @@
 
             <!-- Precios -->
             <h6 class="title-price"><small>Price</small></h6>
-            <h3 style="margin-top:0px;">${{$auction->current_price}}</h3>
+            <h3 style="margin-top:0px;display:inline-block;">${{$auction->current_price}}</h3>
+            <bid-component></bid-component>
 
             <!-- Detalles especificos del producto -->
 
@@ -177,7 +178,6 @@
 
         </div>
     </div>
-
 
     @endsection('content')
 

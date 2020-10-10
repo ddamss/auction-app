@@ -83,7 +83,6 @@
 
         <main class="py-4">
             @yield('content')
-            <example-component></example-component>
 
         </main>
     </div>

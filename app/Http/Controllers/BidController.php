@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Bidding;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Log;
 
 class BidController extends Controller
 {
@@ -35,7 +37,12 @@ class BidController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Log::debug($request);
+        Log::debug($request->jsonSerialize());
+
+        // if (Response::HTTP_CREATED) {
+        //     Log::debug('OK');
+        // }
     }
 
     /**

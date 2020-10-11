@@ -6,23 +6,37 @@
                 <label for="bid" class="sr-only">Enter bid amount $ {{product}}</label>
                 <input type="text" class="form-control" id="bid-amount" placeholder="Enter bid amount $ here ">
             </div>
-            <button type="submit" class="btn btn-primary mb-2">Place bid</button>
+            <button type="submit" class="btn btn-primary mb-2" @click.prevent="bid">Place bid</button>
         </form>
     </div>
 </template>
 
 <script>
 export default {
+    props:['access_token'],
     data: function() {
         return {
-            product: "bid text"
+            product: "bid text 22"
         };
     },
-    mounted() {
-        console.log("Component mounted.");
+    methods:{
+        bid(){                
+                window.axios.post('http://127.0.0.1/auction-app/public/api/bid',
+        {
+            headers:{
+                'Authorization': 'Bearer '+this.access_token
+            }
+        })
+                    .then((response) => {
+                    console.log(response);
+                });        
+        }
     },
     created() {
-        console.log("Component created.");
+        console.log(this.access_token);
+    },
+    mounted() {
+        console.log(this.access_token);
     }
 };
 </script>

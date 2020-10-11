@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Buyer;
 use App\Seller;
 use App\Auction;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
 
 
 class AuctionController extends Controller
@@ -91,7 +92,8 @@ class AuctionController extends Controller
                 ->firstOrFail();
             return view('auctions.show_auction', compact('auction'));
         } else if (Auth::guard('buyer')->user()) {
-            return view('auctions.show_auction', compact('auction'));
+            $buyer = Buyer::where('id', Auth::guard('buyer')->user()->id)->firstOrFail();
+            return view('auctions.show_auction', compact('auction', 'buyer'));
         }
     }
 

@@ -1922,16 +1922,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['access_token'],
   data: function data() {
     return {
-      product: "bid text"
+      product: "bid text 22"
     };
   },
-  mounted: function mounted() {
-    console.log("Component mounted.");
+  methods: {
+    bid: function bid() {
+      window.axios.post('http://127.0.0.1/auction-app/public/api/bid', {
+        headers: {
+          'Authorization': 'Bearer ' + this.access_token
+        }
+      }).then(function (response) {
+        console.log(response);
+      });
+    }
   },
   created: function created() {
-    console.log("Component created.");
+    console.log(this.access_token);
+  },
+  mounted: function mounted() {
+    console.log(this.access_token);
   }
 });
 
@@ -37538,7 +37550,16 @@ var render = function() {
       _vm._v(" "),
       _c(
         "button",
-        { staticClass: "btn btn-primary mb-2", attrs: { type: "submit" } },
+        {
+          staticClass: "btn btn-primary mb-2",
+          attrs: { type: "submit" },
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.bid($event)
+            }
+          }
+        },
         [_vm._v("Place bid")]
       )
     ])

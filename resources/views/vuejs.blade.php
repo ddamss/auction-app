@@ -10,7 +10,7 @@
 <body>
     <div id="app">
         <p>test vue!</p>
-        <example-component></example-component>
+        <bid-component></bid-component>
 
     </div>
     <script src="{{ asset('js/app.js') }}" defer></script>

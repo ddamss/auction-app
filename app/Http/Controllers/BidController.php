@@ -16,16 +16,11 @@ class BidController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Buyer $buyer)
+    public function store(Request $request)
     {
+        Log::debug('Bid registered ! ');
         Log::debug($request);
 
         return response($request, Response::HTTP_CREATED);
-
-        // Log::debug($request->jsonSerialize());
-
-        // if (Response::HTTP_CREATED) {
-        //     Log::debug('OK');
-        // }
     }
 }

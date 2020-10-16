@@ -1922,7 +1922,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['access_token'],
+  props: ['access_token', 'buyer_id'],
   data: function data() {
     return {
       product: "bid text 22"
@@ -1932,7 +1932,8 @@ __webpack_require__.r(__webpack_exports__);
     bid: function bid() {
       var bid_amount = document.getElementById("bid-amount").value;
       window.axios.post('http://127.0.0.1/auction-app/public/api/bid', {
-        bid_amount: bid_amount
+        bid_amount: bid_amount,
+        "buyer_id": this.buyer_id
       }, {
         headers: {
           'Authorization': 'Bearer ' + this.access_token

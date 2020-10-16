@@ -1930,12 +1930,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     bid: function bid() {
+      var bid_amount = document.getElementById("bid-amount").value;
       window.axios.post('http://127.0.0.1/auction-app/public/api/bid', {
+        bid_amount: bid_amount
+      }, {
         headers: {
           'Authorization': 'Bearer ' + this.access_token
         }
       }).then(function (response) {
-        console.log(response);
+        console.log('response');
       });
     }
   },
@@ -37541,7 +37544,7 @@ var render = function() {
         _c("input", {
           staticClass: "form-control",
           attrs: {
-            type: "text",
+            type: "number",
             id: "bid-amount",
             placeholder: "Enter bid amount $ here "
           }

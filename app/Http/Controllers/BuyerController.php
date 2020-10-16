@@ -18,14 +18,12 @@ class BuyerController extends Controller
      */
     public function show(Buyer $buyer)
     {
-        if (Auth::guard('buyer')->user()->id==$buyer->id)
-        {
-            $id=$buyer->id;
+        if (Auth::guard('buyer')->user()->id == $buyer->id) {
+            $id = $buyer->id;
             return view('buyer.profile', ['buyer' => Buyer::findOrFail($id)]);
-        }else{
+        } else {
             return 'you\'re trying to access to another user';
         }
-
     }
 
     /**
@@ -38,14 +36,13 @@ class BuyerController extends Controller
     public function update(Request $request, Buyer $buyer)
     {
 
-        $buyer->deposit_amount=$request->deposit_amount_val;
+        $buyer->deposit_amount = $request->deposit_amount_val;
         $buyer->save();
-        
+
         Log::debug($request);
         Log::debug($buyer->jsonSerialize());
 
-        return response($buyer->jsonSerialize(),Response::HTTP_CREATED);
-
+        return response($buyer->jsonSerialize(), Response::HTTP_CREATED);
     }
 
     /**

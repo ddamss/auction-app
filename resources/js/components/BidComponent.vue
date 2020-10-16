@@ -4,7 +4,7 @@
         <form class="form-inline">
             <div class="form-group mx-sm-3 mb-2">
                 <label for="bid" class="sr-only">Enter bid amount $ {{product}}</label>
-                <input type="text" class="form-control" id="bid-amount" placeholder="Enter bid amount $ here ">
+                <input type="number" class="form-control" id="bid-amount" placeholder="Enter bid amount $ here ">
             </div>
             <button type="submit" class="btn btn-primary mb-2" @click.prevent="bid">Place bid</button>
         </form>
@@ -20,15 +20,17 @@ export default {
         };
     },
     methods:{
-        bid(){                
-                window.axios.post('http://127.0.0.1/auction-app/public/api/bid',
+        
+        bid(){          
+            let bid_amount=document.getElementById("bid-amount").value;      
+                window.axios.post('http://127.0.0.1/auction-app/public/api/bid',{bid_amount},
         {
             headers:{
-                'Authorization': 'Bearer '+this.access_token
+                'Authorization': 'Bearer ' +this.access_token
             }
         })
                     .then((response) => {
-                    console.log(response);
+                    console.log('response');
                 });        
         }
     },

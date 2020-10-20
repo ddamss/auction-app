@@ -21,6 +21,14 @@ class BidController extends Controller
         Log::debug('Bid registered ! ');
         Log::debug($request);
 
+        $bid = Bidding::create([
+            'auction_id' => $request->auction_id,
+            'buyer_id' => $request->buyer_id,
+            'bidded_price' => $request->bidded_price
+        ]);
+
+        Log::debug($bid);
+
         return response($request, Response::HTTP_CREATED);
     }
 }

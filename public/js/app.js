@@ -1921,8 +1921,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['access_token', 'buyer_id'],
+  props: ["access_token", "buyer_id", "auction_id"],
   data: function data() {
     return {
       product: "bid text 22"
@@ -1930,16 +1942,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     bid: function bid() {
-      var bid_amount = document.getElementById("bid-amount").value;
-      window.axios.post('http://127.0.0.1/auction-app/public/api/bid', {
-        bid_amount: bid_amount,
-        "buyer_id": this.buyer_id
+      var bidded_price = document.getElementById("bidded_price").value;
+      window.axios.post("http://127.0.0.1/auction-app/public/api/bid", {
+        bidded_price: bidded_price,
+        buyer_id: this.buyer_id,
+        auction_id: this.auction_id
       }, {
         headers: {
-          'Authorization': 'Bearer ' + this.access_token
+          Authorization: "Bearer " + this.access_token
         }
       }).then(function (response) {
-        console.log('response');
+        console.log("response");
       });
     }
   },
@@ -37537,20 +37550,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticStyle: { display: "inline-block" } }, [
     _c("form", { staticClass: "form-inline" }, [
-      _c("div", { staticClass: "form-group mx-sm-3 mb-2" }, [
-        _c("label", { staticClass: "sr-only", attrs: { for: "bid" } }, [
-          _vm._v("Enter bid amount $ " + _vm._s(_vm.product))
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            type: "number",
-            id: "bid-amount",
-            placeholder: "Enter bid amount $ here "
-          }
-        })
-      ]),
+      _vm._m(0),
       _vm._v(" "),
       _c(
         "button",
@@ -37564,12 +37564,32 @@ var render = function() {
             }
           }
         },
-        [_vm._v("Place bid")]
+        [_vm._v("\n            Place bid\n        ")]
       )
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group mx-sm-3 mb-2" }, [
+      _c("label", { staticClass: "sr-only", attrs: { for: "bid" } }, [
+        _vm._v("Enter bid amount $")
+      ]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: {
+          type: "number",
+          id: "bidded_price",
+          placeholder: "Enter bid amount $ here "
+        }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 

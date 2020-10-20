@@ -1942,14 +1942,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     bid: function bid() {
-      Pusher.logToConsole = true;
-      var pusher = new Pusher('3cfea3908da562a7d76f', {
-        cluster: 'ap2'
-      });
-      var channel = pusher.subscribe('bid');
-      channel.bind('bid', function (data) {
-        app.messages.push(JSON.stringify(data));
-      });
       var bidded_price = document.getElementById("bidded_price").value;
       window.axios.post("http://127.0.0.1/auction-app/public/api/bid", {
         bidded_price: bidded_price,
@@ -1962,13 +1954,14 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         console.log(response);
       });
+      Echo.channel('bid').listen('BidRegistered', function (e) {
+        console.log('new bid echo');
+      });
     }
   },
-  created: function created() {
-    console.log(this.access_token);
+  created: function created() {// console.log(this.access_token);
   },
-  mounted: function mounted() {
-    console.log(this.access_token);
+  mounted: function mounted() {// console.log(this.access_token);
   }
 });
 
@@ -55899,6 +55892,13 @@ Vue.component('bid-component', __webpack_require__(/*! ./components/BidComponent
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+var pusher = new Pusher('3cfea3908da562a7d76f', {
+  cluster: 'ap2'
+});
+var channel = pusher.subscribe('bid');
+channel.bind('bid', function (data) {
+  app.messages.push(JSON.stringify(data));
+});
 var app = new Vue({
   el: "#app"
 });

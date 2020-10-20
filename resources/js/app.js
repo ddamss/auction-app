@@ -27,6 +27,19 @@ Vue.component('bid-component', require('./components/BidComponent.vue').default)
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+var pusher = new Pusher('3cfea3908da562a7d76f', {
+    cluster: 'ap2'
+});
+
+var channel = pusher.subscribe('bid');
+channel.bind('bid', function(data) {
+    app.messages.push(JSON.stringify(data));
+});
+
 const app = new Vue({
     el: "#app"
 });
+
+
+
+

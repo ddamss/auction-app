@@ -1,5 +1,6 @@
 <?php
 
+use App\Auction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,12 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('/bid', 'BidController')->only([
         'store'
     ]);
+});
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('bid/{id}', 'BidController@getAuctionPrice', function ($id) {
+        return Auction::find($id);
+    });
 });
 
 

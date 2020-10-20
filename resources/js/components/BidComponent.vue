@@ -24,6 +24,7 @@
 </template>
 
 <script>
+
 export default {
     props: ["access_token", "buyer_id", "auction_id"],
     data: function() {
@@ -33,16 +34,6 @@ export default {
     },
     methods: {
         bid() {
-            Pusher.logToConsole = true;
-            var pusher = new Pusher('3cfea3908da562a7d76f', {
-                cluster: 'ap2'
-            });
-
-            var channel = pusher.subscribe('bid');
-            channel.bind('bid', function(data) {
-                app.messages.push(JSON.stringify(data));
-            });
-
             let bidded_price = document.getElementById("bidded_price").value;
             window.axios
                 .post(
@@ -61,13 +52,18 @@ export default {
                 .then(response => {
                     console.log(response);
                 });
+
+                Echo.channel('bid')
+                    .listen('BidRegistered', (e) => {
+                        console.log('new bid echo');
+                    })
         }
     },
     created() {
-        console.log(this.access_token);
+        // console.log(this.access_token);
     },
     mounted() {
-        console.log(this.access_token);
+        // console.log(this.access_token);
     }
 };
 </script>

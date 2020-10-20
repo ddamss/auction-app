@@ -32,7 +32,7 @@ class BidRegistered implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        Log::debug('bid from Bidregistered event');
-        return new PrivateChannel('bid');
+        Log::debug('bid from Bidregistered event class');
+        return new Channel('bid');
     }
 }

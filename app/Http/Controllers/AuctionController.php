@@ -24,7 +24,7 @@ class AuctionController extends Controller
         if (Auth::guard('seller')->user()) {
             $auctions = Auction::where('seller_id', Auth::guard('seller')->user()->id)->paginate(5);
             return view('auctions.all_auctions', compact('auctions'));
-        } else if (Auth::guard('buyer')->user()) {
+        } else {
             $auctions = Auction::paginate(5);;
             return view('auctions.all_auctions', compact('auctions'));
         }
@@ -91,7 +91,7 @@ class AuctionController extends Controller
                 ->where('id', $auction->id)
                 ->firstOrFail();
             return view('auctions.show_auction', compact('auction'));
-        } else if (Auth::guard('buyer')->user()) {
+        } else {
             $buyer = Buyer::where('id', Auth::guard('buyer')->user()->id)->firstOrFail();
             return view('auctions.show_auction', compact('auction', 'buyer'));
         }

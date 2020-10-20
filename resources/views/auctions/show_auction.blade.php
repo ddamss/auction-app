@@ -184,13 +184,15 @@
 
     @push('scripts')
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
     <script>
+        Echo.channel('bid')
+            .listen('BidRegistered', (e) => {
+                console.log('new bid echo');
+            });
         $(document).ready(function() {
-
             //-- Click on detail
             $("ul.menu-items > li").on("click", function() {
                 $("ul.menu-items > li").removeClass("active");

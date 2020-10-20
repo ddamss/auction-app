@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\BidRegistered;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -26,6 +27,7 @@ class Bid
      */
     public function handle($event)
     {
+        Log::debug('bid from Bid listener class');
         broadcast(new BidRegistered('bid registered', 'success'));
     }
 }

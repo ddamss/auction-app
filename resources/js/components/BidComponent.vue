@@ -35,6 +35,9 @@ export default {
     methods: {
         bid() {
             let bidded_price = document.getElementById("bidded_price").value;
+
+            console.log('echo');
+
             window.axios
                 .post(
                     "http://127.0.0.1/auction-app/public/api/bid",
@@ -53,10 +56,6 @@ export default {
                     console.log(response);
                 });
 
-                Echo.channel('bid')
-                    .listen('BidRegistered', (e) => {
-                        console.log('new bid echo');
-                    })
         }
     },
     created() {

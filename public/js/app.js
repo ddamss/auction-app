@@ -1943,6 +1943,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     bid: function bid() {
       var bidded_price = document.getElementById("bidded_price").value;
+      console.log('echo');
       window.axios.post("http://127.0.0.1/auction-app/public/api/bid", {
         bidded_price: bidded_price,
         buyer_id: this.buyer_id,
@@ -1953,9 +1954,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         console.log(response);
-      });
-      Echo.channel('bid').listen('BidRegistered', function (e) {
-        console.log('new bid echo');
       });
     }
   },
@@ -55872,7 +55870,7 @@ module.exports = function(module) {
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+__webpack_require__(/*! ./bootstrap.js */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /**

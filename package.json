@@ -24,6 +24,8 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "laravel-echo": "^1.9.0",
+        "pusher-js": "^7.0.0",
         "tempusdominus-bootstrap-4": "^5.1.2"
     }
 }

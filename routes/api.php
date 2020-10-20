@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
-header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization,X-Requested-With');
+header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization,X-Requested-With,x-socket-id');
 
 
 Route::middleware('auth:api')->group(function () {

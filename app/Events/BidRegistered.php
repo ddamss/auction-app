@@ -3,6 +3,8 @@
 namespace App\Events;
 
 use Illuminate\Support\Facades\Log;
+use App\Buyer;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -14,15 +16,16 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class BidRegistered implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+    protected $buyer;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct()
     {
-        $this->message = $message;
+  
     }
 
     /**
@@ -32,7 +35,8 @@ class BidRegistered implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        Log::debug('bid from Bidregistered event class');
+        Log::debug('bid from Bidregistered event class-----');
+        Log::debug('-----');
         return new Channel('bid');
     }
 }

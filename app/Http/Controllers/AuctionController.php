@@ -91,9 +91,11 @@ class AuctionController extends Controller
                 ->where('id', $auction->id)
                 ->firstOrFail();
             return view('auctions.show_auction', compact('auction'));
-        } else {
+        } else if (Auth::guard('buyer')->user()){
             $buyer = Buyer::where('id', Auth::guard('buyer')->user()->id)->firstOrFail();
             return view('auctions.show_auction', compact('auction', 'buyer'));
+        }else{
+            return view('auctions.show_auction', compact('auction'));
         }
     }
 

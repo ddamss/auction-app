@@ -161,9 +161,10 @@
             <!-- Precios -->
             <h6 class="title-price"><small>Price</small></h6>
             <h3 style="margin-top:0px;display:inline-block;">${{$auction->current_price}}</h3>
+            @if (Auth::guard('buyer')->user())
             <input id="access_token" type="hidden" value="{{$buyer->access_token}}">
             <bid-component :access_token="'{{$buyer->access_token}}'" :buyer_id="'{{$buyer->id}}'" :auction_id="'{{$auction->id}}'"></bid-component>
-
+            @endif
             <!-- Detalles especificos del producto -->
 
             <div class="section" style="padding-bottom:5px;">

@@ -59,7 +59,11 @@ export default {
         // console.log(this.access_token);
     },
     mounted() {
-        // console.log(this.access_token);
+        console.log('new bid echo + auction_id 1=> '+this.auction_id);
+                Echo.channel(`bid.${this.auction_id}`)
+            .listen('BidRegistered', (e) => {
+                console.log(e);
+            });
     }
 };
 </script>

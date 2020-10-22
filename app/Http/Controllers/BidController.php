@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Buyer;
+use App\Auction;
 use App\Bidding;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -18,7 +19,7 @@ class BidController extends Controller
      */
     public function store(Request $request)
     {
-        Log::debug('Bid registered ! ');
+        Log::debug('Bid registration=> ');
         Log::debug($request);
 
         $bid = Bidding::create([
@@ -27,8 +28,21 @@ class BidController extends Controller
             'bidded_price' => $request->bidded_price
         ]);
 
-        Log::debug($bid);
+        if($bid){
+            Log::debug('Bid registered => ');
+            Log::debug($bid);
 
-        return response($request, Response::HTTP_CREATED);
+            //Update the current price of the auction using the bidded_price just registered here
+            
+            $auction=Auction::where('id',$request->auction_id)->get();     
+            Log::debug('auction before update');        
+            Log::debug($auction[0]);        
+            $auction[0]->current_price = $bid->bidded_price;
+            $auction[0]->save();
+            Log::debug('auction after update');        
+            Log::debug($auction[0]);  
+        }
+        
+        return response($bid, Response::HTTP_CREATED);
     }
 }

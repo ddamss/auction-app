@@ -1958,7 +1958,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {// console.log(this.access_token);
   },
-  mounted: function mounted() {// console.log(this.access_token);
+  mounted: function mounted() {
+    console.log('new bid echo + auction_id 1=> ' + this.auction_id);
+    Echo.channel("bid.".concat(this.auction_id)).listen('BidRegistered', function (e) {
+      console.log(e);
+    });
   }
 });
 

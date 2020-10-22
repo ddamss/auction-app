@@ -26,7 +26,7 @@
 <script>
 
 export default {
-    props: ["access_token", "buyer_id", "auction_id"],
+    props: ["access_token", "buyer_id", "auction_id","auction_current_price"],
     data: function() {
         return {
             product: "bid text 22"
@@ -35,23 +35,31 @@ export default {
     methods: {
         bid() {
             let bidded_price = document.getElementById("bidded_price").value;
-            window.axios
-                .post(
-                    "http://127.0.0.1/auction-app/public/api/bid",
-                    {
-                        bidded_price,
-                        buyer_id: this.buyer_id,
-                        auction_id:this.auction_id
-                    },
-                    {
-                        headers: {
-                            Authorization: "Bearer " + this.access_token
-                        }
-                    }
-                )
-                .then(response => {
-                    console.log(response);
-                });
+            
+            if (bidded_price<=this.auction_current_price){
+
+                alert('bidded price should be higher than current price ! ')
+                }else{
+
+                    window.axios
+                        .post(
+                            "http://127.0.0.1/auction-app/public/api/bid",
+                            {
+                                bidded_price,
+                                buyer_id: this.buyer_id,
+                                auction_id:this.auction_id
+                            },
+                            {
+                                headers: {
+                                    Authorization: "Bearer " + this.access_token
+                                }
+                            }
+                        )
+                        .then(response => {
+                            console.log(response);
+                        });
+
+                // }
 
         }
     },

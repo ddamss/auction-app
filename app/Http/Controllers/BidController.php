@@ -19,10 +19,10 @@ class BidController extends Controller
      */
     public function store(Request $request)
     {
-        $auction=Auction::where('id',$request->auction_id)->get();     
+        $auction=Auction::where('id',$request->auction_id)->first();     
 
         //2nd layer on security to avoid having a bidded_price <= auciton_current_price
-        if($request->bidded_price > $auction[0]->current_price){
+        if($request->bidded_price > $auction->current_price){
 
             Log::debug('Bid registration=> ');
             Log::debug($request);
@@ -33,19 +33,6 @@ class BidController extends Controller
                 'bidded_price' => $request->bidded_price
             ]);
 
-            if($bid){
-                Log::debug('Bid registered => ');
-                Log::debug($bid);
-    
-                //Update the current price of the auction using the bidded_price just registered here
-                
-                Log::debug('auction before update');        
-                Log::debug($auction[0]);        
-                $auction[0]->current_price = $bid->bidded_price;
-                $auction[0]->save();
-                Log::debug('auction after update');        
-                Log::debug($auction[0]);  
-            }
             return response($bid, Response::HTTP_CREATED);
 
         }else{

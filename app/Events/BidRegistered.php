@@ -14,6 +14,7 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Database\Eloquent\Collection;
 
 class BidRegistered implements ShouldBroadcast
 {
@@ -25,16 +26,36 @@ class BidRegistered implements ShouldBroadcast
      * @return void
      */
 
-    public $auction_id;
+    public $bidding;
+    public $auction;
 
-    public function __construct($auction_id)
+    public function __construct($bidding)
     {
-        $this->auction_id=$auction_id;
+        $this->bidding=$bidding;
+        $this->auction=Auction::where('id',$bidding->auction_id)->get();     
 
-        Log::debug('Bidregistered constructor');
-        Log::debug($this->auction_id);
+        Log::debug('Bidregistered constructor from BidRegistered event class=>- bidding');
+        Log::debug($this->bidding);
+        Log::debug('Bidregistered constructor from BidRegistered event class=>- auction');
+        Log::debug($this->auction);
 
-        // // $auction=Auction::()        
+        if ($this->bidding){
+
+            Log::debug('Bid registered from BidRegistered event class=> ');
+            Log::debug($bidding);
+
+            //Update the current price of the auction using the bidded_price just registered here
+            
+            Log::debug('auction before update  from BidRegistered event class');        
+            Log::debug($this->auction);        
+            $this->auction[0]->current_price = $bidding->bidded_price;
+            $this->auction[0]->save();
+            Log::debug('auction after update  from BidRegistered event class');        
+            Log::debug($this->auction);  
+            
+        }
+
+        // $auction=Auction::()        
         // $lastBid=Bidding::where('auction_id',2)->latest()->first();//get latest bid for the specific auction_id
         // Log::debug($lastBid);
         // Log::debug('last bid price => '.$lastBid->bidded_price);

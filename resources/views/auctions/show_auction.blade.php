@@ -192,7 +192,7 @@ div.section>div>input {
     <script>
     Echo.channel('bid')
         .listen('BidRegistered', (e) => {
-            console.log('new bid echo');
+            console.log(e);
         });
     $(document).ready(function() {
         //-- Click on detail

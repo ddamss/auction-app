@@ -9,7 +9,7 @@
                     type="number"
                     class="form-control"
                     id="bidded_price"
-                    placeholder="Enter bid amount $ here "
+                    placeholder="Enter bid amount $ here"
                 />
             </div>
             <button
@@ -20,6 +20,7 @@
                 Place bid
             </button>
         </form>
+        <!-- <p>dynamic price bid here ==>{{this.current_price}}</p> -->
     </div>
 </template>
 
@@ -29,17 +30,18 @@ export default {
     props: ["access_token", "buyer_id", "auction_id","auction_current_price"],
     data: function() {
         return {
-            product: "bid text 22"
+            current_price: this.auction_current_price
         };
     },
     methods: {
+
         bid() {
 
             let bidded_price = document.getElementById("bidded_price").value;
             let bidded_price_nbr=parseInt(bidded_price, 10)
             let auction_current_price_nbr=parseInt(this.auction_current_price, 10)
 
-            if (bidded_price_nbr<=auction_current_price_nbr){
+            if (bidded_price_nbr <= auction_current_price_nbr){
 
                 console.log('bidded price ["'+bidded_price_nbr+'"] should be higher than current price ["'+auction_current_price_nbr+'"]')
                 // console.log('type bidded_price ["'+typeof bidded_price_nbr+'"] & type auction_current_price ["'+typeof auction_current_price_nbr+'"]')
@@ -62,15 +64,16 @@ export default {
                             }
                         )
                         .then(response => {
+                            this.current_price=bidded_price
                             console.log(response);
                         });
 
                 }
 
-        }
+        },
     },
     created() {
-        // console.log(this.access_token);
+        // this.$forceUpdate();
     },
     mounted() {
                 Echo.channel(`bid.${this.auction_id}`)

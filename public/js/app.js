@@ -1933,15 +1933,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["access_token", "buyer_id", "auction_id", "auction_current_price"],
   data: function data() {
     return {
-      product: "bid text 22"
+      current_price: this.auction_current_price
     };
   },
   methods: {
     bid: function bid() {
+      var _this = this;
+
       var bidded_price = document.getElementById("bidded_price").value;
       var bidded_price_nbr = parseInt(bidded_price, 10);
       var auction_current_price_nbr = parseInt(this.auction_current_price, 10);
@@ -1960,12 +1963,13 @@ __webpack_require__.r(__webpack_exports__);
             Authorization: "Bearer " + this.access_token
           }
         }).then(function (response) {
+          _this.current_price = bidded_price;
           console.log(response);
         });
       }
     }
   },
-  created: function created() {// console.log(this.access_token);
+  created: function created() {// this.$forceUpdate();
   },
   mounted: function mounted() {
     Echo.channel("bid.".concat(this.auction_id)).listen('BidRegistered', function (e) {
@@ -43695,7 +43699,7 @@ var staticRenderFns = [
         attrs: {
           type: "number",
           id: "bidded_price",
-          placeholder: "Enter bid amount $ here "
+          placeholder: "Enter bid amount $ here"
         }
       })
     ])
@@ -55909,7 +55913,10 @@ channel.bind("bid", function (data) {
   app.messages.push(JSON.stringify(data));
 });
 var app = new Vue({
-  el: "#app"
+  el: "#app",
+  data: {
+    testVueInstance: "vue instance!"
+  }
 });
 
 /***/ }),

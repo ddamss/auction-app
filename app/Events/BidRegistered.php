@@ -34,23 +34,15 @@ class BidRegistered implements ShouldBroadcast
         $this->bidding=$bidding;
         $this->auction=Auction::where('id',$bidding->auction_id)->get();     
 
-        Log::debug('Bidregistered constructor from BidRegistered event class=>- bidding');
-        Log::debug($this->bidding);
-        Log::debug('Bidregistered constructor from BidRegistered event class=>- auction');
-        Log::debug($this->auction);
-
         if ($this->bidding){
 
             Log::debug('Bid registered from BidRegistered event class=> ');
             Log::debug($bidding);
 
             //Update the current price of the auction using the bidded_price just registered here
-            
-            Log::debug('auction before update  from BidRegistered event class');        
-            Log::debug($this->auction);        
             $this->auction[0]->current_price = $bidding->bidded_price;
             $this->auction[0]->save();
-            Log::debug('auction after update  from BidRegistered event class');        
+            Log::debug('auction after update from BidRegistered event class');        
             Log::debug($this->auction);  
             
         }

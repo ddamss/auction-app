@@ -160,12 +160,17 @@ div.section>div>input {
 
             <!-- Precios -->
             <h6 class="title-price"><small>Price</small></h6>
-            <h3 style="margin-top:0px;display:inline-block;">${{$auction->current_price}}</h3>
+            <h3 style="margin-top:0px;display:inline-block;" id="auction_price" value="test">
+                ${{$auction->current_price}}
+            </h3><br>
+
             @if (Auth::guard('buyer')->user())
             <input id="access_token" type="hidden" value="{{$buyer->access_token}}">
             <bid-component :access_token="'{{$buyer->access_token}}'" :buyer_id="'{{$buyer->id}}'"
-                :auction_id="'{{$auction->id}}'" :auction_current_price="'{{$auction->current_price}}'"></bid-component>
+                :auction_id="'{{$auction->id}}'" :auction_current_price="'{{$auction->current_price}}'">
+            </bid-component>
             @endif
+
             <!-- Detalles especificos del producto -->
 
             <div class="section" style="padding-bottom:5px;">
@@ -190,37 +195,17 @@ div.section>div>input {
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
     <script>
+    auction_price = document.getElementById('auction_price')
     Echo.channel('bid')
         .listen('BidRegistered', (e) => {
-            console.log(e);
+            console.log(e.auction[0].current_price);
+            auction_price.setAttribute("value", "$" + e.auction[0].current_price)
+            auction_price.innerHTML = "$" + e.auction[0].current_price
+            console.log('price==> ' + auction_price.getAttribute("value"))
         });
-    $(document).ready(function() {
-        //-- Click on detail
-        $("ul.menu-items > li").on("click", function() {
-            $("ul.menu-items > li").removeClass("active");
-            $(this).addClass("active");
-        })
 
-        //-- Click on QUANTITY
-        $(".btn-minus").on("click", function() {
-            var now = $(".section > div > input").val();
-            if ($.isNumeric(now)) {
-                if (parseInt(now) - 1 > 0) {
-                    now--;
-                }
-                $(".section > div > input").val(now);
-            } else {
-                $(".section > div > input").val("1");
-            }
-        })
-        $(".btn-plus").on("click", function() {
-            var now = $(".section > div > input").val();
-            if ($.isNumeric(now)) {
-                $(".section > div > input").val(parseInt(now) + 1);
-            } else {
-                $(".section > div > input").val("1");
-            }
-        })
+    $(document).ready(function() {
+
     })
     </script>
     @endpush

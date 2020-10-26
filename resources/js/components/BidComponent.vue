@@ -1,4 +1,4 @@
-<template>
+    <template>
     <div style="display:inline-block;">
         <form class="form-inline">
             <div class="form-group mx-sm-3 mb-2">
@@ -34,11 +34,17 @@ export default {
     },
     methods: {
         bid() {
-            let bidded_price = document.getElementById("bidded_price").value;
-            
-            if (bidded_price<=this.auction_current_price){
 
+            let bidded_price = document.getElementById("bidded_price").value;
+            let bidded_price_nbr=parseInt(bidded_price, 10)
+            let auction_current_price_nbr=parseInt(this.auction_current_price, 10)
+
+            if (bidded_price_nbr<=auction_current_price_nbr){
+
+                console.log('bidded price ["'+bidded_price_nbr+'"] should be higher than current price ["'+auction_current_price_nbr+'"]')
+                // console.log('type bidded_price ["'+typeof bidded_price_nbr+'"] & type auction_current_price ["'+typeof auction_current_price_nbr+'"]')
                 alert('bidded price should be higher than current price ! ')
+                
                 }else{
 
                     window.axios
@@ -67,7 +73,6 @@ export default {
         // console.log(this.access_token);
     },
     mounted() {
-        console.log('new bid echo + auction_id 1=> '+this.auction_id);
                 Echo.channel(`bid.${this.auction_id}`)
             .listen('BidRegistered', (e) => {
                 console.log(e);

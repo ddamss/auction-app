@@ -1943,8 +1943,12 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     bid: function bid() {
       var bidded_price = document.getElementById("bidded_price").value;
+      var bidded_price_nbr = parseInt(bidded_price, 10);
+      var auction_current_price_nbr = parseInt(this.auction_current_price, 10);
 
-      if (bidded_price <= this.auction_current_price) {
+      if (bidded_price_nbr <= auction_current_price_nbr) {
+        console.log('bidded price ["' + bidded_price_nbr + '"] should be higher than current price ["' + auction_current_price_nbr + '"]'); // console.log('type bidded_price ["'+typeof bidded_price_nbr+'"] & type auction_current_price ["'+typeof auction_current_price_nbr+'"]')
+
         alert('bidded price should be higher than current price ! ');
       } else {
         window.axios.post("http://127.0.0.1/auction-app/public/api/bid", {
@@ -1964,7 +1968,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {// console.log(this.access_token);
   },
   mounted: function mounted() {
-    console.log('new bid echo + auction_id 1=> ' + this.auction_id);
     Echo.channel("bid.".concat(this.auction_id)).listen('BidRegistered', function (e) {
       console.log(e);
     });
@@ -55891,18 +55894,18 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('bid-component', __webpack_require__(/*! ./components/BidComponent.vue */ "./resources/js/components/BidComponent.vue")["default"]);
+Vue.component("bid-component", __webpack_require__(/*! ./components/BidComponent.vue */ "./resources/js/components/BidComponent.vue")["default"]);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var pusher = new Pusher('3cfea3908da562a7d76f', {
-  cluster: 'ap2'
+var pusher = new Pusher("3cfea3908da562a7d76f", {
+  cluster: "ap2"
 });
-var channel = pusher.subscribe('bid');
-channel.bind('bid', function (data) {
+var channel = pusher.subscribe("bid");
+channel.bind("bid", function (data) {
   app.messages.push(JSON.stringify(data));
 });
 var app = new Vue({

@@ -160,15 +160,27 @@ div.section>div>input {
 
             <!-- Precios -->
             <h6 class="title-price"><small>Price</small></h6>
-            <h3 style="margin-top:0px;display:inline-block;" id="auction_price" value="test">
+            <h3 style="margin-top:0px;display:inline-block;" id="auction_price">
                 ${{$auction->current_price}}
             </h3><br>
 
             @if (Auth::guard('buyer')->user())
+            @if(is_null(Auth::guard('buyer')->user()->deposit_amount)==false)
+
             <input id="access_token" type="hidden" value="{{$buyer->access_token}}">
             <bid-component :access_token="'{{$buyer->access_token}}'" :buyer_id="'{{$buyer->id}}'"
                 :auction_id="'{{$auction->id}}'" :auction_current_price="'{{$auction->current_price}}'">
             </bid-component>
+
+            @elseif (is_null(Auth::guard('buyer')->user()->deposit_amount)==true)
+
+            <p style="color:red;">you need to set a deposit_amount in order to bid! Click <a
+                    href="{{ route('buyer.show',Auth::guard('buyer')->user()->id) }}">here</a> to do so</p>
+
+            @endif
+
+            @else
+
             @endif
 
             <!-- Detalles especificos del producto -->
@@ -203,9 +215,5 @@ div.section>div>input {
             auction_price.innerHTML = "$" + e.auction[0].current_price
             console.log('price==> ' + auction_price.getAttribute("value"))
         });
-
-    $(document).ready(function() {
-
-    })
     </script>
     @endpush

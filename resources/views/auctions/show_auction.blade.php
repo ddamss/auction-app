@@ -159,7 +159,7 @@ div.section>div>input {
             <h3>{{$auction->title}}</h3>
 
             <!-- Precios -->
-            <h6 class="title-price"><small>Price</small></h6>
+            <h5 class="title-price" style="display:inline-block;">Price : </h5>
             <h3 style="margin-top:0px;display:inline-block;" id="auction_price">
                 ${{$auction->current_price}}
             </h3><br>

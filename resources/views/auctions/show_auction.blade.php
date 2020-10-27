@@ -168,8 +168,10 @@ div.section>div>input {
             @if(is_null(Auth::guard('buyer')->user()->deposit_amount)==false)
 
             <input id="access_token" type="hidden" value="{{$buyer->access_token}}">
+
             <bid-component :access_token="'{{$buyer->access_token}}'" :buyer_id="'{{$buyer->id}}'"
-                :auction_id="'{{$auction->id}}'" :auction_current_price="'{{$auction->current_price}}'">
+                :auction_id="'{{$auction->id}}'" :auction_current_price="'{{$auction->current_price}}'"
+                :deposit_amount="'{{Auth::guard('buyer')->user()->deposit_amount}}'">
             </bid-component>
 
             @elseif (is_null(Auth::guard('buyer')->user()->deposit_amount)==true)

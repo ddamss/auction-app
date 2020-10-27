@@ -27,7 +27,7 @@
 <script>
 
 export default {
-    props: ["access_token", "buyer_id", "auction_id","auction_current_price"],
+    props: ["access_token", "buyer_id", "auction_id","auction_current_price","deposit_amount"],
     data: function() {
         return {
             current_price: this.auction_current_price
@@ -44,9 +44,13 @@ export default {
             if (bidded_price_nbr <= auction_current_price_nbr){
 
                 console.log('bidded price ["'+bidded_price_nbr+'"] should be higher than current price ["'+auction_current_price_nbr+'"]')
-                // console.log('type bidded_price ["'+typeof bidded_price_nbr+'"] & type auction_current_price ["'+typeof auction_current_price_nbr+'"]')
                 alert('bidded price should be higher than current price ! ')
                 
+                }else if (this.deposit_amount*5 < bidded_price_nbr){ 
+
+                    console.log('bidded_price ["'+bidded_price_nbr+'"] should at least equals to five times the deposit_amount that is now ["'+this.deposit_amount+'"], so mutiplied by 5 it is ["'+(this.deposit_amount*5)+'"]')
+                    alert('bidded_price ["'+bidded_price_nbr+'"] should at least equals to five times the deposit_amount')
+
                 }else{
 
                     window.axios

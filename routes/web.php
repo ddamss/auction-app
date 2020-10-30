@@ -37,13 +37,8 @@ Route::resource('auctions', 'AuctionController')->only([
     'index', 'show'
 ]);
 
-Route::get("/vue", function () {
-    return view("vuejs");
-});
+Route::get('/my-auctions','AuctionController@myAuctions')->middleware('auth:buyer')->name('auctions.my-auctions');
 
-// Route::resource('auctions', 'AuctionController')->only([
-//     'index', 'show', 'update'
-// ])->middleware('auth:buyer');
 
 // Route::get('date', function () {
 //     return view('datepicker');

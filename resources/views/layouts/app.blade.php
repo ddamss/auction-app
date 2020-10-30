@@ -41,7 +41,7 @@
                         <a class="nav-item nav-link" href="#">My profile</a>
                         @elseif (Auth::guard('buyer')->user())
                         <a class="nav-item nav-link" href="{{ route('auctions.index') }}">Auctions list</a>
-                        <a class="nav-item nav-link" href="{{ route('auctions.index') }}">My auctions</a>
+                        <a class="nav-item nav-link" href="{{ route('auctions.my-auctions') }}">My auctions</a>
                         <a class="nav-item nav-link"
                             href="{{ route('buyer.show',Auth::guard('buyer')->user()->id) }}">My buyer profile</a>
                         @endif

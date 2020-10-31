@@ -189,13 +189,16 @@ div.section>div>input {
 
             <div class="section" style="padding-bottom:5px;">
                 <h6 class="title-attr"><small>Start date : {{$auction->start_date}}</small></h6>
-                <h6 class="title-attr"><small>End date : {{$auction->end_date}}</small></h6>
+                <h6 class="title-attr" id="auction_end_date" value="{{$auction->end_date}}"><small>End date :
+                        {{$auction->end_date}}</small></h6>
+                <h6 class="title-attr"><small>Time left : <span id="left_time"></span></small></h6>
                 <br>
                 <div>
                     <div> <small>
                             {{$auction->description}}
                         </small></div>
                 </div>
+
             </div>
 
         </div>
@@ -209,9 +212,42 @@ div.section>div>input {
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
     <script>
+    //Get auction end date and current date
+    var end_date = document.getElementById("auction_end_date").getAttribute("value")
+    var auction_end_date = new Date(end_date)
+    console.log("auction_end_date => " + auction_end_date)
+
+    //Regular comparison between auction end date and current date
+
+    var timer;
+
+    $(document).ready(function() {
+        timer = setInterval("showTime()", 4000);
+    });
+
+    function showTime() {
+
+        var current_date = new Date()
+
+        //Stop timer if auction end date has been reached out
+        if (auction_end_date <= current_date) {
+            clearInterval(timer);
+            console.log("Auction finished !")
+            $("#left_time").html("Auction finished !");
+            $("#left_time").css("color", "red");
+
+        } else {
+            console.log("Auction live...")
+            $("#left_time").html("Auction live. Current date => " + current_date.toLocaleTimeString() +
+                ", auction end date => " +
+                auction_end_date.toLocaleTimeString());
+        }
+    }
+
     auction_price = document.getElementById('auction_price')
     Echo.channel('bid')
         .listen('BidRegistered', (e) => {
+            console.log(e);
             console.log(e.auction[0].current_price);
             auction_price.setAttribute("value", "$" + e.auction[0].current_price)
             auction_price.innerHTML = "$" + e.auction[0].current_price

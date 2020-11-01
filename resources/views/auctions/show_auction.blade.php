@@ -156,7 +156,7 @@ div.section>div>input {
         </div>
         <div class="col-xs-5" style="border:0px solid gray">
             <!-- Datos del vendedor y titulo del producto -->
-            <h3>{{$auction->title}}</h3>
+            <h3>{{$auction->title}}, date {{date('Y-m-d H:i:s')}}</h3>
 
             <!-- Precios -->
             <h5 class="title-price" style="display:inline-block;">Price : </h5>
@@ -166,9 +166,8 @@ div.section>div>input {
 
             @if (Auth::guard('buyer')->user())
             @if(is_null(Auth::guard('buyer')->user()->deposit_amount)==false)
-
-            <input id="access_token" type="hidden" value="{{$buyer->access_token}}">
             <div id="bid-component">
+                <input id="access_token" type="hidden" value="{{$buyer->access_token}}">
                 <bid-component :access_token="'{{$buyer->access_token}}'" :buyer_id="'{{$buyer->id}}'"
                     :auction_id="'{{$auction->id}}'" :auction_current_price="'{{$auction->current_price}}'"
                     :deposit_amount="'{{Auth::guard('buyer')->user()->deposit_amount}}'">

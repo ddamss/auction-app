@@ -168,12 +168,12 @@ div.section>div>input {
             @if(is_null(Auth::guard('buyer')->user()->deposit_amount)==false)
 
             <input id="access_token" type="hidden" value="{{$buyer->access_token}}">
-
-            <bid-component :access_token="'{{$buyer->access_token}}'" :buyer_id="'{{$buyer->id}}'"
-                :auction_id="'{{$auction->id}}'" :auction_current_price="'{{$auction->current_price}}'"
-                :deposit_amount="'{{Auth::guard('buyer')->user()->deposit_amount}}'">
-            </bid-component>
-
+            <div id="bid-component">
+                <bid-component :access_token="'{{$buyer->access_token}}'" :buyer_id="'{{$buyer->id}}'"
+                    :auction_id="'{{$auction->id}}'" :auction_current_price="'{{$auction->current_price}}'"
+                    :deposit_amount="'{{Auth::guard('buyer')->user()->deposit_amount}}'">
+                </bid-component>
+            </div>
             @elseif (is_null(Auth::guard('buyer')->user()->deposit_amount)==true)
 
             <p style="color:red;">you need to set a deposit_amount in order to bid! Click <a
@@ -222,7 +222,7 @@ div.section>div>input {
     var timer;
 
     $(document).ready(function() {
-        timer = setInterval("showTime()", 4000);
+        timer = setInterval("showTime()", 1000);
     });
 
     function showTime() {
@@ -235,6 +235,7 @@ div.section>div>input {
             console.log("Auction finished !")
             $("#left_time").html("Auction finished !");
             $("#left_time").css("color", "red");
+            $("#bid-component").remove();
 
         } else {
             console.log("Auction live...")

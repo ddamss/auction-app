@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Buyer;
+use App\Bidding;
 use App\Seller;
 use App\Auction;
 use Illuminate\Http\File;
@@ -23,9 +24,12 @@ class AuctionController extends Controller
     {
         if (Auth::guard('seller')->user()) {
             $auctions = Auction::where('seller_id', Auth::guard('seller')->user()->id)->paginate(5);
+            Log::debug(Auction::where('seller_id', Auth::guard('seller')->user()->id)->toSql());
             return view('auctions.all_auctions', compact('auctions'));
+    
         } else {
-            $auctions = Auction::paginate(5);;
+            $auctions = Auction::paginate(5);
+            Log::debug(Auction::paginate(5));
             return view('auctions.all_auctions', compact('auctions'));
         }
     }

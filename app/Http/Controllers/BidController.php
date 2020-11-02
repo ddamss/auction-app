@@ -34,8 +34,13 @@ class BidController extends Controller
                 'buyer_id' => $request->buyer_id,
                 'bidded_price' => $request->bidded_price
             ]);
-
-            return response($bid, Response::HTTP_CREATED);
+            if ($bid){
+                //update the bids_count for the auction
+                $auction->bids_count=Auction::find($auction->id)->bids->count();
+                $auction->save();
+                return response($bid, Response::HTTP_CREATED);
+            }
+            
 
         }else if ($request->bidded_price < $auction->current_price) {
         

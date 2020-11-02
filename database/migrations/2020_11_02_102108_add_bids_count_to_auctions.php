@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddImageUrlToAuctionsTable extends Migration
+class AddBidsCountToAuctions extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddImageUrlToAuctionsTable extends Migration
     public function up()
     {
         Schema::table('auctions', function (Blueprint $table) {
-            $table->string('image_url')->after('description');
+            $table->integer('bids_count')->default(0);
         });
     }
 
@@ -26,7 +26,7 @@ class AddImageUrlToAuctionsTable extends Migration
     public function down()
     {
         Schema::table('auctions', function (Blueprint $table) {
-            $table->dropColumn('image_url');
+            $table->dropColumn('bids_count');
         });
     }
 }

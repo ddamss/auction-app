@@ -163,6 +163,10 @@ div.section>div>input {
             <h3 style="margin-top:0px;display:inline-block;" id="auction_price">
                 ${{$auction->current_price}}
             </h3><br>
+            <h5 class="bids_count" style="display:inline-block;">Number of bids : </h5>
+            <h4 style="margin-top:0px;display:inline-block;" id="bids_count">
+                {{$auction->bids_count}}
+            </h4>
 
             @if (Auth::guard('buyer')->user())
             @if(is_null(Auth::guard('buyer')->user()->deposit_amount)==false)

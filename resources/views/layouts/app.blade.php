@@ -27,6 +27,13 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name') }}
                 </a>
+                @if (!Auth::guard('buyer')->user() AND !Auth::guard('seller')->user())
+
+                <a class="navbar-brand" style="margin-left:30%;" href="{{ route('auctions.index') }}">
+                    Auctions list
+                </a>
+                @endif
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="{{ __('Toggle navigation') }}">

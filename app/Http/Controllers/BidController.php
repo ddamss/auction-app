@@ -38,7 +38,7 @@ class BidController extends Controller
                 //update the bids_count for the auction
                 $auction->bids_count=Auction::find($auction->id)->bids->count();
                 $auction->save();
-                return response($bid, Response::HTTP_CREATED);
+                return response([$bid,$bid->bidders($auction->id)], Response::HTTP_CREATED);
             }
             
 

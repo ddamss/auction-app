@@ -88,18 +88,21 @@ class AuctionController extends Controller
      */
     public function show(Auction $auction)
     {
+        
+        $bidders_count=Bidding::find(1)->bidders($auction->id);
+
         if (Auth::guard('seller')->user()) {
 
             $id = Auth::guard('seller')->user()->id;
             $auction = Auction::where('seller_id', $id)
                 ->where('id', $auction->id)
                 ->firstOrFail();
-            return view('auctions.show_auction', compact('auction'));
+            return view('auctions.show_auction', compact('auction','bidders_count'));
         } else if (Auth::guard('buyer')->user()){
             $buyer = Buyer::where('id', Auth::guard('buyer')->user()->id)->firstOrFail();
-            return view('auctions.show_auction', compact('auction', 'buyer'));
+            return view('auctions.show_auction', compact('auction', 'buyer','bidders_count'));
         }else{
-            return view('auctions.show_auction', compact('auction'));
+            return view('auctions.show_auction', compact('auction','bidders_count'));
         }
     }
 

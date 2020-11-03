@@ -28,10 +28,12 @@ class BidRegistered implements ShouldBroadcast
 
     public $bidding;
     public $auction;
+    public $bidders;
 
     public function __construct($bidding)
     {
         $this->bidding=$bidding;
+        $this->bidders=$bidding->bidders($bidding->auction_id);
         $this->auction=Auction::where('id',$bidding->auction_id)->get();     
 
         if ($this->bidding){
@@ -47,13 +49,6 @@ class BidRegistered implements ShouldBroadcast
             
         }
 
-        // $auction=Auction::()        
-        // $lastBid=Bidding::where('auction_id',2)->latest()->first();//get latest bid for the specific auction_id
-        // Log::debug($lastBid);
-        // Log::debug('last bid price => '.$lastBid->bidded_price);
-        
-        // // $auction->current_price = $lastBid->bidded_price;
-        // // $auction->save();
     }
 
     /**

@@ -156,17 +156,25 @@ div.section>div>input {
         </div>
         <div class="col-xs-5" style="border:0px solid gray">
             <!-- Datos del vendedor y titulo del producto -->
-            <h3>{{$auction->title}}, date {{date('Y-m-d H:i:s')}}</h3>
+            <h3>{{$auction->title}}</h3>
+            <!-- , date {{date('Y-m-d H:i:s')}} -->
 
             <!-- Precios -->
             <h5 class="title-price" style="display:inline-block;">Price : </h5>
-            <h3 style="margin-top:0px;display:inline-block;" id="auction_price">
+            <h4 style="margin-top:0px;display:inline-block;" id="auction_price">
                 ${{$auction->current_price}}
-            </h3><br>
-            <h5 class="bids_count" style="display:inline-block;">Number of bids : </h5>
-            <h4 style="margin-top:0px;display:inline-block;" id="bids_count">
+            </h4><br>
+            <h5 style="display:inline-block;">Number of bids : </h5>
+            <h5 style="margin-top:0px;display:inline-block;" id="bids_count">
                 {{$auction->bids_count}}
-            </h4>
+            </h5>
+
+            <br>
+
+            <h5 style="display:inline-block;">Number of bidders : </h5>
+            <h5 style="margin-top:0px;display:inline-block;" id="bidders_count">
+                {{$bidders_count}}
+            </h5>
 
             @if (Auth::guard('buyer')->user())
             @if(is_null(Auth::guard('buyer')->user()->deposit_amount)==false)
@@ -196,6 +204,7 @@ div.section>div>input {
                         {{$auction->end_date}}</small></h6>
                 <h6 class="title-attr"><small>Time left : <span id="left_time"></span></small></h6>
                 <br>
+                <p>Product description :</p>
                 <div>
                     <div> <small>
                             {{$auction->description}}
@@ -249,11 +258,19 @@ div.section>div>input {
     }
 
     auction_price = document.getElementById('auction_price')
+    bids_count = document.getElementById('bids_count')
+    bidders_count = document.getElementById('bidders_count')
+
     Echo.channel('bid')
         .listen('BidRegistered', (e) => {
+
             console.log(e);
             console.log('current auction => ' + e.auction[0].id);
             console.log(e.auction[0].current_price);
+            console.log('nbr bidders => ');
+            console.log(e.bidders);
+
+
 
             //compare auction_id in the URL and the one received from the Laravel Echo event listener 
 
@@ -267,6 +284,11 @@ div.section>div>input {
             if (hash == e.auction[0].id) {
                 auction_price.setAttribute("value", "$" + e.auction[0].current_price)
                 auction_price.innerHTML = "$" + e.auction[0].current_price
+                bids_count.setAttribute("value", e.auction[0].bids_count)
+                bids_count.innerHTML = e.auction[0].bids_count
+
+                bidders_count.setAttribute("value", e.bidders)
+                bidders_count.innerHTML = e.bidders
             }
 
         });

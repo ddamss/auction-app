@@ -264,12 +264,6 @@ div.section>div>input {
     Echo.channel('bid')
         .listen('BidRegistered', (e) => {
 
-            console.log(e);
-            console.log('current auction => ' + e.auction[0].id);
-            console.log(e.auction[0].current_price);
-            console.log('nbr bidders => ');
-            console.log(e.bidders);
-
 
 
             //compare auction_id in the URL and the one received from the Laravel Echo event listener 
@@ -282,6 +276,13 @@ div.section>div>input {
 
             //if the condition above is validated, then auction price is updated in real time for the current auction
             if (hash == e.auction[0].id) {
+
+                console.log(e);
+                console.log('current auction => ' + e.auction[0].id);
+                console.log(e.auction[0].current_price);
+                console.log('nbr bidders => ');
+                console.log(e.bidders);
+
                 auction_price.setAttribute("value", "$" + e.auction[0].current_price)
                 auction_price.innerHTML = "$" + e.auction[0].current_price
                 bids_count.setAttribute("value", e.auction[0].bids_count)

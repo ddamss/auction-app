@@ -76,7 +76,10 @@ class AuctionController extends Controller
                 'start_date' => $request->input('start_date'),
                 'end_date' => $request->input('end_date')
             ]);
-            return view('auctions.show_auction', compact('auction'));
+
+            $bidders_count=Bidding::find(1)->bidders($auction->id);
+
+            return view('auctions.show_auction', compact('auction','bidders_count'));
         }
     }
 
@@ -98,9 +101,12 @@ class AuctionController extends Controller
                 ->where('id', $auction->id)
                 ->firstOrFail();
             return view('auctions.show_auction', compact('auction','bidders_count'));
+
         } else if (Auth::guard('buyer')->user()){
+            
             $buyer = Buyer::where('id', Auth::guard('buyer')->user()->id)->firstOrFail();
             return view('auctions.show_auction', compact('auction', 'buyer','bidders_count'));
+        
         }else{
             return view('auctions.show_auction', compact('auction','bidders_count'));
         }

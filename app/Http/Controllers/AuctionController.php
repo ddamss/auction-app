@@ -118,10 +118,24 @@ class AuctionController extends Controller
         
         $bidders_count=Bidding::find(1)->bidders($auction->id);
 
+        $all_auctions=Auction::all();
+        
         $now=time();
         date_default_timezone_set('Asia/Dubai');
-        $formattedNow=date("d/m/Y H:i:s",$now);
+        $formattedNow=date("Y-m-d H:i:s",$now);
 
+        foreach($all_auctions as $act){
+            
+            if($formattedNow>= $act->end_date){
+                Log::debug('Auction ['.$auction->id.'] is FINISHED ! Current server date : ['.$formattedNow.'] is above auction end_date : ['.$act->end_date.'] so it\'s finished');
+                $act->status='finished';
+                $act->save();
+            }else{
+                Log::debug('Auction ['.$act->id.'] is LIVE ! ');
+
+            }
+        }
+        
         if (Auth::guard('seller')->user()) {
 
             $id = Auth::guard('seller')->user()->id;

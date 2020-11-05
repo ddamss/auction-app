@@ -203,10 +203,8 @@ div.section>div>input {
                 <h6 class="title-attr"><small>Start date : {{$auction->start_date}}</small></h6>
                 <h6 class="title-attr" id="auction_end_date" value="{{$auction->end_date}}"><small>End date :
                         {{$auction->end_date}}</small></h6>
-                <h6 class="title-attr"><small>Time left :
+                <h6 class="title-attr" id="left_time_block"><small>Time left :
                         <span id="left_time" value="{{$auction->status}}"></span></small></h6>
-                <h6 class="title-attr"><small>Time left 2 :
-                        <span id="left_time2" value="{{$auction->status}}"></span></small></h6>
                 <br>
                 <p>Product description :</p>
                 <div>
@@ -216,8 +214,13 @@ div.section>div>input {
                 </div>
 
             </div>
-
+            @if($auction->status=='finished')
+            <div class="card-footer" style="text-align: center;background-color:#FF6347;">
+                the auction has <b>finished</b> on the {{$auction->end_date}}
+            </div>
+            @endif
         </div>
+
     </div>
 
     @endsection('content')
@@ -240,8 +243,13 @@ div.section>div>input {
     $(document).ready(function() {
 
         var status = $("#left_time").attr("value");
-        $("#left_time").html("Auction " + status + " !");
-        $("#left_time").css("color", "red");
+        if (status == 'finished') {
+            $("#left_time_block").remove()
+        } else {
+            $("#left_time").html("Auction " + status + " !");
+            $("#left_time").css("color", "red");
+        }
+
 
         timer = setInterval("showTime()", 1000);
     });

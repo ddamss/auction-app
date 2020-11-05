@@ -22,15 +22,17 @@ class AuctionController extends Controller
      */
     public function index()
     {
+        $bidders_count=Bidding::find(1);
+
         if (Auth::guard('seller')->user()) {
             $auctions = Auction::where('seller_id', Auth::guard('seller')->user()->id)->paginate(5);
             Log::debug(Auction::where('seller_id', Auth::guard('seller')->user()->id)->toSql());
-            return view('auctions.all_auctions', compact('auctions'));
+            return view('auctions.all_auctions', compact('auctions','bidders_count'));
     
         } else {
             $auctions = Auction::paginate(5);
             Log::debug(Auction::paginate(5));
-            return view('auctions.all_auctions', compact('auctions'));
+            return view('auctions.all_auctions', compact('auctions','bidders_count'));
         }
     }
 

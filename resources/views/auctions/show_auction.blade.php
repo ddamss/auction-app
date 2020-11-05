@@ -164,17 +164,17 @@ div.section>div>input {
             <h4 style="margin-top:0px;display:inline-block;" id="auction_price">
                 ${{$auction->current_price}}
             </h4><br>
-            <h5 style="display:inline-block;">Number of bids : </h5>
+            <!-- <h5 style="display:inline-block;">Number of bids : </h5>
             <h5 style="margin-top:0px;display:inline-block;" id="bids_count">
                 {{$auction->bids_count}}
-            </h5>
+            </h5> -->
 
             <br>
 
             <h5 style="display:inline-block;">Number of bidders : </h5>
             <h5 style="margin-top:0px;display:inline-block;" id="bidders_count">
                 {{$bidders_count}}
-            </h5>
+            </h5><br>
 
             @if (Auth::guard('buyer')->user())
             @if(is_null(Auth::guard('buyer')->user()->deposit_amount)==false)
@@ -202,8 +202,10 @@ div.section>div>input {
                 <h6 class="title-attr"><small>Start date : {{$auction->start_date}}</small></h6>
                 <h6 class="title-attr" id="auction_end_date" value="{{$auction->end_date}}"><small>End date :
                         {{$auction->end_date}}</small></h6>
-                <h6 class="title-attr"><small>Time left : <span id="left_time"></span></small></h6>
+                <h6 class="title-attr"><small>Time left :
+                        <span id="left_time"></span></small></h6>
                 <br>
+                <span id="left_time_2"></span>
                 <p>Product description :</p>
                 <div>
                     <div> <small>
@@ -251,14 +253,31 @@ div.section>div>input {
 
         } else {
             console.log("Auction live...")
-            $("#left_time").html("Auction live. Current date => " + current_date.toLocaleTimeString() +
-                ", auction end date => " +
-                auction_end_date.toLocaleTimeString());
+            $("#left_time").html("Auction live. <br> Current date => " + current_date.toLocaleTimeString() +
+                "<br> auction end date => " +
+                auction_end_date.toLocaleTimeString() +
+                "<br><br>current day = [" + current_date
+                .getDate() + "] end day = [" + auction_end_date.getDate() +
+                "]<br><br>current month = [" + current_date
+                .getMonth() + "] end month = [" + auction_end_date.getMonth() +
+                "]<br><br>current hour = [" + current_date
+                .getHours() + "] end hour = [" + auction_end_date.getHours() +
+                "]<br><br>current minute = [" + current_date
+                .getMinutes() + "] end minutes = [" + auction_end_date.getMinutes() +
+                "]<br><br>current second = [" + current_date
+                .getSeconds() + "] end seconds = [" + auction_end_date.getSeconds() + "]");
+
+
+            // $("#left_time_2").html("test left time 2 : " + " day[" + auction_end_date.getSeconds() - current_date
+            //     .getSeconds() + "]");$
+            var secCountdown = (auction_end_date.getSeconds() - 1);
+            $("#left_time_2").html("countdown=> " + (auction_end_date.getSeconds() - current_date
+                .getSeconds()));
         }
     }
 
     auction_price = document.getElementById('auction_price')
-    bids_count = document.getElementById('bids_count')
+    // bids_count = document.getElementById('bids_count')
     bidders_count = document.getElementById('bidders_count')
 
     Echo.channel('bid')
@@ -285,8 +304,8 @@ div.section>div>input {
 
                 auction_price.setAttribute("value", "$" + e.auction[0].current_price)
                 auction_price.innerHTML = "$" + e.auction[0].current_price
-                bids_count.setAttribute("value", e.auction[0].bids_count)
-                bids_count.innerHTML = e.auction[0].bids_count
+                // bids_count.setAttribute("value", e.auction[0].bids_count)
+                // bids_count.innerHTML = e.auction[0].bids_count
 
                 bidders_count.setAttribute("value", e.bidders)
                 bidders_count.innerHTML = e.bidders

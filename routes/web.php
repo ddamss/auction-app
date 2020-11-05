@@ -39,6 +39,20 @@ Route::resource('auctions', 'AuctionController')->only([
 
 Route::get('/my-auctions','AuctionController@myAuctions')->middleware('auth:buyer')->name('auctions.my-auctions');
 
+Route::get('/time',function(){
+    // $time= new DateTime("now");
+    // return 'time '.$time->format('d/m/y H:i:s');
+    $info = getdate();
+    $time=new DateTime("now");
+    // return date("Y-m-d",$time);
+    // return $info;
+    // return date_default_timezone_get ();
+    $now=time();
+    date_default_timezone_set('Asia/Dubai');
+    $formattedNow=date("Y/m/d H:i:s",$now);
+    return $formattedNow;
+    
+});
 
 // Route::get('date', function () {
 //     return view('datepicker');

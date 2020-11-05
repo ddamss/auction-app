@@ -12,8 +12,7 @@
 
 @section('content')
 
-@foreach ($auctions as $auction)
-<div class="container-fluid">
+@foreach ($auctions as $auction) <div class="container-fluid">
     <div class="row">
         <div class="col-12 mt-3">
             <div class="card">
@@ -40,10 +39,20 @@
                     <div style="width:10px;">
                     </div>
                 </div>
-                <div class="card-footer" style="text-align: center;">
-                    <small class=" text-muted">start the {{$auction->start_date}} and end the
-                        {{$auction->end_date}}</small>
+
+                @if($auction->status=='live')
+                <div class="card-footer" style="text-align: center;background-color:#ADD8E6;">
+                    <small>start the <b>[{{$auction->start_date}}]</b> and
+                        end the
+                        <b>[{{$auction->end_date}}]</b></small>
                 </div>
+                @else
+                <div class="card-footer" style="text-align: center;background-color:#FF6347;">
+                    the auction has <b>finished</b> on the {{$auction->end_date}}
+                </div>
+
+                @endif
+
             </div>
         </div>
     </div>

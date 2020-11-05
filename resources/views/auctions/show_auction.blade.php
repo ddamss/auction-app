@@ -199,13 +199,15 @@ div.section>div>input {
             <!-- Detalles especificos del producto -->
 
             <div class="section" style="padding-bottom:5px;">
+                <h6 class="title-attr"><small>Local server time : {{$formattedNow}}</small></h6>
                 <h6 class="title-attr"><small>Start date : {{$auction->start_date}}</small></h6>
                 <h6 class="title-attr" id="auction_end_date" value="{{$auction->end_date}}"><small>End date :
                         {{$auction->end_date}}</small></h6>
                 <h6 class="title-attr"><small>Time left :
-                        <span id="left_time"></span></small></h6>
+                        <span id="left_time" value="{{$auction->status}}"></span></small></h6>
+                <h6 class="title-attr"><small>Time left 2 :
+                        <span id="left_time2" value="{{$auction->status}}"></span></small></h6>
                 <br>
-                <span id="left_time_2"></span>
                 <p>Product description :</p>
                 <div>
                     <div> <small>
@@ -236,6 +238,11 @@ div.section>div>input {
     var timer;
 
     $(document).ready(function() {
+
+        var status = $("#left_time").attr("value");
+        $("#left_time").html("Auction " + status + " !");
+        $("#left_time").css("color", "red");
+
         timer = setInterval("showTime()", 1000);
     });
 

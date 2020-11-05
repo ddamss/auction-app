@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="start_date">Start date :</label>
+                    <label for="start_date">Start date (Gulf Standard Time) :</label>
                     <div class='input-group date' id='datetimepicker1'>
                         <input type='text' class="form-control" name="start_date">
                         <span class="input-group-addon">
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="end_date">End date :</label>
+                    <label for="end_date">End date (Gulf Standard Time) :</label>
                     <div class='input-group date' id='datetimepicker2'>
                         <input type='text' class="form-control" name="end_date">
                         <span class="input-group-addon">

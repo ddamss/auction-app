@@ -24,15 +24,32 @@ class AuctionController extends Controller
     {
         $bidders_count=Bidding::find(1);
 
+        $all_auctions=Auction::all();
+        
+        $now=time();
+        date_default_timezone_set('Asia/Dubai');
+        $formattedNow=date("Y-m-d H:i:s",$now);
+
+        foreach($all_auctions as $auction){
+            
+            if($formattedNow>= $auction->end_date){
+                Log::debug('Auction ['.$auction->id.'] is FINISHED ! Current server date : ['.$formattedNow.'] is above auction end_date : ['.$auction->end_date.'] so it\'s finished');
+                $auction->status='finished';
+                $auction->save();
+            }else{
+                Log::debug('Auction ['.$auction->id.'] is LIVE ! ');
+
+            }
+            
+        }
+
         if (Auth::guard('seller')->user()) {
             $auctions = Auction::where('seller_id', Auth::guard('seller')->user()->id)->paginate(5);
-            Log::debug(Auction::where('seller_id', Auth::guard('seller')->user()->id)->toSql());
             return view('auctions.all_auctions', compact('auctions','bidders_count'));
     
         } else {
             $auctions = Auction::paginate(5);
-            Log::debug(Auction::paginate(5));
-            return view('auctions.all_auctions', compact('auctions','bidders_count'));
+            return view('auctions.all_auctions', compact('auctions','bidders_count','all_auctions','formattedNow'));
         }
     }
 
@@ -59,6 +76,11 @@ class AuctionController extends Controller
      */
     public function store(Request $request)
     {
+
+        $now=time();
+        date_default_timezone_set('Asia/Dubai');
+        $formattedNow=date("Y-m-d H:i:s",$now);
+
         if ($request->hasFile('image')) {
 
             Storage::disk('s3')->putFileAs(
@@ -96,21 +118,25 @@ class AuctionController extends Controller
         
         $bidders_count=Bidding::find(1)->bidders($auction->id);
 
+        $now=time();
+        date_default_timezone_set('Asia/Dubai');
+        $formattedNow=date("d/m/Y H:i:s",$now);
+
         if (Auth::guard('seller')->user()) {
 
             $id = Auth::guard('seller')->user()->id;
             $auction = Auction::where('seller_id', $id)
                 ->where('id', $auction->id)
                 ->firstOrFail();
-            return view('auctions.show_auction', compact('auction','bidders_count'));
+            return view('auctions.show_auction', compact('auction','bidders_count','formattedNow'));
 
         } else if (Auth::guard('buyer')->user()){
             
             $buyer = Buyer::where('id', Auth::guard('buyer')->user()->id)->firstOrFail();
-            return view('auctions.show_auction', compact('auction', 'buyer','bidders_count'));
+            return view('auctions.show_auction', compact('auction', 'buyer','bidders_count','formattedNow'));
         
         }else{
-            return view('auctions.show_auction', compact('auction','bidders_count'));
+            return view('auctions.show_auction', compact('auction','bidders_count','formattedNow'));
         }
     }
 

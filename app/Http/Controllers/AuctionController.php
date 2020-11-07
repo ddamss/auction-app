@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class AuctionController extends Controller
@@ -214,4 +215,15 @@ class AuctionController extends Controller
 
             return view('auctions.my_auctions', compact('auctions','bidders_count'));
     }
+
+    public function updateStatus(Request $request)
+    {
+
+        $auction=Auction::find($request->auction_id);
+        $auction->status=$request->status;
+        $auction->save();
+        return response($request, Response::HTTP_CREATED);
+
+    }
+    
 }

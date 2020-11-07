@@ -180,6 +180,7 @@ div.section>div>input {
             @if(is_null(Auth::guard('buyer')->user()->deposit_amount)==false)
             <div id="bid-component">
                 <input id="access_token" type="hidden" value="{{$buyer->access_token}}">
+
                 <bid-component :access_token="'{{$buyer->access_token}}'" :buyer_id="'{{$buyer->id}}'"
                     :auction_id="'{{$auction->id}}'" :auction_current_price="'{{$auction->current_price}}'"
                     :deposit_amount="'{{Auth::guard('buyer')->user()->deposit_amount}}'">
@@ -235,6 +236,7 @@ div.section>div>input {
     //Get auction end date and current date
     var end_date = document.getElementById("auction_end_date").getAttribute("value")
     var auction_end_date = new Date(end_date)
+    var access_token = document.getElementById("access_token").getAttribute("value")
 
     var start_date = document.getElementById("auction_start_date").getAttribute("value")
     var auction_start_date = new Date(start_date)
@@ -259,27 +261,59 @@ div.section>div>input {
         timer = setInterval("showTime()", 1000);
     });
 
+    function updateStatus(auction_id, status) {
+        window.axios
+            .post(
+                "http://127.0.0.1/auction-app/public/api/auction-status/" + auction_id, {
+                    status,
+                    auction_id
+                }, {
+                    headers: {
+                        Authorization: "Bearer " + access_token
+                    }
+                }
+            )
+            .then((response) => {
+
+                console.log(response);
+
+            });
+    }
+
     function showTime() {
 
         var current_date = new Date()
+
+        var current_date_1 = new Date(current_date)
+        current_date_1.setSeconds(current_date.getSeconds() - 1)
+
+        var current_date_2 = new Date(current_date)
+        current_date_2.setSeconds(current_date.getSeconds() + 1)
 
         //Stop timer if auction end date has been reached out
         if (auction_end_date <= current_date) {
             clearInterval(timer);
             console.log("Auction finished !")
+            status = 'finished'
             $("#left_time").css("color", "red");
             $("#left_time").html("Auction finished !");
             $("#bid-component").remove();
+            updateStatus(auction_id, status)
 
-        } else if (current_date == auction_start_date) {
-            console.log('auction start date [' + auction_start_date + '] equals to current date now [' +
-                current_date + ']')
+        } else if (current_date < auction_start_date) {
 
-        } else if (current_date <= auction_start_date) {
-
-            console.log("Auction coming soon...")
+            $("#bid-component").remove();
+            console.log("Auction starting soon...")
             $("#left_time").html("Auction coming soon ...");
             $("#left_time").css("color", "green");
+
+        } else if (auction_start_date >= current_date_1 && auction_start_date <= current_date_2) {
+
+            status = 'live'
+            // console.log('auction just went LIVE now ! start_date [' + auction_start_date +
+            //     '] is between current_date_1 [' + current_date_1 + '] and [' + current_date_2 + ']')
+            console.log('Auction is starting now !')
+            updateStatus(auction_id, status)
 
         } else {
 
@@ -312,6 +346,13 @@ div.section>div>input {
     // bids_count = document.getElementById('bids_count')
     bidders_count = document.getElementById('bidders_count')
 
+    var url = window.location.href;
+    var type = url.split('/auctions/');
+    var auction_id = '';
+    if (type.length > 1)
+        auction_id = type[1];
+    console.log('auction_id===>' + auction_id)
+
     Echo.channel('bid')
         .listen('BidRegistered', (e) => {
 
@@ -319,14 +360,9 @@ div.section>div>input {
 
             //compare auction_id in the URL and the one received from the Laravel Echo event listener 
 
-            var url = window.location.href;
-            var type = url.split('/auctions/');
-            var hash = '';
-            if (type.length > 1)
-                hash = type[1];
 
             //if the condition above is validated, then auction price is updated in real time for the current auction
-            if (hash == e.auction[0].id) {
+            if (auction_id == e.auction[0].id) {
 
                 console.log(e);
                 console.log('current auction => ' + e.auction[0].id);

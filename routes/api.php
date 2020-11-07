@@ -27,7 +27,7 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('bid/{id}', 'BidController@getAuctionPrice', function ($id) {
+    Route::post('auction-status/{id}', 'AuctionController@updateStatus', function ($id) {
         return Auction::find($id);
     });
 });

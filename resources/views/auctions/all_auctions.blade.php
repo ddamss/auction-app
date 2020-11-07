@@ -46,11 +46,14 @@
                         end the
                         <b>[{{$auction->end_date}}]</b></small>
                 </div>
+                @elseif($auction->status == 'coming')
+                <div class="card-footer" style="text-align: center;background-color:#20B2AA;">
+                    the auction is <b>coming to start</b> on the {{$auction->start_date}}
+                </div>
                 @else
                 <div class="card-footer" style="text-align: center;background-color:#FF6347;">
                     the auction has <b>finished</b> on the {{$auction->end_date}}
                 </div>
-
                 @endif
 
             </div>

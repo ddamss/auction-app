@@ -14,7 +14,7 @@ class AddStatusToAuctions extends Migration
     public function up()
     {
         Schema::table('auctions', function (Blueprint $table) {
-            $table->string('status')->default('live');
+            $table->string('status')->default('coming');
         });
     }
 

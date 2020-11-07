@@ -32,23 +32,33 @@ class AuctionController extends Controller
 
         foreach($all_auctions as $auction){
             
-            if($formattedNow>= $auction->end_date){
-                Log::debug('Auction ['.$auction->id.'] is FINISHED ! Current server date : ['.$formattedNow.'] is above auction end_date : ['.$auction->end_date.'] so it\'s finished');
-                $auction->status='finished';
-                $auction->save();
-            }else{
-                Log::debug('Auction ['.$auction->id.'] is LIVE ! ');
-
-            }
+            if($auction->status !='finished')
+            {
+                if($formattedNow >= $auction->end_date){
+                
+                    Log::debug('Auction ['.$auction->id.'] is FINISHED [Index view] ! Current server date : ['.$formattedNow.'] is above auction end_date : ['.$auction->end_date.'] so it\'s finished');
+                    $auction->status='finished';
+                    $auction->save();
             
-        }
+                }else if ($formattedNow < $auction->start_date){
+
+                    Log::debug('Auction ['.$auction->id.'] is COMING SOON [Index view] ! ');
+
+                }else{
+                    $auction->status='live';
+                    $auction->save();
+                    Log::debug('Auction ['.$auction->id.'] is LIVE [Index view] ! ');
+
+                    }
+                }
+            }
 
         if (Auth::guard('seller')->user()) {
-            $auctions = Auction::where('seller_id', Auth::guard('seller')->user()->id)->paginate(5);
+            $auctions = Auction::orderBy('end_date','DESC')->where('seller_id', Auth::guard('seller')->user()->id)->paginate(5);
             return view('auctions.all_auctions', compact('auctions','bidders_count'));
     
         } else {
-            $auctions = Auction::paginate(5);
+            $auctions = Auction::orderBy('end_date','DESC')->paginate(5);
             return view('auctions.all_auctions', compact('auctions','bidders_count','all_auctions','formattedNow'));
         }
     }
@@ -90,6 +100,9 @@ class AuctionController extends Controller
             );
             $url = Storage::disk('s3')->url('auction-images/' . $request->image->getClientOriginalName());
 
+            $status='';
+            $formattedNow <= $request->input('start_date') ? $status='coming':$status='live';
+
             $auction = Auction::create([
                 'seller_id' => $request->input('seller_id'),
                 'title' => $request->input('title'),
@@ -98,12 +111,13 @@ class AuctionController extends Controller
                 'start_price' => $request->input('start_price'),
                 'current_price' => $request->input('start_price'),
                 'start_date' => $request->input('start_date'),
-                'end_date' => $request->input('end_date')
+                'end_date' => $request->input('end_date'),
+                'status' => $status
             ]);
 
             $bidders_count=Bidding::find(1)->bidders($auction->id);
 
-            return view('auctions.show_auction', compact('auction','bidders_count'));
+            return view('auctions.show_auction', compact('auction','bidders_count','formattedNow'));
         }
     }
 
@@ -119,20 +133,31 @@ class AuctionController extends Controller
         $bidders_count=Bidding::find(1)->bidders($auction->id);
 
         $all_auctions=Auction::all();
-        
         $now=time();
         date_default_timezone_set('Asia/Dubai');
         $formattedNow=date("Y-m-d H:i:s",$now);
 
         foreach($all_auctions as $act){
             
-            if($formattedNow>= $act->end_date){
-                Log::debug('Auction ['.$auction->id.'] is FINISHED ! Current server date : ['.$formattedNow.'] is above auction end_date : ['.$act->end_date.'] so it\'s finished');
-                $act->status='finished';
-                $act->save();
-            }else{
-                Log::debug('Auction ['.$act->id.'] is LIVE ! ');
+            if($act->status !='finished')
+            {
+                if($formattedNow >= $act->end_date){
+                
+                    Log::debug('Auction ['.$act->id.'] is FINISHED [Show view] ! Current server date : ['.$formattedNow.'] is above auction end_date : ['.$act->end_date.'] so it\'s finished');
+                    $act->status='finished';
+                    $act->save();
 
+                }else if ($formattedNow < $act->start_date){
+
+                    Log::debug('Auction ['.$act->id.'] is COMING SOON [Show view] ! ');
+
+                }else{
+                                
+                    $act->status='live';
+                    $act->save();
+                    Log::debug('Auction ['.$act->id.'] is LIVE [Show view] ! ');
+
+                }
             }
         }
         
@@ -179,13 +204,14 @@ class AuctionController extends Controller
 
     public function myAuctions(Auction $auction)
     {
-            $auctions = Auction::where('buyer_id', Auth::guard('buyer')->user()->id)
-                ->join('biddings','auctions.id','=','biddings.auction_id')
-                ->select('auctions.id','auctions.image_url','auctions.title','auctions.description','auctions.current_price','auctions.start_date','auctions.end_date')
-                ->distinct('auctions.id')
-                ->paginate(5);
+        $bidders_count=Bidding::find(1);
 
-                return view('auctions.my_auctions', compact('auctions'));
+        $auctions = Auction::where('buyer_id', Auth::guard('buyer')->user()->id)
+            ->join('biddings','auctions.id','=','biddings.auction_id')
+            ->select('auctions.id','auctions.image_url','auctions.title','auctions.description','auctions.current_price','auctions.start_date','auctions.end_date')
+            ->distinct('auctions.id')
+            ->paginate(5);
 
+            return view('auctions.my_auctions', compact('auctions','bidders_count'));
     }
 }

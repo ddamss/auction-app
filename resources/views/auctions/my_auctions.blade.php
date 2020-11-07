@@ -30,6 +30,8 @@
                     <div class="col-5 card-body">
                         <h2 class="card-title" style="text-align: left;">{{$auction->title}}</h2>
                         <p class="card-text" style="text-align: left;">{{$auction->description}}</p>
+                        <p class="card-text" style="text-align: left;">nbr of bidders :
+                            {{$bidders_count->bidders($auction->id)}}</p>
                     </div>
                     <div style="margin: auto;" class="col-2">
                         <h2 class="card-title" style="text-align: center; color:grey;">${{$auction->current_price}}
@@ -38,10 +40,18 @@
                     <div style="width:10px;">
                     </div>
                 </div>
-                <div class="card-footer" style="text-align: center;">
-                    <small class=" text-muted">start the {{$auction->start_date}} and end the
-                        {{$auction->end_date}}</small>
+                @if($auction->status=='live')
+                <div class="card-footer" style="text-align: center;background-color:#ADD8E6;">
+                    <small>start the <b>[{{$auction->start_date}}]</b> and
+                        end the
+                        <b>[{{$auction->end_date}}]</b></small>
                 </div>
+                @else
+                <div class="card-footer" style="text-align: center;background-color:#FF6347;">
+                    the auction has <b>finished</b> on the {{$auction->end_date}}
+                </div>
+
+                @endif
             </div>
         </div>
     </div>

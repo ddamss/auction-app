@@ -200,7 +200,8 @@ div.section>div>input {
 
             <div class="section" style="padding-bottom:5px;">
                 <h6 class="title-attr"><small>Local server time : {{$formattedNow}}</small></h6>
-                <h6 class="title-attr"><small>Start date : {{$auction->start_date}}</small></h6>
+                <h6 class="title-attr" id="auction_start_date" value="{{$auction->start_date}}"><small>Start date :
+                        {{$auction->start_date}}</small></h6>
                 <h6 class="title-attr" id="auction_end_date" value="{{$auction->end_date}}"><small>End date :
                         {{$auction->end_date}}</small></h6>
                 <h6 class="title-attr" id="left_time_block"><small>Time left :
@@ -234,7 +235,9 @@ div.section>div>input {
     //Get auction end date and current date
     var end_date = document.getElementById("auction_end_date").getAttribute("value")
     var auction_end_date = new Date(end_date)
-    console.log("auction_end_date => " + auction_end_date)
+
+    var start_date = document.getElementById("auction_start_date").getAttribute("value")
+    var auction_start_date = new Date(start_date)
 
     //Regular comparison between auction end date and current date
 
@@ -245,9 +248,11 @@ div.section>div>input {
         var status = $("#left_time").attr("value");
         if (status == 'finished') {
             $("#left_time_block").remove()
+            $("#bid-component").remove();
+
         } else {
             $("#left_time").html("Auction " + status + " !");
-            $("#left_time").css("color", "red");
+            $("#left_time").css("color", "blue");
         }
 
 
@@ -262,12 +267,24 @@ div.section>div>input {
         if (auction_end_date <= current_date) {
             clearInterval(timer);
             console.log("Auction finished !")
-            $("#left_time").html("Auction finished !");
             $("#left_time").css("color", "red");
+            $("#left_time").html("Auction finished !");
             $("#bid-component").remove();
 
+        } else if (current_date == auction_start_date) {
+            console.log('auction start date [' + auction_start_date + '] equals to current date now [' +
+                current_date + ']')
+
+        } else if (current_date <= auction_start_date) {
+
+            console.log("Auction coming soon...")
+            $("#left_time").html("Auction coming soon ...");
+            $("#left_time").css("color", "green");
+
         } else {
+
             console.log("Auction live...")
+            $("#left_time").css("color", "blue");
             $("#left_time").html("Auction live. <br> Current date => " + current_date.toLocaleTimeString() +
                 "<br> auction end date => " +
                 auction_end_date.toLocaleTimeString() +

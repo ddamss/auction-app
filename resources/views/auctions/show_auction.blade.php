@@ -176,8 +176,11 @@ div.section>div>input {
                 {{$bidders_count}}
             </h5><br>
 
+            <div id="bid-append"></div>
+
             @if (Auth::guard('buyer')->user())
-            @if(is_null(Auth::guard('buyer')->user()->deposit_amount)==false)
+            @if($auction->status != 'coming' && $auction->status !='finished')
+
             <div id="bid-component">
                 <input id="access_token" type="hidden" value="{{$buyer->access_token}}">
 
@@ -186,7 +189,8 @@ div.section>div>input {
                     :deposit_amount="'{{Auth::guard('buyer')->user()->deposit_amount}}'">
                 </bid-component>
             </div>
-            @elseif (is_null(Auth::guard('buyer')->user()->deposit_amount)==true)
+
+            @elseif (is_null(Auth::guard('buyer')->user()->deposit_amount)==true && $auction->status !='finished')
 
             <p style="color:red;">you need to set a deposit_amount in order to bid! Click <a
                     href="{{ route('buyer.show',Auth::guard('buyer')->user()->id) }}">here</a> to do so</p>
@@ -205,8 +209,8 @@ div.section>div>input {
                         {{$auction->start_date}}</small></h6>
                 <h6 class="title-attr" id="auction_end_date" value="{{$auction->end_date}}"><small>End date :
                         {{$auction->end_date}}</small></h6>
-                <h6 class="title-attr" id="left_time_block"><small>Time left :
-                        <span id="left_time" value="{{$auction->status}}"></span></small></h6>
+                <h6 class="title-attr" id="status_block"><small>Time left :
+                        <span id="status" value="{{$auction->status}}"></span></small></h6>
                 <br>
                 <p>Product description :</p>
                 <div>
@@ -236,27 +240,41 @@ div.section>div>input {
     //Get auction end date and current date
     var end_date = document.getElementById("auction_end_date").getAttribute("value")
     var auction_end_date = new Date(end_date)
-    var access_token = document.getElementById("access_token").getAttribute("value")
 
     var start_date = document.getElementById("auction_start_date").getAttribute("value")
     var auction_start_date = new Date(start_date)
 
-    //Regular comparison between auction end date and current date
+    //Recurring comparison between auction end date and current date
 
     var timer;
 
     $(document).ready(function() {
 
-        var status = $("#left_time").attr("value");
+        var status = $("#status").attr("value");
+
         if (status == 'finished') {
-            $("#left_time_block").remove()
+            $("#status_block").remove()
+
+            if ($("#bid-component").length) {
+                console.log('bid component exists so we get the access token 1')
+                var access_token = document.getElementById("access_token").getAttribute("value")
+            } else {
+                console.log('bid comp doesnt exists 1')
+            }
+
             $("#bid-component").remove();
 
-        } else {
-            $("#left_time").html("Auction " + status + " !");
-            $("#left_time").css("color", "blue");
-        }
+            if ($("#bid-component").length) {
+                console.log('bid component exists so we get the access token 2')
+                var access_token = document.getElementById("access_token").getAttribute("value")
+            } else {
+                console.log('bid comp doesnt exists 2 ')
+            }
 
+        } else {
+            $("#status").html("Auction " + status + " !");
+            $("#status").css("color", "blue");
+        }
 
         timer = setInterval("showTime()", 1000);
     });
@@ -267,10 +285,6 @@ div.section>div>input {
                 "http://127.0.0.1/auction-app/public/api/auction-status/" + auction_id, {
                     status,
                     auction_id
-                }, {
-                    headers: {
-                        Authorization: "Bearer " + access_token
-                    }
                 }
             )
             .then((response) => {
@@ -295,20 +309,22 @@ div.section>div>input {
             clearInterval(timer);
             console.log("Auction finished !")
             status = 'finished'
-            $("#left_time").css("color", "red");
-            $("#left_time").html("Auction finished !");
+            $("#status").css("color", "red");
+            $("#status").html("Auction finished !");
             $("#bid-component").remove();
+
             updateStatus(auction_id, status)
 
         } else if (current_date < auction_start_date) {
 
             $("#bid-component").remove();
             console.log("Auction starting soon...")
-            $("#left_time").html("Auction coming soon ...");
-            $("#left_time").css("color", "green");
+            $("#status").html("Auction coming soon ...");
+            $("#status").css("color", "green");
 
         } else if (auction_start_date >= current_date_1 && auction_start_date <= current_date_2) {
 
+            $("#bid-append").replaceWith($("#bid-component"));
             status = 'live'
             // console.log('auction just went LIVE now ! start_date [' + auction_start_date +
             //     '] is between current_date_1 [' + current_date_1 + '] and [' + current_date_2 + ']')
@@ -318,8 +334,8 @@ div.section>div>input {
         } else {
 
             console.log("Auction live...")
-            $("#left_time").css("color", "blue");
-            $("#left_time").html("Auction live. <br> Current date => " + current_date.toLocaleTimeString() +
+            $("#status").css("color", "blue");
+            $("#status").html("Auction live. <br> Current date => " + current_date.toLocaleTimeString() +
                 "<br> auction end date => " +
                 auction_end_date.toLocaleTimeString() +
                 "<br><br>current day = [" + current_date
@@ -334,10 +350,10 @@ div.section>div>input {
                 .getSeconds() + "] end seconds = [" + auction_end_date.getSeconds() + "]");
 
 
-            // $("#left_time_2").html("test left time 2 : " + " day[" + auction_end_date.getSeconds() - current_date
+            // $("#status_2").html("test left time 2 : " + " day[" + auction_end_date.getSeconds() - current_date
             //     .getSeconds() + "]");$
             var secCountdown = (auction_end_date.getSeconds() - 1);
-            $("#left_time_2").html("countdown=> " + (auction_end_date.getSeconds() - current_date
+            $("#status_2").html("countdown=> " + (auction_end_date.getSeconds() - current_date
                 .getSeconds()));
         }
     }

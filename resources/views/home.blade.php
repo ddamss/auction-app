@@ -62,6 +62,12 @@
                     </ul>
                     <br>
                 </ul>
+                <br>
+
+                <li class="list-group-item active"><b>Packages</b></li><br>
+                <ul>
+                    <li>...</li>
+                </ul>
                 @else
                 <div class="card-body">
                     @if (session('status'))

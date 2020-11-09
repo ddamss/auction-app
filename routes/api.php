@@ -26,11 +26,10 @@ Route::middleware('auth:api')->group(function () {
     ]);
 });
 
-Route::middleware('auth:api')->group(function () {
     Route::post('auction-status/{id}', 'AuctionController@updateStatus', function ($id) {
         return Auction::find($id);
     });
-});
+
 
 
 Route::middleware('auth:api')->group(function () {

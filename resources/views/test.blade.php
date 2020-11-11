@@ -5,20 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
 
 <body>
 
 
-    <div id="1"></div>
-
+    <div id="test" style="display:none;">hello</div>
+    <button id="btn">click</button>
 
 
 </body>
 
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script>
+$(document).ready(function() {
 
-
+    $("#btn").click(function() {
+        $("#test").show();
+        console.log('show')
+    })
+})
 </script>
 
 </html>

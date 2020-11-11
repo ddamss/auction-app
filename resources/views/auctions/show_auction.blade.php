@@ -176,8 +176,6 @@ div.section>div>input {
                 {{$bidders_count}}
             </h5><br>
 
-            <div id="bid-append"></div>
-
             @if (Auth::guard('buyer')->user())
             @if($auction->status != 'coming' && $auction->status !='finished')
 
@@ -195,6 +193,15 @@ div.section>div>input {
             <p style="color:red;">you need to set a deposit_amount in order to bid! Click <a
                     href="{{ route('buyer.show',Auth::guard('buyer')->user()->id) }}">here</a> to do so</p>
 
+            @else
+            <div id="bid-component" style="display:none;">
+                <input id="access_token" type="hidden" value="{{$buyer->access_token}}">
+
+                <bid-component :access_token="'{{$buyer->access_token}}'" :buyer_id="'{{$buyer->id}}'"
+                    :auction_id="'{{$auction->id}}'" :auction_current_price="'{{$auction->current_price}}'"
+                    :deposit_amount="'{{Auth::guard('buyer')->user()->deposit_amount}}'">
+                </bid-component>
+            </div>
             @endif
 
             @else
@@ -255,21 +262,7 @@ div.section>div>input {
         if (status == 'finished') {
             $("#status_block").remove()
 
-            if ($("#bid-component").length) {
-                console.log('bid component exists so we get the access token 1')
-                var access_token = document.getElementById("access_token").getAttribute("value")
-            } else {
-                console.log('bid comp doesnt exists 1')
-            }
-
             $("#bid-component").remove();
-
-            if ($("#bid-component").length) {
-                console.log('bid component exists so we get the access token 2')
-                var access_token = document.getElementById("access_token").getAttribute("value")
-            } else {
-                console.log('bid comp doesnt exists 2 ')
-            }
 
         } else {
             $("#status").html("Auction " + status + " !");
@@ -278,6 +271,7 @@ div.section>div>input {
 
         timer = setInterval("showTime()", 1000);
     });
+
 
     function updateStatus(auction_id, status) {
         window.axios
@@ -317,7 +311,7 @@ div.section>div>input {
 
         } else if (current_date < auction_start_date) {
 
-            $("#bid-component").remove();
+            $("#bid-component").hide();
             console.log("Auction starting soon...")
             $("#status").html("Auction coming soon ...");
             $("#status").css("color", "green");
@@ -333,6 +327,7 @@ div.section>div>input {
 
         } else {
 
+            $("#bid-component").show();;
             console.log("Auction live...")
             $("#status").css("color", "blue");
             $("#status").html("Auction live. <br> Current date => " + current_date.toLocaleTimeString() +
@@ -372,10 +367,7 @@ div.section>div>input {
     Echo.channel('bid')
         .listen('BidRegistered', (e) => {
 
-
-
             //compare auction_id in the URL and the one received from the Laravel Echo event listener 
-
 
             //if the condition above is validated, then auction price is updated in real time for the current auction
             if (auction_id == e.auction[0].id) {

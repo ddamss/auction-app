@@ -42,7 +42,7 @@
                             to listen for bidding events broadcast by Laravel for the real time bidding</li>
                     </ul>
                     <ul>
-                        <li>Bootstrap</li>
+                        <li>HTML, CSS3, Bootstrap 3</li>
                     </ul>
                     <ul>
                         <li>Laravel <a href="https://laravel.com/docs/8.x/blade" target="_blank">blade templates</a>
@@ -55,6 +55,17 @@
                         <li><a href="https://pusher.com/channels" target="_blank">Pusher</a> to broadcast
                             server-side Laravel events (bidding) to the client-side JS application</li>
                     </ul>
+                    <br>
+                    <li class="list-group-item active"><b>Packages</b></li><br>
+                    <ul>
+                        <li><a href="https://github.com/barryvdh/laravel-debugbar">"barryvdh/laravel-debugbar"</a> : to
+                            check the requests, SQL queries to DB, views called, controller methods required etc...
+                        </li>
+                        <li><a
+                                href="https://github.com/thephpleague/flysystem-aws-s3-v3">"league/flysystem-aws-s3-v3"</a>
+                            : Laravel Flysystem integration provides simple to use drivers for working with Amazon S3
+                        </li>
+                    </ul>
                     <ul>
                         <li><a href="https://aws.amazon.com/s3/getting-started/?trkCampaign=acq_paid_search_brand&sc_channel=PS&sc_campaign=acquisition_EMEA&sc_publisher=Google&sc_category=Storage&sc_country=EMEA&sc_geo=EMEA&sc_outcome=acq&sc_detail=%2Bamazon%20%2Bs3&sc_content={ad%20group}&sc_matchtype=b&sc_segment=468756605427&sc_medium=ACQ-P|PS-GO|Brand|Desktop|SU|Storage|S3|EMEA|EN|Sitelink|xx|non-EU&s_kwcid=AL!4422!3!468756605427!b!!g!!%2Bamazon%20%2Bs3&ef_id=CjwKCAiAv4n9BRA9EiwA30WNDxS4TOLZe2Poayosib1Pm6zyZiYRt5ImPiqJwB1Vl4FQ2Bop78meTBoCjqUQAvD_BwE:G:s&s_kwcid=AL!4422!3!468756605427!b!!g!!%2Bamazon%20%2Bs3"
                                 target="_blank">
@@ -62,12 +73,7 @@
                     </ul>
                     <br>
                 </ul>
-                <br>
 
-                <li class="list-group-item active"><b>Packages</b></li><br>
-                <ul>
-                    <li>...</li>
-                </ul>
                 @else
                 <div class="card-body">
                     @if (session('status'))

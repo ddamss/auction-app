@@ -92,34 +92,45 @@ class AuctionController extends Controller
         date_default_timezone_set('Asia/Dubai');
         $formattedNow=date("Y-m-d H:i:s",$now);
 
-        if ($request->hasFile('image')) {
+        if($request->start_date < $formattedNow){
+            return 'Start date should be after current date';
+        }else if($request->start_date >= $request->end_date){
+            return 'Start date should be before end_date. Start : '.$request->start_date.' end date : '.$request->end_date;
+        }else if($request->end_date <= $formattedNow){
+            return 'End date should be after current_date. End date : '.$request->end_date.', current date : '.$formattedNow;
+        }else{
+            
+            if ($request->hasFile('image')) {
 
-            Storage::disk('s3')->putFileAs(
-                'auction-images/',
-                new File($request->image->path()),
-                $request->image->getClientOriginalName()
-            );
-            $url = Storage::disk('s3')->url('auction-images/' . $request->image->getClientOriginalName());
+                Storage::disk('s3')->putFileAs(
+                    'auction-images/',
+                    new File($request->image->path()),
+                    $request->image->getClientOriginalName()
+                );
+                $url = Storage::disk('s3')->url('auction-images/' . $request->image->getClientOriginalName());
 
-            $status='';
-            $formattedNow <= $request->input('start_date') ? $status='coming':$status='live';
+                $status='';
+                $formattedNow <= $request->input('start_date') ? $status='coming':$status='live';
 
-            $auction = Auction::create([
-                'seller_id' => $request->input('seller_id'),
-                'title' => $request->input('title'),
-                'description' => $request->input('description'),
-                'image_url' => $url,
-                'start_price' => $request->input('start_price'),
-                'current_price' => $request->input('start_price'),
-                'start_date' => $request->input('start_date'),
-                'end_date' => $request->input('end_date'),
-                'status' => $status
-            ]);
+                $auction = Auction::create([
+                    'seller_id' => $request->input('seller_id'),
+                    'title' => $request->input('title'),
+                    'description' => $request->input('description'),
+                    'image_url' => $url,
+                    'start_price' => $request->input('start_price'),
+                    'current_price' => $request->input('start_price'),
+                    'start_date' => $request->input('start_date'),
+                    'end_date' => $request->input('end_date'),
+                    'status' => $status
+                ]);
 
-            $bidders_count=Bidding::find(1)->bidders($auction->id);
-
-            return view('auctions.show_auction', compact('auction','bidders_count','formattedNow'));
+                $bidders_count=Bidding::find(1)->bidders($auction->id);
+                
+                return view('auctions.show_auction', compact('auction','bidders_count','formattedNow'));
+            }
         }
+
+
     }
 
     /**

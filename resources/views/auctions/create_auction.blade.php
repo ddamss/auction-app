@@ -114,20 +114,20 @@ $(document).ready(function() {
     
         if (start_date < current_date) {
             
-            console.log('start date = ' + start_date + ' < current_date=' + current_date)
-            alert('start date = ' + start_date + ' < current_date=' + current_date+'. Start date should be after current date')
+            // console.log('start date = ' + start_date + ' < current_date=' + current_date)
+            alert('Start date should be after current date')
             return false;
 
         } else if(start_date >= end_date){
             
-            console.log('start date = ' + start_date + ' >= end_date=' + end_date)
-            alert('start date = ' + start_date + ' >= end_date=' + end_date+'. Start date should be before end_date')
+            // console.log('start date = ' + start_date + ' >= end_date=' + end_date)
+            alert('Start date should be before end_date')
             return false;
         
         } else if(end_date <= current_date){
             
-            console.log('end date = ' + end_date + ' <= current_date=' + current_date)
-            alert('end date = ' + end_date + ' <= current_date=' + current_date+'. End date should be after current_date')
+            // console.log('end date = ' + end_date + ' <= current_date=' + current_date)
+            alert('End date should be after current_date')
             return false;
 
         }else{

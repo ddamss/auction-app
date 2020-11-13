@@ -1948,6 +1948,7 @@ __webpack_require__.r(__webpack_exports__);
       var bidded_price = document.getElementById("bidded_price").value;
       var bidded_price_nbr = parseInt(bidded_price, 10);
       var auction_current_price_nbr = parseInt(this.auction_current_price, 10);
+      console.log('bidded price ["' + bidded_price_nbr + '"] //  current price ["' + auction_current_price_nbr + '"]');
 
       if (bidded_price_nbr <= auction_current_price_nbr) {
         console.log('bidded price ["' + bidded_price_nbr + '"] should be higher than current price ["' + auction_current_price_nbr + '"]');

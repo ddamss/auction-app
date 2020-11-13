@@ -147,7 +147,7 @@ div.section>div>input {
     background-color: #00BFFF;
     animation-name: bckanim;
     animation-fill-mode: forwards;
-    animation-duration: 3s;
+    animation-duration: 1.5s;
     animation-delay: 0s;
 }
 
@@ -395,20 +395,29 @@ div.section>div>input {
             if (auction_id == e.auction[0].id) {
 
                 console.log(e);
-                console.log('current auction => ' + e.auction[0].id);
-                console.log(e.auction[0].current_price);
-                console.log('nbr bidders => ');
-                console.log(e.bidders);
+                // console.log('current auction => ' + e.auction[0].id);
+                // console.log(e.auction[0].current_price);
+                // console.log('nbr bidders => ');
+                // console.log(e.bidders);
 
                 auction_price.setAttribute("value", "$" + e.auction[0].current_price)
                 auction_price.innerHTML = "$" + e.auction[0].current_price
 
                 // Fade in/out background color effect manage in the CSS in <head> tag above
                 auction_price.setAttribute("id", "fade")
+                console.log("ADD ID")
+                console.log(auction_price)
 
                 bidders_count.setAttribute("value", e.bidders)
                 bidders_count.innerHTML = e.bidders
+
+                setTimeout(
+                    function() {
+                        auction_price.setAttribute("id", "out")
+                    }, 1500);
+
             }
+
 
         });
     </script>

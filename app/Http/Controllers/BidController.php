@@ -42,7 +42,7 @@ class BidController extends Controller
             }
             
 
-        }else if ($request->bidded_price < $auction->current_price) {
+        }else if ($request->bidded_price <= $auction->current_price) {
         
             Log::debug('bidded_price ["'.$request->bidded_price.'"] should be higher than auction_current_price ["'.$auction->current_price.'"]');
             return response('KO',Response::HTTP_BAD_REQUEST);

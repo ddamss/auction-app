@@ -142,6 +142,24 @@ div.section>div>input {
         padding-left: 0;
     }
 }
+
+#fade {
+    background-color: #00BFFF;
+    animation-name: bckanim;
+    animation-fill-mode: forwards;
+    animation-duration: 3s;
+    animation-delay: 0s;
+}
+
+@keyframes bckanim {
+    0% {
+        background-color: #00BFFF;
+    }
+
+    100% {
+        background-color: transparent;
+    }
+}
 </style>
 
 @endpush
@@ -163,7 +181,8 @@ div.section>div>input {
             <h5 class="title-price" style="display:inline-block;">Price : </h5>
             <h4 style="margin-top:0px;display:inline-block;" id="auction_price">
                 ${{$auction->current_price}}
-            </h4><br>
+            </h4>
+            <br>
             <!-- <h5 style="display:inline-block;">Number of bids : </h5>
             <h5 style="margin-top:0px;display:inline-block;" id="bids_count">
                 {{$auction->bids_count}}
@@ -242,7 +261,9 @@ div.section>div>input {
     <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
     //Get auction end date and current date
     var end_date = document.getElementById("auction_end_date").getAttribute("value")
@@ -344,7 +365,6 @@ div.section>div>input {
                 "]<br><br>current second = [" + current_date
                 .getSeconds() + "] end seconds = [" + auction_end_date.getSeconds() + "]");
 
-
             // $("#status_2").html("test left time 2 : " + " day[" + auction_end_date.getSeconds() - current_date
             //     .getSeconds() + "]");$
             var secCountdown = (auction_end_date.getSeconds() - 1);
@@ -364,6 +384,8 @@ div.section>div>input {
         auction_id = type[1];
     console.log('auction_id===>' + auction_id)
 
+    var auction_price_background = document.getElementById("auction_price_background")
+
     Echo.channel('bid')
         .listen('BidRegistered', (e) => {
 
@@ -380,8 +402,9 @@ div.section>div>input {
 
                 auction_price.setAttribute("value", "$" + e.auction[0].current_price)
                 auction_price.innerHTML = "$" + e.auction[0].current_price
-                // bids_count.setAttribute("value", e.auction[0].bids_count)
-                // bids_count.innerHTML = e.auction[0].bids_count
+
+                // Fade in/out background color effect manage in the CSS in <head> tag above
+                auction_price.setAttribute("id", "fade")
 
                 bidders_count.setAttribute("value", e.bidders)
                 bidders_count.innerHTML = e.bidders

@@ -218,13 +218,15 @@ class AuctionController extends Controller
     {
         $bidders_count=Bidding::find(1);
 
+        $buyer_id=Auth::guard('buyer')->user()->id;
+
         $auctions = Auction::where('buyer_id', Auth::guard('buyer')->user()->id)
             ->join('biddings','auctions.id','=','biddings.auction_id')
             ->select('auctions.id','auctions.image_url','auctions.title','auctions.description','auctions.current_price','auctions.start_date','auctions.end_date')
             ->distinct('auctions.id')
             ->paginate(5);
 
-            return view('auctions.my_auctions', compact('auctions','bidders_count'));
+        return view('auctions.my_auctions', compact('auctions','bidders_count','buyer_id'));
     }
 
     public function updateStatus(Request $request)

@@ -7,6 +7,7 @@
     flex: 1 1 auto;
 }
 </style>
+<link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
 
 @endpush
 
@@ -26,13 +27,27 @@
                                 style="height:auto;max-width:80%; display: block; margin-left: auto; margin-right: auto;"
                                 src="{{$auction->image_url}}" alt="{{$auction->title}}">
                         </a>
+
+
                     </div>
                     <div class="col-5 card-body">
                         <h2 class="card-title" style="text-align: left;">{{$auction->title}}</h2>
                         <p class="card-text" style="text-align: left;">{{$auction->description}}</p>
-                        <p class="card-text" style="text-align: left;">nbr of bidders :
+                        <p class="card-text" style="text-align: left;">bidders :
                             {{$bidders_count->bidders($auction->id)}}</p>
+
+
+                        @if($auction->winner($auction->id)[0]->buyer_id == $buyer_id)
+                        <div class="card-text"
+                            style="text-align: left; background-color:#82E0AA ;text-align: center;opacity:50%;">
+                            <p style="color:black;opacity:100%;"> You've
+                                won this auction <i class="em em---1" aria-role="presentation"
+                                    aria-label="THUMBS UP SIGN"></i> </p>
+                        </div>
+                        @endif
+
                     </div>
+
                     <div style="margin: auto;" class="col-2">
                         <h2 class="card-title" style="text-align: center; color:grey;">${{$auction->current_price}}
                         </h2>
@@ -40,6 +55,7 @@
                     <div style="width:10px;">
                     </div>
                 </div>
+
                 @if($auction->status=='live')
                 <div class="card-footer" style="text-align: center;background-color:#ADD8E6;">
                     <small>start the <b>[{{$auction->start_date}}]</b> and

@@ -27,9 +27,8 @@
                     <div class="col-5 card-body">
                         <h2 class="card-title" style="text-align: left;">{{$auction->title}}</h2>
                         <p class="card-text" style="text-align: left;">{{$auction->description}}</p>
-                        <p class="card-text" style="text-align: left;">nbr of bidders :
+                        <p class="card-text" style="text-align: left;">bidders :
                             {{$bidders_count->bidders($auction->id)}}</p>
-
 
                     </div>
                     <div style="margin: auto;" class="col-2">

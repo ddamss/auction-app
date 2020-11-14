@@ -245,6 +245,11 @@ div.section>div>input {
                         </small></div>
                 </div>
 
+                @if($auction->winner($auction->id)[0]->buyer_id == $buyer->id)
+                <p class="card-text" style="text-align: left; background-color:green;">You've won this one !
+                </p>
+                @endif
+
             </div>
             @if($auction->status=='finished')
             <div class="card-footer" style="text-align: center;background-color:#FF6347;">

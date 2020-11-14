@@ -1,8 +1,9 @@
 <?php
 
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Auction extends Model
 {
@@ -16,5 +17,18 @@ class Auction extends Model
         public function bids()
     {
         return $this->hasMany('App\Bidding');
+    }
+
+    public function winner($auction_id){
+
+            $result=DB::select(DB::raw(
+                "
+                SELECT * FROM `biddings`
+                WHERE `auction_id` =".$auction_id." AND `bidded_price` IN
+                (SELECT MAX(`bidded_price`) FROM `biddings` WHERE `auction_id`=".$auction_id.")
+                "));
+                Log::debug($result);
+                return $result; 
+                // dd($q2[0]);
     }
 }

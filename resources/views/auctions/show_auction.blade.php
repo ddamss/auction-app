@@ -161,6 +161,7 @@ div.section>div>input {
     }
 }
 </style>
+<link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
 
 @endpush
 
@@ -235,8 +236,10 @@ div.section>div>input {
                         {{$auction->start_date}}</small></h6>
                 <h6 class="title-attr" id="auction_end_date" value="{{$auction->end_date}}"><small>End date :
                         {{$auction->end_date}}</small></h6>
-                <h6 class="title-attr" id="status_block"><small>Time left :
-                        <span id="status" value="{{$auction->status}}"></span></small></h6>
+                <h4 id="countdown"></h4>
+                <h6 class="title-attr" id="status_block">
+                    <span id="status" value="{{$auction->status}}"></span>
+                </h6>
                 <br>
                 <p>Product description :</p>
                 <div>
@@ -245,9 +248,16 @@ div.section>div>input {
                         </small></div>
                 </div>
 
-                @if($auction->winner($auction->id)[0]->buyer_id == $buyer->id)
-                <p class="card-text" style="text-align: left; background-color:green;">You've won this one !
-                </p>
+                @if (Auth::guard('buyer')->user() && $auction->status=='finished' )
+
+                @if(!empty($auction->winner($auction->id)) && $auction->winner($auction->id)[0]->buyer_id ==
+                $buyer->id)
+                <div class="card-text" style="background-color:#82E0AA ;opacity:50%;">
+                    <p style="color:black;opacity:100%;"> You've
+                        won this auction <i class="em em---1" aria-role="presentation" aria-label="THUMBS UP SIGN"></i>
+                    </p>
+                </div>
+                @endif
                 @endif
 
             </div>
@@ -270,6 +280,37 @@ div.section>div>input {
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+    //Function to display realtime countdown betfore auction start date or auction end date
+
+    function renderCountdown(dateStart, dateEnd) {
+        let targetDate = dateEnd.getTime();
+        let days, hours, minutes, seconds;
+        let countdown = document.getElementById("tiles");
+        let count = 0;
+        let getCountdown = function(c) {
+            let currentDate = new Date().getTime();
+            let secondsLeft = ((targetDate - currentDate) / 1000) - c;
+            days = pad(Math.floor(secondsLeft / 86400));
+            secondsLeft %= 86400;
+            hours = pad(Math.floor(secondsLeft / 3600));
+            secondsLeft %= 3600;
+            minutes = pad(Math.floor(secondsLeft / 60));
+            seconds = pad(Math.floor(secondsLeft % 60));
+            $("#status").html("days left : " + days + ". Time left : " + hours + ":" + minutes + ":" +
+                seconds)
+            $("#status").css("color", "blue");
+
+        }
+
+        function pad(n) {
+            return (n < 10 ? '0' : '') + n;
+        }
+        getCountdown(count++);
+        setInterval(function() {
+            getCountdown(count++);
+        }, 1000);
+    }
+
     //Get auction end date and current date
     var end_date = document.getElementById("auction_end_date").getAttribute("value")
     var auction_end_date = new Date(end_date)
@@ -342,6 +383,10 @@ div.section>div>input {
             $("#status").html("Auction coming soon ...");
             $("#status").css("color", "green");
 
+            //Real time countdown before auction end date
+
+            renderCountdown(current_date, auction_start_date)
+
         } else if (auction_start_date >= current_date_1 && auction_start_date <= current_date_2) {
 
             $("#bid-append").replaceWith($("#bid-component"));
@@ -353,28 +398,12 @@ div.section>div>input {
 
         } else {
 
-            $("#bid-component").show();;
+            $("#bid-component").show();
             console.log("Auction live...")
-            $("#status").css("color", "blue");
-            $("#status").html("Auction live. <br> Current date => " + current_date.toLocaleTimeString() +
-                "<br> auction end date => " +
-                auction_end_date.toLocaleTimeString() +
-                "<br><br>current day = [" + current_date
-                .getDate() + "] end day = [" + auction_end_date.getDate() +
-                "]<br><br>current month = [" + current_date
-                .getMonth() + "] end month = [" + auction_end_date.getMonth() +
-                "]<br><br>current hour = [" + current_date
-                .getHours() + "] end hour = [" + auction_end_date.getHours() +
-                "]<br><br>current minute = [" + current_date
-                .getMinutes() + "] end minutes = [" + auction_end_date.getMinutes() +
-                "]<br><br>current second = [" + current_date
-                .getSeconds() + "] end seconds = [" + auction_end_date.getSeconds() + "]");
 
-            // $("#status_2").html("test left time 2 : " + " day[" + auction_end_date.getSeconds() - current_date
-            //     .getSeconds() + "]");$
-            var secCountdown = (auction_end_date.getSeconds() - 1);
-            $("#status_2").html("countdown=> " + (auction_end_date.getSeconds() - current_date
-                .getSeconds()));
+            //Real time countdown before auction end date
+
+            renderCountdown(current_date, auction_end_date)
         }
     }
 

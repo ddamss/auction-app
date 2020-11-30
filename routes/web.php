@@ -37,10 +37,9 @@ Route::resource('auctions', 'AuctionController')->only([
     'index', 'show'
 ]);
 
-Route::get('/my-auctions','AuctionController@myAuctions')->middleware('auth:buyer')->name('auctions.my-auctions');
+Route::get('/my-auctions', 'AuctionController@myAuctions')->middleware('auth:buyer')->name('auctions.my-auctions');
 
-Route::get('/tests',function(){
+Route::get('/tests', function () {
 
-return view ('test');
-
+    return view('test');
 });

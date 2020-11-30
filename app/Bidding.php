@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Events\BidRegistered;
-use App\Bidding;
 use Illuminate\Database\Eloquent\Model;
 
 class Bidding extends Model
@@ -19,8 +18,8 @@ class Bidding extends Model
         return $this->hasOne('App\Auction');
     }
 
-        public function bidders($id)
+    public function bidders($id)
     {
-        return Bidding::where('auction_id','=',$id)->select('buyer_id')->distinct('buyer_id')->count();
+        return Bidding::where('auction_id', '=', $id)->select('buyer_id')->distinct('buyer_id')->count();
     }
 }

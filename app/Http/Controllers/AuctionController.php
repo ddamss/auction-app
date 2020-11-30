@@ -23,44 +23,44 @@ class AuctionController extends Controller
      */
     public function index()
     {
-        $bidders_count=Bidding::find(1);
 
-        $all_auctions=Auction::all();
-        
-        $now=time();
+        if (Bidding::find(1)) {
+            $bidders_count = Bidding::find(1);
+        } else {
+            $bidders_count = 0;
+        }
+
+        $all_auctions = Auction::all();
+
+        $now = time();
         date_default_timezone_set('Asia/Dubai');
-        $formattedNow=date("Y-m-d H:i:s",$now);
+        $formattedNow = date("Y-m-d H:i:s", $now);
 
-        foreach($all_auctions as $auction){
-            
-            if($auction->status !='finished')
-            {
-                if($formattedNow >= $auction->end_date){
-                
-                    Log::debug('Auction ['.$auction->id.'] is FINISHED [Index view] ! Current server date : ['.$formattedNow.'] is above auction end_date : ['.$auction->end_date.'] so it\'s finished');
-                    $auction->status='finished';
+        foreach ($all_auctions as $auction) {
+
+            if ($auction->status != 'finished') {
+                if ($formattedNow >= $auction->end_date) {
+
+                    Log::debug('Auction [' . $auction->id . '] is FINISHED [Index view] ! Current server date : [' . $formattedNow . '] is above auction end_date : [' . $auction->end_date . '] so it\'s finished');
+                    $auction->status = 'finished';
                     $auction->save();
-            
-                }else if ($formattedNow < $auction->start_date){
+                } else if ($formattedNow < $auction->start_date) {
 
-                    Log::debug('Auction ['.$auction->id.'] is COMING SOON [Index view] ! ');
-
-                }else{
-                    $auction->status='live';
+                    Log::debug('Auction [' . $auction->id . '] is COMING SOON [Index view] ! ');
+                } else {
+                    $auction->status = 'live';
                     $auction->save();
-                    Log::debug('Auction ['.$auction->id.'] is LIVE [Index view] ! ');
-
-                    }
+                    Log::debug('Auction [' . $auction->id . '] is LIVE [Index view] ! ');
                 }
             }
+        }
 
         if (Auth::guard('seller')->user()) {
-            $auctions = Auction::orderBy('end_date','DESC')->where('seller_id', Auth::guard('seller')->user()->id)->paginate(5);
-            return view('auctions.all_auctions', compact('auctions','bidders_count'));
-    
+            $auctions = Auction::orderBy('end_date', 'DESC')->where('seller_id', Auth::guard('seller')->user()->id)->paginate(5);
+            return view('auctions.all_auctions', compact('auctions', 'bidders_count'));
         } else {
-            $auctions = Auction::orderBy('end_date','DESC')->paginate(5);
-            return view('auctions.all_auctions', compact('auctions','bidders_count','all_auctions','formattedNow'));
+            $auctions = Auction::orderBy('end_date', 'DESC')->paginate(5);
+            return view('auctions.all_auctions', compact('auctions', 'bidders_count', 'all_auctions', 'formattedNow'));
         }
     }
 
@@ -88,18 +88,19 @@ class AuctionController extends Controller
     public function store(Request $request)
     {
 
-        $now=time();
+        $bidders_count = 0;
+        $now = time();
         date_default_timezone_set('Asia/Dubai');
-        $formattedNow=date("Y-m-d H:i:s",$now);
+        $formattedNow = date("Y-m-d H:i:s", $now);
 
-        if($request->start_date < $formattedNow){
-            return 'Start date should be after current date';
-        }else if($request->start_date >= $request->end_date){
-            return 'Start date should be before end_date. Start : '.$request->start_date.' end date : '.$request->end_date;
-        }else if($request->end_date <= $formattedNow){
-            return 'End date should be after current_date. End date : '.$request->end_date.', current date : '.$formattedNow;
-        }else{
-            
+        if ($request->start_date < $formattedNow) {
+            return 'Start date :' . $request->start_date . ' should be after current date :' . $formattedNow . '. FYI end_date : ' . $request->end_date;
+        } else if ($request->start_date >= $request->end_date) {
+            return 'Start date should be before end_date. Start : ' . $request->start_date . ' end date : ' . $request->end_date;
+        } else if ($request->end_date <= $formattedNow) {
+            return 'End date should be after current_date. End date : ' . $request->end_date . ', current date : ' . $formattedNow;
+        } else {
+
             if ($request->hasFile('image')) {
 
                 Storage::disk('s3')->putFileAs(
@@ -109,8 +110,8 @@ class AuctionController extends Controller
                 );
                 $url = Storage::disk('s3')->url('auction-images/' . $request->image->getClientOriginalName());
 
-                $status='';
-                $formattedNow <= $request->input('start_date') ? $status='coming':$status='live';
+                $status = '';
+                $formattedNow <= $request->input('start_date') ? $status = 'coming' : $status = 'live';
 
                 $auction = Auction::create([
                     'seller_id' => $request->input('seller_id'),
@@ -124,13 +125,9 @@ class AuctionController extends Controller
                     'status' => $status
                 ]);
 
-                $bidders_count=Bidding::find(1)->bidders($auction->id);
-                
-                return view('auctions.show_auction', compact('auction','bidders_count','formattedNow'));
+                return view('auctions.show_auction', compact('auction', 'bidders_count', 'formattedNow'));
             }
         }
-
-
     }
 
     /**
@@ -141,53 +138,51 @@ class AuctionController extends Controller
      */
     public function show(Auction $auction)
     {
-        $bidders_count=Bidding::find(1)->bidders($auction->id);
+        if (Bidding::find(1)) {
+            $bidders_count = Bidding::find(1)->bidders($auction->id);
+        } else {
+            $bidders_count = 0;
+        }
 
-        $all_auctions=Auction::all();
-        $now=time();
+        $all_auctions = Auction::all();
+        $now = time();
         date_default_timezone_set('Asia/Dubai');
-        $formattedNow=date("Y-m-d H:i:s",$now);
+        $formattedNow = date("Y-m-d H:i:s", $now);
 
-        foreach($all_auctions as $act){
-            
-            if($act->status !='finished')
-            {
-                if($formattedNow >= $act->end_date){
-                
-                    Log::debug('Auction ['.$act->id.'] is FINISHED [Show view] ! Current server date : ['.$formattedNow.'] is above auction end_date : ['.$act->end_date.'] so it\'s finished');
-                    $act->status='finished';
+        foreach ($all_auctions as $act) {
+
+            if ($act->status != 'finished') {
+                if ($formattedNow >= $act->end_date) {
+
+                    Log::debug('Auction [' . $act->id . '] is FINISHED [Show view] ! Current server date : [' . $formattedNow . '] is above auction end_date : [' . $act->end_date . '] so it\'s finished');
+                    $act->status = 'finished';
                     $act->save();
+                } else if ($formattedNow < $act->start_date) {
 
-                }else if ($formattedNow < $act->start_date){
+                    Log::debug('Auction [' . $act->id . '] is COMING SOON [Show view] ! ');
+                } else {
 
-                    Log::debug('Auction ['.$act->id.'] is COMING SOON [Show view] ! ');
-
-                }else{
-                                
-                    $act->status='live';
+                    $act->status = 'live';
                     $act->save();
-                    Log::debug('Auction ['.$act->id.'] is LIVE [Show view] ! ');
-
+                    Log::debug('Auction [' . $act->id . '] is LIVE [Show view] ! ');
                 }
             }
         }
-        
+
         if (Auth::guard('seller')->user()) {
 
             $id = Auth::guard('seller')->user()->id;
             $auction = Auction::where('seller_id', $id)
                 ->where('id', $auction->id)
                 ->firstOrFail();
-            return view('auctions.show_auction', compact('auction','bidders_count','formattedNow'));
+            return view('auctions.show_auction', compact('auction', 'bidders_count', 'formattedNow'));
+        } else if (Auth::guard('buyer')->user()) {
 
-        } else if (Auth::guard('buyer')->user()){
-            
             $buyer = Buyer::where('id', Auth::guard('buyer')->user()->id)->firstOrFail();
-            
-            return view('auctions.show_auction', compact('auction', 'buyer','bidders_count','formattedNow'));
-        
-        }else{
-            return view('auctions.show_auction', compact('auction','bidders_count','formattedNow'));
+
+            return view('auctions.show_auction', compact('auction', 'buyer', 'bidders_count', 'formattedNow'));
+        } else {
+            return view('auctions.show_auction', compact('auction', 'bidders_count', 'formattedNow'));
         }
     }
 
@@ -216,27 +211,29 @@ class AuctionController extends Controller
 
     public function myAuctions(Auction $auction)
     {
-        $bidders_count=Bidding::find(1);
+        if (Bidding::find(1)) {
+            $bidders_count = Bidding::find(1)->bidders($auction->id);
+        } else {
+            $bidders_count = 0;
+        }
 
-        $buyer_id=Auth::guard('buyer')->user()->id;
+        $buyer_id = Auth::guard('buyer')->user()->id;
 
         $auctions = Auction::where('buyer_id', Auth::guard('buyer')->user()->id)
-            ->join('biddings','auctions.id','=','biddings.auction_id')
-            ->select('auctions.id','auctions.image_url','auctions.title','auctions.description','auctions.current_price','auctions.start_date','auctions.end_date')
+            ->join('biddings', 'auctions.id', '=', 'biddings.auction_id')
+            ->select('auctions.id', 'auctions.image_url', 'auctions.title', 'auctions.description', 'auctions.current_price', 'auctions.start_date', 'auctions.end_date')
             ->distinct('auctions.id')
             ->paginate(5);
 
-        return view('auctions.my_auctions', compact('auctions','bidders_count','buyer_id'));
+        return view('auctions.my_auctions', compact('auctions', 'bidders_count', 'buyer_id'));
     }
 
     public function updateStatus(Request $request)
     {
 
-        $auction=Auction::find($request->auction_id);
-        $auction->status=$request->status;
+        $auction = Auction::find($request->auction_id);
+        $auction->status = $request->status;
         $auction->save();
         return response($request, Response::HTTP_CREATED);
-
     }
-    
 }

@@ -34,9 +34,7 @@
                 </a>
                 @endif
 
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -49,8 +47,7 @@
                         @elseif (Auth::guard('buyer')->user())
                         <a class="nav-item nav-link" href="{{ route('auctions.index') }}">Auctions list</a>
                         <a class="nav-item nav-link" href="{{ route('auctions.my-auctions') }}">My auctions</a>
-                        <a class="nav-item nav-link"
-                            href="{{ route('buyer.show',Auth::guard('buyer')->user()->id) }}">My buyer profile</a>
+                        <a class="nav-item nav-link" href="{{ route('buyer.show',Auth::guard('buyer')->user()->id) }}">My buyer profile</a>
                         @endif
                     </div>
 
@@ -66,8 +63,7 @@
                         </li>
                         @else
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::guard('buyer')->user()?Auth::guard('buyer')->user()->name:Auth::guard('seller')->user()->name   }}
                                 <span class="caret"></span>
                             </a>
@@ -78,8 +74,7 @@
                                     {{ __('Logout') }}
                                 </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
 

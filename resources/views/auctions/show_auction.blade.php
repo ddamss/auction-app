@@ -236,7 +236,6 @@ div.section>div>input {
                         {{$auction->start_date}}</small></h6>
                 <h6 class="title-attr" id="auction_end_date" value="{{$auction->end_date}}"><small>End date :
                         {{$auction->end_date}}</small></h6>
-                <h4 id="countdown"></h4>
                 <h6 class="title-attr" id="status_block">
                     <span id="status" value="{{$auction->status}}"></span>
                 </h6>
@@ -282,33 +281,40 @@ div.section>div>input {
     <script>
     //Function to display realtime countdown betfore auction start date or auction end date
 
-    function renderCountdown(dateStart, dateEnd) {
-        let targetDate = dateEnd.getTime();
-        let days, hours, minutes, seconds;
-        let countdown = document.getElementById("tiles");
-        let count = 0;
-        let getCountdown = function(c) {
-            let currentDate = new Date().getTime();
-            let secondsLeft = ((targetDate - currentDate) / 1000) - c;
+    function renderCountdown(dateStart, dateEnd, count) {
+
+        var currentDate = dateStart.getTime();
+
+        var targetDate = dateEnd.getTime(); // set the countdown date
+        var days, hours, minutes, seconds; // variables for time units
+
+        console.log("CURRENT DATE FROM FUNC RENDER : " + dateStart)
+        console.log("END DATE FROM FUNC RENDER : " + dateEnd)
+
+        var getCountdown = function(c) {
+            // find the amount of "seconds" between now and target
+            var secondsLeft = ((targetDate - currentDate) / 1000) - c;
             days = pad(Math.floor(secondsLeft / 86400));
             secondsLeft %= 86400;
             hours = pad(Math.floor(secondsLeft / 3600));
             secondsLeft %= 3600;
             minutes = pad(Math.floor(secondsLeft / 60));
             seconds = pad(Math.floor(secondsLeft % 60));
-            $("#status").html("days left : " + days + ". Time left : " + hours + ":" + minutes + ":" +
+            // format countdown string + set tag value
+            $("#status").html("<br>Current date/time : " + dateStart + ". Days left : " + days +
+                ". Time left : " +
+                hours + ":" + minutes + ":" +
                 seconds)
-            $("#status").css("color", "blue");
-
+            console.log("COUNT from Func =>" + c)
+            console.log("Days left : " + days + ". Time left : " + hours + ":" + minutes + ":" +
+                seconds);
         }
 
         function pad(n) {
             return (n < 10 ? '0' : '') + n;
         }
-        getCountdown(count++);
-        setInterval(function() {
-            getCountdown(count++);
-        }, 1000);
+        getCountdown(count);
+
     }
 
     //Get auction end date and current date
@@ -321,6 +327,8 @@ div.section>div>input {
     //Recurring comparison between auction end date and current date
 
     var timer;
+    timer = setInterval("showTime()", 1000);
+
 
     $(document).ready(function() {
 
@@ -328,16 +336,22 @@ div.section>div>input {
 
         if (status == 'finished') {
             $("#status_block").remove()
-
             $("#bid-component").remove();
+            console.log("STATUS document ready ==> " + status)
+
+        } else if (status == 'coming') {
+            $("#status").html("Auction " + status + " !");
+            $("#status").css("color", "orange");
+            console.log("STATUS document ready ==> " + status)
 
         } else {
             $("#status").html("Auction " + status + " !");
-            $("#status").css("color", "blue");
+            $("#status").css("color", "red");
+            console.log("STATUS document ready ==> " + status)
         }
 
-        timer = setInterval("showTime()", 1000);
     });
+
 
 
     function updateStatus(auction_id, status) {
@@ -355,9 +369,13 @@ div.section>div>input {
             });
     }
 
+    var count = 0
+
     function showTime() {
 
         var current_date = new Date()
+        var current_date_renderCount =
+            `${current_date.getFullYear().toString().padStart(4, '0')}-${(current_date.getMonth()+1).toString().padStart(2, '0')}-${current_date.getDate().toString().padStart(2, '0')} ${current_date.getHours().toString().padStart(2, '0')}:${current_date.getMinutes().toString().padStart(2, '0')}:${current_date.getSeconds().toString().padStart(2, '0')}`;
 
         var current_date_1 = new Date(current_date)
         current_date_1.setSeconds(current_date.getSeconds() - 1)
@@ -367,44 +385,50 @@ div.section>div>input {
 
         //Stop timer if auction end date has been reached out
         if (auction_end_date <= current_date) {
+            status = 'finished'
             clearInterval(timer);
             console.log("Auction finished !")
             status = 'finished'
             $("#status").css("color", "red");
             $("#status").html("Auction finished !");
             $("#bid-component").remove();
+            console.log("STATUS setInterval==> " + status)
 
             updateStatus(auction_id, status)
 
         } else if (current_date < auction_start_date) {
 
+            status = 'coming'
             $("#bid-component").hide();
             console.log("Auction starting soon...")
-            $("#status").html("Auction coming soon ...");
-            $("#status").css("color", "green");
-
+            // $("#status").html("Auction coming soon ...");
+            console.log("STATUS setInterval==> " + status)
             //Real time countdown before auction end date
 
-            renderCountdown(current_date, auction_start_date)
+            renderCountdown(new Date(current_date_renderCount), new Date(start_date), count)
 
         } else if (auction_start_date >= current_date_1 && auction_start_date <= current_date_2) {
 
             $("#bid-append").replaceWith($("#bid-component"));
             status = 'live'
-            // console.log('auction just went LIVE now ! start_date [' + auction_start_date +
-            //     '] is between current_date_1 [' + current_date_1 + '] and [' + current_date_2 + ']')
+            console.log("STATUS setInterval==> " + status)
+
             console.log('Auction is starting now !')
+
             updateStatus(auction_id, status)
 
         } else {
+            console.log("STATUS setInterval==> " + status)
 
             $("#bid-component").show();
             console.log("Auction live...")
+            $("#status").css("color", "blue");
 
             //Real time countdown before auction end date
 
-            renderCountdown(current_date, auction_end_date)
+            renderCountdown(new Date(current_date_renderCount), new Date(end_date), count)
         }
+        count++
     }
 
     auction_price = document.getElementById('auction_price')

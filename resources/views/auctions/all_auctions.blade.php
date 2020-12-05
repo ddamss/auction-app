@@ -25,10 +25,11 @@
                         <h2 class="card-title" style="text-align: left;">{{$auction->title}}</h2>
                         <p class="card-text" style="text-align: left;">{{$auction->description}}</p>
                         <p class="card-text" style="text-align: left;">bidders :
-                            @if ($bidders_count==0)
-                            0
+                            @if (gettype($bidders_count)=="object")
+                            {{$bidders_count->bidders($auction->id)}}
                             @else
-                            {{$bidders_count->bidders($auction->id)}}</p>
+                            0
+                        </p>
                         @endif
 
                     </div>

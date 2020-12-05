@@ -26,6 +26,7 @@ class AuctionController extends Controller
 
         if (Bidding::find(1)) {
             $bidders_count = Bidding::find(1);
+            // dd(gettype($bidders_count));
         } else {
             $bidders_count = 0;
         }

@@ -352,7 +352,7 @@
         function updateStatus(auction_id, status) {
             window.axios
                 .post(
-                    "http://127.0.0.1/auction-app/public/api/auction-status/" + auction_id, {
+                    "https://auctions-webapp.herokuapp.com/api/auction-status/" + auction_id, {
                         status,
                         auction_id
                     }

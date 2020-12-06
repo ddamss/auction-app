@@ -1932,8 +1932,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ["access_token", "buyer_id", "auction_id", "auction_current_price", "deposit_amount"],
   data: function data() {
@@ -1951,12 +1949,12 @@ __webpack_require__.r(__webpack_exports__);
 
       if (bidded_price_nbr <= auction_current_price_nbr) {
         console.log('bidded price ["' + bidded_price_nbr + '"] should be higher than current price ["' + auction_current_price_nbr + '"]');
-        alert('bidded price should be higher than current price ! ');
+        alert("bidded price should be higher than current price ! ");
       } else if (this.deposit_amount * 5 < bidded_price_nbr) {
         console.log('bidded_price ["' + bidded_price_nbr + '"] should at least equals to five times the deposit_amount that is now ["' + this.deposit_amount + '"], so mutiplied by 5 it is ["' + this.deposit_amount * 5 + '"]');
         alert('bidded_price ["' + bidded_price_nbr + '"] should at least equals to five times the deposit_amount');
       } else {
-        window.axios.post("http://127.0.0.1/auction-app/public/api/bid", {
+        window.axios.post("https://auctions-webapp.herokuapp.com/api/bid", {
           bidded_price: bidded_price,
           buyer_id: this.buyer_id,
           auction_id: this.auction_id
@@ -1974,7 +1972,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {// this.$forceUpdate();
   },
   mounted: function mounted() {
-    Echo.channel("bid.".concat(this.auction_id)).listen('BidRegistered', function (e) {
+    Echo.channel("bid.".concat(this.auction_id)).listen("BidRegistered", function (e) {
       console.log(e);
     });
   }

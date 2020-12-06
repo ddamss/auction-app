@@ -148,7 +148,7 @@
                 let deposit_amount_val = document.getElementById("form1").elements[0].value
                 console.log("deposit_amount : " + deposit_amount_val)
 
-                window.axios.put('https://auctions-webapp.herokuapp.com/auction-app/public/api/buyer/' + Number(user_id), {
+                window.axios.put('https://auctions-webapp.herokuapp.com/api/buyer/' + Number(user_id), {
                         deposit_amount_val
                     }, {
                         headers: {

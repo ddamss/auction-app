@@ -332,17 +332,14 @@
             if (status == 'finished') {
                 $("#status_block").remove()
                 $("#bid-component").remove();
-                console.log("STATUS document ready ==> " + status)
 
             } else if (status == 'coming') {
                 $("#status").html("Auction " + status + " !");
                 $("#status").css("color", "orange");
-                console.log("STATUS document ready ==> " + status)
 
             } else {
                 $("#status").html("Auction " + status + " !");
                 $("#status").css("color", "red");
-                console.log("STATUS document ready ==> " + status)
             }
 
         });
@@ -387,7 +384,6 @@
                 $("#status").css("color", "red");
                 $("#status").html("Auction finished !");
                 $("#bid-component").remove();
-                console.log("STATUS setInterval==> " + status)
 
                 updateStatus(auction_id, status)
 
@@ -395,9 +391,9 @@
 
                 status = 'coming'
                 $("#bid-component").hide();
-                console.log("Auction starting soon...")
+                // console.log("Auction starting soon...")
                 // $("#status").html("Auction coming soon ...");
-                console.log("STATUS setInterval==> " + status)
+                // console.log("STATUS setInterval==> " + status)
                 //Real time countdown before auction end date
 
                 renderCountdown(new Date(current_date_static), new Date(start_date), count)
@@ -413,10 +409,10 @@
                 updateStatus(auction_id, status)
 
             } else {
-                console.log("STATUS setInterval==> " + status)
+                // console.log("STATUS setInterval==> " + status)
 
                 $("#bid-component").show();
-                console.log("Auction live...")
+                // console.log("Auction live...")
                 $("#status").css("color", "blue");
 
                 //Real time countdown before auction end date
@@ -435,7 +431,6 @@
         var auction_id = '';
         if (type.length > 1)
             auction_id = type[1];
-        console.log('auction_id===>' + auction_id)
 
         var auction_price_background = document.getElementById("auction_price_background")
 
@@ -458,8 +453,6 @@
 
                     // Fade in/out background color effect manage in the CSS in <head> tag above
                     auction_price.setAttribute("id", "fade")
-                    console.log("ADD ID")
-                    console.log(auction_price)
 
                     bidders_count.setAttribute("value", e.bidders)
                     bidders_count.innerHTML = e.bidders

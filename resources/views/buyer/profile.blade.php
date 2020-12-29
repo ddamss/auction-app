@@ -151,8 +151,10 @@
                 api_url = ''
                 if (window.location.hostname == 'auctions-webapp.herokuapp.com') {
                     api_url = 'https://auctions-webapp.herokuapp.com/api'
+                    console.log(api_url)
                 } else {
                     api_url = 'http://127.0.0.1/auction-app/public/api'
+                    console.log(api_url)
                 }
 
                 window.axios.put(api_url + '/buyer/' + Number(user_id), {

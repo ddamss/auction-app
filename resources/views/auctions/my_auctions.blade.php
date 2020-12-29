@@ -2,10 +2,10 @@
 
 @push('styles')
 <style>
-.card-horizontal {
-    display: flex;
-    flex: 1 1 auto;
-}
+    .card-horizontal {
+        display: flex;
+        flex: 1 1 auto;
+    }
 </style>
 <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
 
@@ -21,11 +21,8 @@
         <div class="col-12 mt-3">
             <div class="card">
                 <div class="card-horizontal">
-                    <div class="col-5 img-square-wrapper" style="width:auto;"><a
-                            href="{{route('auctions.show',$auction->id)}}" style="text-decoration: none;color:inherit;">
-                            <img class=""
-                                style="height:auto;max-width:80%; display: block; margin-left: auto; margin-right: auto;"
-                                src="{{$auction->image_url}}" alt="{{$auction->title}}">
+                    <div class="col-5 img-square-wrapper" style="width:auto;"><a href="{{route('auctions.show',$auction->id)}}" style="text-decoration: none;color:inherit;">
+                            <img class="" style="height:auto;max-width:80%; display: block; margin-left: auto; margin-right: auto;" src="{{$auction->image_url}}" alt="{{$auction->title}}">
                         </a>
 
 
@@ -34,15 +31,13 @@
                         <h2 class="card-title" style="text-align: left;">{{$auction->title}}</h2>
                         <p class="card-text" style="text-align: left;">{{$auction->description}}</p>
                         <p class="card-text" style="text-align: left;">bidders :
-                            {{$bidders_count->bidders($auction->id)}}</p>
+                            {{$bidders_count}}</p>
 
 
                         @if($auction->winner($auction->id)[0]->buyer_id == $buyer_id)
-                        <div class="card-text"
-                            style="text-align: left; background-color:#82E0AA ;text-align: center;opacity:50%;">
+                        <div class="card-text" style="text-align: left; background-color:#82E0AA ;text-align: center;opacity:50%;">
                             <p style="color:black;opacity:100%;"> You've
-                                won this auction <i class="em em---1" aria-role="presentation"
-                                    aria-label="THUMBS UP SIGN"></i> </p>
+                                won this auction <i class="em em---1" aria-role="presentation" aria-label="THUMBS UP SIGN"></i> </p>
                         </div>
                         @endif
 

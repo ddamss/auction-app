@@ -213,6 +213,7 @@ class AuctionController extends Controller
     public function myAuctions(Auction $auction)
     {
         if (Bidding::find(1)) {
+
             $bidders_count = Bidding::find(1)->bidders($auction->id);
         } else {
             $bidders_count = 0;

@@ -1954,7 +1954,15 @@ __webpack_require__.r(__webpack_exports__);
         console.log('bidded_price ["' + bidded_price_nbr + '"] should at least equals to five times the deposit_amount that is now ["' + this.deposit_amount + '"], so mutiplied by 5 it is ["' + this.deposit_amount * 5 + '"]');
         alert('bidded_price ["' + bidded_price_nbr + '"] should at least equals to five times the deposit_amount');
       } else {
-        window.axios.post("https://auctions-webapp.herokuapp.com/api/bid", {
+        api_url = '';
+
+        if (window.location.hostname == 'auctions-webapp.herokuapp.com') {
+          api_url = 'https://auctions-webapp.herokuapp.com/api';
+        } else {
+          api_url = 'http://127.0.0.1/auction-app/public/api';
+        }
+
+        window.axios.post(api_url + "/bid", {
           bidded_price: bidded_price,
           buyer_id: this.buyer_id,
           auction_id: this.auction_id

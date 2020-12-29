@@ -347,9 +347,17 @@
 
 
         function updateStatus(auction_id, status) {
+
+            api_url = ''
+            if (window.location.hostname == 'auctions-webapp.herokuapp.com') {
+                api_url = 'https://auctions-webapp.herokuapp.com/api'
+            } else {
+                api_url = 'http://127.0.0.1/auction-app/public/api'
+            }
+
             window.axios
                 .post(
-                    "https://auctions-webapp.herokuapp.com/api/auction-status/" + auction_id, {
+                    api_url + "/auction-status/" + auction_id, {
                         status,
                         auction_id
                     }

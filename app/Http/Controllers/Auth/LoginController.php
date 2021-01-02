@@ -70,10 +70,14 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
 
+        // dd(Auth::guard('seller')->user());
+        Auth::logout();
+
         $this->guard()->logout();
+        // Auth::guard('seller')->logout();
+
         $request->session()->flush();
         // $request->session()->forget('name');
-
 
         $request->session()->invalidate();
 

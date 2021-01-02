@@ -223,7 +223,7 @@ class AuctionController extends Controller
 
         $auctions = Auction::where('buyer_id', Auth::guard('buyer')->user()->id)
             ->join('biddings', 'auctions.id', '=', 'biddings.auction_id')
-            ->select('auctions.id', 'auctions.image_url', 'auctions.title', 'auctions.description', 'auctions.current_price', 'auctions.start_date', 'auctions.end_date')
+            ->select('auctions.id', 'auctions.image_url', 'auctions.title', 'auctions.description', 'auctions.current_price', 'auctions.start_date', 'auctions.end_date', 'auctions.status')
             ->distinct('auctions.id')
             ->paginate(5);
 

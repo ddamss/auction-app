@@ -70,7 +70,7 @@ export default {
                         '"] should at least equals to five times the deposit_amount'
                 );
             } else {
-                api_url=''
+                let api_url=''
                 if(window.location.hostname=='auctions-webapp.herokuapp.com'){
                     api_url='https://auctions-webapp.herokuapp.com/api'
                 }else{
@@ -79,7 +79,7 @@ export default {
 
                 window.axios
                     .post(
-                        api_url+"/bid",
+                        api_url+'/bid',
                         {
                             bidded_price,
                             buyer_id: this.buyer_id,

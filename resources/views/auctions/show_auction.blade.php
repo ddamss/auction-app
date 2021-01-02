@@ -197,7 +197,7 @@
             </h5><br>
 
             @if (Auth::guard('buyer')->user())
-            @if($auction->status != 'coming' && $auction->status !='finished')
+            @if($auction->status != 'coming' && $auction->status !='finished' && is_null(Auth::guard('buyer')->user()->deposit_amount)==false)
 
             <div id="bid-component">
                 <input id="access_token" type="hidden" value="{{$buyer->access_token}}">

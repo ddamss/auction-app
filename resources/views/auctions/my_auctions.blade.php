@@ -34,7 +34,7 @@
                             {{$bidders_count}}</p>
 
 
-                        @if($auction->winner($auction->id)[0]->buyer_id == $buyer_id)
+                        @if($auction->winner($auction->id)[0]->buyer_id == $buyer_id && $auction->status=='finished')
                         <div class="card-text" style="text-align: left; background-color:#82E0AA ;text-align: center;opacity:50%;">
                             <p style="color:black;opacity:100%;"> You've
                                 won this auction <i class="em em---1" aria-role="presentation" aria-label="THUMBS UP SIGN"></i> </p>

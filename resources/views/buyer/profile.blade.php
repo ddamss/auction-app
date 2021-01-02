@@ -148,7 +148,7 @@
                 let deposit_amount_val = document.getElementById("form1").elements[0].value
                 console.log("deposit_amount : " + deposit_amount_val)
 
-                api_url = ''
+                let api_url = ''
                 if (window.location.hostname == 'auctions-webapp.herokuapp.com') {
                     api_url = 'https://auctions-webapp.herokuapp.com/api'
                     console.log(api_url)

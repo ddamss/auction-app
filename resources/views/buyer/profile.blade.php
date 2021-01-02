@@ -117,7 +117,8 @@
             newElt.setAttribute("id", "deposit_amount")
             newElt.setAttribute("name", "deposit_amount")
             newElt.setAttribute("type", "number")
-            newElt.value = deposit_amount_elt.innerHTML
+            newElt.setAttribute("value", (deposit_amount_elt.innerHTML).replace(/\s/g, ''))
+            // newElt.value = deposit_amount_elt.innerHTML
 
             //Create form element
             let formElt = document.createElement("form")

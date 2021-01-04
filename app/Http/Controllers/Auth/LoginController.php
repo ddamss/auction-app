@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Buyer;
+use App\Seller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
@@ -70,7 +72,12 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
 
-        // dd(Auth::guard('seller')->user());
+        if (Auth::guard('seller')->user()) {
+            DB::table('sellers')->update(array('remember_token' => NULL));
+        } else {
+            DB::table('buyers')->update(array('remember_token' => NULL));
+        }
+
         Auth::logout();
 
         $this->guard()->logout();

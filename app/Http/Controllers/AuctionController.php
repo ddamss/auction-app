@@ -57,10 +57,10 @@ class AuctionController extends Controller
         }
 
         if (Auth::guard('seller')->user()) {
-            $auctions = Auction::orderBy('end_date', 'DESC')->where('seller_id', Auth::guard('seller')->user()->id)->paginate(5);
+            $auctions = Auction::orderBy('end_date', 'DESC')->where('seller_id', Auth::guard('seller')->user()->id)->paginate(5)->onEachSide(0);
             return view('auctions.all_auctions', compact('auctions', 'bidders_count'));
         } else {
-            $auctions = Auction::orderBy('end_date', 'DESC')->paginate(5);
+            $auctions = Auction::orderBy('end_date', 'DESC')->paginate(5)->onEachSide(0);
             return view('auctions.all_auctions', compact('auctions', 'bidders_count', 'all_auctions', 'formattedNow'));
         }
     }
@@ -225,7 +225,7 @@ class AuctionController extends Controller
             ->join('biddings', 'auctions.id', '=', 'biddings.auction_id')
             ->select('auctions.id', 'auctions.image_url', 'auctions.title', 'auctions.description', 'auctions.current_price', 'auctions.start_date', 'auctions.end_date', 'auctions.status')
             ->distinct('auctions.id')
-            ->paginate(5);
+            ->paginate(5)->onEachSide(0);
 
         return view('auctions.my_auctions', compact('auctions', 'bidders_count', 'buyer_id'));
     }

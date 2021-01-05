@@ -223,10 +223,8 @@
 
             @endif
 
-            <!-- Detalles especificos del producto -->
-
             <div class="section" style="padding-bottom:5px;">
-                <h6 class="title-attr"><small>Local server time : {{$formattedNow}}</small></h6>
+                <!-- <h6 class="title-attr"><small>Local server time : {{$formattedNow}}</small></h6> -->
                 <h6 class="title-attr" id="auction_start_date" value="{{$auction->start_date}}"><small>Start date :
                         {{$auction->start_date}}</small></h6>
                 <h6 class="title-attr" id="auction_end_date" value="{{$auction->end_date}}"><small>End date :
@@ -338,8 +336,8 @@
                 $("#status").css("color", "orange");
 
             } else {
-                $("#status").html("Auction " + status + " !");
-                $("#status").css("color", "red");
+                // $("#status").html("Auction is" + status + " !");
+                // $("#status").css("color", "red");
             }
 
         });

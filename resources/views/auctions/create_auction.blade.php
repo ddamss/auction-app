@@ -109,12 +109,17 @@ $(document).ready(function() {
         {
             mm=`0${mm}`;
         } 
-        current_date = `${yyyy}-${mm}-${dd} ${current_date.getHours()}:${current_date.getMinutes()}:${current_date.getSeconds()}`;
+
+        if(current_date.getHours()<10){
+            current_date = `${yyyy}-${mm}-${dd} 0${current_date.getHours()}:${current_date.getMinutes()}:${current_date.getSeconds()}`;
+        }else{
+            current_date = `${yyyy}-${mm}-${dd} ${current_date.getHours()}:${current_date.getMinutes()}:${current_date.getSeconds()}`;
+        }
     
         if (start_date < current_date) {
             
             // console.log('start date = ' + start_date + ' < current_date=' + current_date)
-            alert('Start date should be after current date')
+            alert('Start date '+[start_date]+' should be after current date '+[current_date])
             return false;
 
         } else if(start_date >= end_date){

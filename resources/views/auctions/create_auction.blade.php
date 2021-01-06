@@ -125,13 +125,13 @@ $(document).ready(function() {
         } else if(start_date >= end_date){
             
             // console.log('start date = ' + start_date + ' >= end_date=' + end_date)
-            alert('Start date should be before end_date')
+            alert('Start date'+[start_date]+' should be before end_date '+[end_date])
             return false;
         
         } else if(end_date <= current_date){
             
             // console.log('end date = ' + end_date + ' <= current_date=' + current_date)
-            alert('End date should be after current_date')
+            alert('End date '+[end_date]+' should be after current_date '+[current_date])
             return false;
 
         }else{

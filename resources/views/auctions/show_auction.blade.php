@@ -174,11 +174,9 @@
             <img style="max-width:100%;" src="{{$auction->image_url}}" />
         </div>
         <div class="col-xs-5" style="border:0px solid gray">
-            <!-- Datos del vendedor y titulo del producto -->
             <h3>{{$auction->title}}</h3>
             <!-- , date {{date('Y-m-d H:i:s')}} -->
 
-            <!-- Precios -->
             <h5 class="title-price" style="display:inline-block;">Price : </h5>
             <h4 style="margin-top:0px;display:inline-block;" id="auction_price">
                 ${{$auction->current_price}}

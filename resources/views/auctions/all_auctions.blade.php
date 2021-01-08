@@ -148,27 +148,33 @@
 <script>
     //Conditional rendering that manages mobile or desktop
 
-    let isMobileRender = matchMedia('(max-width: 500px)').matches;
-    console.log(isMobileRender)
+    var isMobileRender = matchMedia('(max-width: 500px)').matches;
     var auctions = document.getElementsByClassName("auction")
-    console.log(auctions)
     var mobileView = document.getElementById("mobile_view")
     var desktopView = document.getElementById("desktop_view")
 
     if (isMobileRender) {
-
-        for (i = 0; i < auctions.length; i++) {
-            auctions[i].style.display = 'none'
-        }
-        // auctions.style.display = 'none'
-        console.log('MOBILE VERSION')
-        // renderTxt.innerHTML = "MOBILE VERSION DISPLAYED"
         desktopView.style.display = 'none'
-
+        mobileView.style.display = ''
     } else {
-        console.log('DESKTOP VERSION')
         mobileView.style.display = 'none'
-
+        desktopView.style.display = ''
     }
+
+    //real time resize on screen size change
+    $(window).resize(function() {
+
+        if (window.screen.width <= 500) {
+
+            desktopView.style.display = 'none'
+            mobileView.style.display = ''
+
+        } else {
+
+            mobileView.style.display = 'none'
+            desktopView.style.display = ''
+        }
+
+    });
 </script>
 @endpush

@@ -178,7 +178,7 @@
                 <h3>{{$auction->title}}</h3>
                 <!-- , date {{date('Y-m-d H:i:s')}} -->
 
-                <h5 class="title-price" style="display:inline-block;">Price : </h5>
+                <h5 style="display:inline-block;">Price : </h5>
                 <h4 style="margin-top:0px;display:inline-block;" id="auction_price">
                     ${{$auction->current_price}}
                 </h4>
@@ -196,7 +196,8 @@
                 </h5><br>
 
                 @if (Auth::guard('buyer')->user())
-                @if($auction->status != 'coming' && $auction->status !='finished' && is_null(Auth::guard('buyer')->user()->deposit_amount)==false)
+                @if($auction->status != 'coming' && $auction->status !='finished' &&
+                is_null(Auth::guard('buyer')->user()->deposit_amount)==false)
 
                 <div id="bid-component">
                     <input id="access_token" type="hidden" value="{{$buyer->access_token}}">
@@ -271,7 +272,8 @@
         <div class="row">
             <div class="card">
                 <div class="col-xs-12" style="text-align:center;background-color:#8ec3eb;">
-                    <h4 style="display:inline-block;">{{$auction->title}}</h4> - ${{$auction->current_price}}
+                    <h4 style="display:inline-block;" class="auction-title">{{$auction->title}}</h4> -
+                    <span id="auction_price">${{$auction->current_price}}</span>
                 </div>
 
                 <div class="row" class="justify-content-center">
@@ -299,16 +301,18 @@
                     <div class="col-12 col-xs-6">
 
                         @if (Auth::guard('buyer')->user())
-                        @if($auction->status != 'coming' && $auction->status !='finished' && is_null(Auth::guard('buyer')->user()->deposit_amount)==false)
+                        @if($auction->status != 'coming' && $auction->status !='finished' &&
+                        is_null(Auth::guard('buyer')->user()->deposit_amount)==false)
 
-                        <div id="bid-component">
+                        <div id="bid-component" style="text-align:center;">
                             <input id="access_token" type="hidden" value="{{$buyer->access_token}}">
 
                             <bid-component :access_token="'{{$buyer->access_token}}'" :buyer_id="'{{$buyer->id}}'" :auction_id="'{{$auction->id}}'" :auction_current_price="'{{$auction->current_price}}'" :deposit_amount="'{{Auth::guard('buyer')->user()->deposit_amount}}'">
                             </bid-component>
                         </div>
 
-                        @elseif (is_null(Auth::guard('buyer')->user()->deposit_amount)==true && $auction->status !='finished')
+                        @elseif (is_null(Auth::guard('buyer')->user()->deposit_amount)==true && $auction->status
+                        !='finished')
 
                         <p style="color:red;">you need to set a deposit_amount in order to bid! Click <a href="{{ route('buyer.show',Auth::guard('buyer')->user()->id) }}">here</a> to do so</p>
 
@@ -349,16 +353,6 @@
 
 </div>
 
-
-<!-- TESTS -->
-<!-- <div id="desktop_view2">
-    <h1>DESKTOP</h1>
-</div>
-
-<div id="mobile_view2">
-    <h1>MOBILE</h1>
-</div> -->
-
 @endsection('content')
 
 @push('scripts')
@@ -375,14 +369,19 @@
     var auctions = document.getElementsByClassName("auction")
     var mobileView = document.getElementById("mobile_view")
     var desktopView = document.getElementById("desktop_view")
+    var main = document.getElementsByClassName("py-4")
 
     if (isMobileRender) {
         desktopView.style.display = 'none'
         mobileView.style.display = ''
+        main[0].insertBefore(mobileView, main[0].childNodes[0])
+
         console.log("show mobile")
     } else {
         mobileView.style.display = 'none'
         desktopView.style.display = ''
+        main[0].insertBefore(desktopView, main[0].childNodes[0])
+
     }
 
     //real time resize on screen size change
@@ -392,11 +391,14 @@
 
             desktopView.style.display = 'none'
             mobileView.style.display = ''
+            main[0].insertBefore(mobileView, main[0].childNodes[0])
 
         } else {
 
             mobileView.style.display = 'none'
             desktopView.style.display = ''
+            main[0].insertBefore(desktopView, main[0].childNodes[0])
+
         }
 
     });

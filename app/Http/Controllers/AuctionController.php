@@ -125,11 +125,9 @@ class AuctionController extends Controller
                     'end_date' => $request->input('end_date'),
                     'status' => $status
                 ]);
-                if (!is_null($auction)) {
-                    dd($auction);
-                }
-
-
+                // if (!is_null($auction)) {
+                //     dd($auction);
+                // }
                 return view('auctions.show_auction', compact('auction', 'bidders_count', 'formattedNow'));
             }
         }

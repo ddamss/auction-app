@@ -99,6 +99,9 @@ $(document).ready(function() {
         var dd = current_date.getDate();
         var mm = current_date.getMonth()+1; 
         var yyyy = current_date.getFullYear();
+        var hours=current_date.getHours()
+        var minutes=current_date.getMinutes()
+        var seconds=current_date.getSeconds()
 
         if(dd<10) 
         {
@@ -110,13 +113,21 @@ $(document).ready(function() {
             mm=`0${mm}`;
         } 
 
-        if(current_date.getHours()<10){
-            current_date = `${yyyy}-${mm}-${dd} 0${current_date.getHours()}:${current_date.getMinutes()}:${current_date.getSeconds()}`;
-        }else{
-            current_date = `${yyyy}-${mm}-${dd} ${current_date.getHours()}:${current_date.getMinutes()}:${current_date.getSeconds()}`;
+        if(hours<10){
+            hours=`0${hours}`;   
         }
+
+        if(minutes<10){
+            minutes=`0${minutes}`;   
+        }
+
+        if(seconds<10){
+            seconds=`0${seconds}`;   
+        }
+
+        current_date = `${yyyy}-${mm}-${dd} ${hours}:${minutes}:${seconds}`;
     
-        if (start_date < current_date) {
+        if (start_date <= current_date) {
             
             // console.log('start date = ' + start_date + ' < current_date=' + current_date)
             alert('Start date '+[start_date]+' should be after current date '+[current_date])

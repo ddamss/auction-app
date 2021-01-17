@@ -160,6 +160,37 @@
             background-color: transparent;
         }
     }
+
+    /* Below CSS for the countdown */
+
+    #clockdiv {
+        font-family: sans-serif;
+        color: #fff;
+        display: inline-block;
+        font-weight: 30;
+        /* text-align: center; */
+        font-size: 10px;
+
+    }
+
+    #clockdiv>div {
+        padding: 5px;
+        border-radius: 3px;
+        background: #0074D9;
+        display: inline-block;
+    }
+
+    #clockdiv div>span {
+        padding: 10px;
+        border-radius: 3px;
+        background: #001f3f;
+        display: inline-block;
+    }
+
+    .smalltext {
+        padding-top: 5px;
+        font-size: 10px;
+    }
 </style>
 <link href="https://emoji-css.afeld.me/emoji.css" rel="stylesheet">
 
@@ -188,12 +219,31 @@
                 {{$auction->bids_count}}
             </h5> -->
 
-                <br>
-
                 <h5 style="display:inline-block;">Number of bidders : </h5>
                 <h5 style="margin-top:0px;display:inline-block;" id="bidders_count">
                     {{$bidders_count}}
                 </h5><br>
+
+
+                <div id="clockdiv">
+                    <div>
+                        <span class="days"></span>
+                        <div class="smalltext">Days</div>
+                    </div>
+                    <div>
+                        <span class="hours"></span>
+                        <div class="smalltext">Hours</div>
+                    </div>
+                    <div>
+                        <span class="minutes"></span>
+                        <div class="smalltext">Minutes</div>
+                    </div>
+                    <div>
+                        <span class="seconds"></span>
+                        <div class="smalltext">Seconds</div>
+                    </div>
+                </div>
+                <br><br>
 
                 @if (Auth::guard('buyer')->user())
                 @if($auction->status != 'coming' && $auction->status !='finished' &&
@@ -232,6 +282,7 @@
                     <h6 class="title-attr" id="status_block">
                         <span id="status" value="{{$auction->status}}"></span>
                     </h6>
+
                     <br>
                     <p>Product description :</p>
                     <div>
@@ -289,6 +340,29 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-12 col-xs-6" style="text-align: center;">
+                        <div id="clockdiv">
+                            <div>
+                                <span class="days"></span>
+                                <div class="smalltext">Days</div>
+                            </div>
+                            <div>
+                                <span class="hours"></span>
+                                <div class="smalltext">Hours</div>
+                            </div>
+                            <div>
+                                <span class="minutes"></span>
+                                <div class="smalltext">Minutes</div>
+                            </div>
+                            <div>
+                                <span class="seconds"></span>
+                                <div class="smalltext">Seconds</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row" class="justify-content-center">
                     <div class="col-12 col-xs-6">
                         <b><u>Description</u></b> : <br>
@@ -333,7 +407,7 @@
 
                 @if($auction->status=='live')
                 <div class="card-footer" style="text-align: center;background-color:#c1cec9;">
-                    <small>will finish on the<b>[{{$auction->end_date}}]</b></small>
+                    <small>will finish on the <b>[{{$auction->end_date}}]</b></small>
                 </div>
                 @elseif($auction->status == 'coming')
                 <div class="card-footer" style="text-align: center;background-color:#c1cec9;">
@@ -422,10 +496,21 @@
             minutes = pad(Math.floor(secondsLeft / 60));
             seconds = pad(Math.floor(secondsLeft % 60));
             // format countdown string + set tag value
-            $("#status").html("<br>Current date/time : " + dateStart + ". Days left : " + days +
-                ". Time left : " +
-                hours + ":" + minutes + ":" +
-                seconds)
+            // $("#status").html("<br>Current date/time : " + dateStart + ". Days left : " + days +
+            //     ". Time left : " +
+            //     hours + ":" + minutes + ":" +
+            //     seconds)
+
+            var clockDays = document.getElementsByClassName("days")[0]
+            var clockHours = document.getElementsByClassName("hours")[0]
+            var clockMinutes = document.getElementsByClassName("minutes")[0]
+            var clockSeconds = document.getElementsByClassName("seconds")[0]
+
+            clockDays.innerText = days
+            clockHours.innerHTML = hours
+            clockMinutes.innerHTML = minutes
+            clockSeconds.innerHTML = seconds
+
         }
 
         function pad(n) {

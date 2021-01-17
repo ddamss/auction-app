@@ -25,10 +25,7 @@
                     <textarea type="text" class="form-control" id="description" name="description"></textarea required>
                 </div>
 
-                <div class="custom-file">
-                    <label class="custom-file-label" for="image">Select the image </label>
-                    <input type="file" class="custom-file-input" id="customFileLang" name="image" id="image" required>
-                </div>
+
                 <br>
                 <br>
 

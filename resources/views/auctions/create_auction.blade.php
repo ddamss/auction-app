@@ -25,9 +25,10 @@
                     <textarea type="text" class="form-control" id="description" name="description"></textarea required>
                 </div>
 
-
-                <br>
-                <br>
+                <div class="form-group">
+                    <label for="about" class="col-sm-3 control-label">Upload image</label>
+                        <input type="file" class="form-control" name="image" id="image" placeholder="Image upload" required>
+                </div>
 
                 <div class="form-group">
                     <label for="start_price">Start price :</label>

@@ -102,34 +102,34 @@ class AuctionController extends Controller
             return 'End date should be after current_date. End date : ' . $request->end_date . ', current date : ' . $formattedNow;
         } else {
 
-            // if ($request->hasFile('image')) {
+            if ($request->hasFile('image')) {
 
-            //     Storage::disk('s3')->putFileAs(
-            //         'auction-images/',
-            //         new File($request->image->path()),
-            //         $request->image->getClientOriginalName()
-            //     );
-            //     $url = Storage::disk('s3')->url('auction-images/' . $request->image->getClientOriginalName());
+                Storage::disk('s3')->putFileAs(
+                    'auction-images/',
+                    new File($request->image->path()),
+                    $request->image->getClientOriginalName()
+                );
+                $url = Storage::disk('s3')->url('auction-images/' . $request->image->getClientOriginalName());
 
-            $status = '';
-            $formattedNow <= $request->input('start_date') ? $status = 'coming' : $status = 'live';
+                $status = '';
+                $formattedNow <= $request->input('start_date') ? $status = 'coming' : $status = 'live';
 
-            $auction = Auction::create([
-                'seller_id' => $request->input('seller_id'),
-                'title' => $request->input('title'),
-                'description' => $request->input('description'),
-                'image_url' => 'https://auctions-app.s3.eu-west-3.amazonaws.com/auction-images/t%C3%A9l%C3%A9chargement.png',
-                'start_price' => $request->input('start_price'),
-                'current_price' => $request->input('start_price'),
-                'start_date' => $request->input('start_date'),
-                'end_date' => $request->input('end_date'),
-                'status' => $status
-            ]);
-            // if (!is_null($auction)) {
-            //     dd($auction);
-            // }
-            return view('auctions.show_auction', compact('auction', 'bidders_count', 'formattedNow'));
-            // }
+                $auction = Auction::create([
+                    'seller_id' => $request->input('seller_id'),
+                    'title' => $request->input('title'),
+                    'description' => $request->input('description'),
+                    'image_url' => $url,
+                    'start_price' => $request->input('start_price'),
+                    'current_price' => $request->input('start_price'),
+                    'start_date' => $request->input('start_date'),
+                    'end_date' => $request->input('end_date'),
+                    'status' => $status
+                ]);
+                // if (!is_null($auction)) {
+                //     dd($auction);
+                // }
+                return view('auctions.show_auction', compact('auction', 'bidders_count', 'formattedNow'));
+            }
         }
     }
 

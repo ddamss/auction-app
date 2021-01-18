@@ -79,3 +79,21 @@ php artisan route:cache // errors when it’s launched
 php artisan config:cache
 composer dump-autoload -o
 ```
+
+Use the below code for the compartiment strategy of the bucket to have it public :
+`
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowPublicRead",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::auctions-app/*"
+        }
+    ]
+}
+`

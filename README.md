@@ -80,7 +80,7 @@ composer require league/flysystem-aws-s3-v3 ~1.0
 
 ```bash
 php artisan cache:clear
-php artisan route:cache // errors when it’s launched
+php artisan route:cache
 php artisan config:cache
 composer dump-autoload -o
 ```

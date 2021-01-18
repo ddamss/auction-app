@@ -25,9 +25,9 @@
                     <textarea type="text" class="form-control" id="description" name="description"></textarea required>
                 </div>
 
-                <div class="form-group">
-                    <label for="about" class="col-sm-3 control-label">Upload image</label>
-                        <input type="file" class="form-control" name="image" id="image" placeholder="Image upload" required>
+                <div class="custom-file">
+                    <label class="custom-file-label" for="image">Select the image </label>
+                    <input type="file" class="custom-file-input" id="customFileLang" name="image" id="image" required>
                 </div>
 
                 <div class="form-group">

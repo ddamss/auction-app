@@ -305,15 +305,15 @@
 
                     <br> <br>
                     @if($auction->status=='live')
-                    <div class="card-footer" style="text-align:center;;background-color:#c1cec9;">
+                    <div class="card-footer" style="text-align: center;background-color:#c1cec9;display:inline-block;">
                         <p>will finish on the <b>[{{$auction->end_date}}]</b></p>
                     </div>
                     @elseif($auction->status == 'coming')
-                    <div class="card-footer" style="text-align: center;background-color:#c1cec9;">
+                    <div class="card-footer" style="text-align: center;background-color:#c1cec9;display:inline-block;">
                         <p>coming to start on the <b>{{$auction->start_date}}</b></p>
                     </div>
                     @else
-                    <div class="card-footer" style="text-align: center;background-color:#c1cec9;">
+                    <div class="card-footer" style="text-align: center;background-color:#c1cec9;display:inline-block;">
                         <p>finished on the <b>{{$auction->end_date}}</b></p>
                     </div>
                     @endif
@@ -558,7 +558,7 @@
             $("#clockdiv").remove();
 
         } else if (status == 'coming') {
-            $("#status").html("Auction " + status + " !");
+            // $("#status").html("Auction " + status + " !");
             $("#status").css("color", "orange");
 
         } else {
@@ -623,7 +623,7 @@
         } else if (current_date < auction_start_date) {
 
             status = 'coming'
-            $("#status").html("Auction coming...");
+            // $("#status").html("Auction coming...");
             $(".card-footer").html("<p>coming to start on the <b>" + start_date + "</b></p>");
 
             $("#bid-component").hide();

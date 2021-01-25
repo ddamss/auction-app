@@ -78,9 +78,16 @@
                             <div class="bot-border"></div>
                             <input id="access_token" type="hidden" value="{{$buyer->access_token}}">
                             <div class="col-sm-5 col-xs-6 tital " id="title_deposit_amount">Deposit amount</div>
-                            <div class="col-sm-5" id="deposit_amount" value="{{$buyer->deposit_amount}}">
-                                {{$buyer->deposit_amount}}</div>
-                            <div class="col-sm-2" id="edit"> <span class="glyphicon glyphicon-edit" class="btn btn-primary" id="btn-edit"></span> </div>
+                            <div class="col-sm-5 col-xs-2" id="deposit_amount" value="{{$buyer->deposit_amount}}">
+                                {{$buyer->deposit_amount}}
+                            </div>
+                            <!-- <div class="col-sm-2" id="edit"> <span class="glyphicon glyphicon-edit" class="btn btn-primary" id="btn-edit" style="color:#008CBA;"></span> </div> -->
+                            <div class="col-sm-1 col-xs-3" id="edit">
+                                <a href="#" class="btn btn-primary a-btn-slide-text" style="font-size:10px;" id="btn-edit">
+                                    <span class="glyphicon glyphicon-edit" id="btn-glyphicon" aria-hidden="true" style="font-size:10px;"></span>
+                                    <span style="font-size:10px;" id="btn-txt">Edit</span>
+                                </a>
+                            </div>
                             <div class="clearfix"></div>
                             <div class="bot-border"></div>
 
@@ -108,8 +115,10 @@
             //Get user_id from URL
             let URL = window.location.href.split('/');
             let user_id = URL.pop() || URL.pop();
+            user_id = user_id.replace('#', '');
             let editBtn = document.getElementById("btn-edit")
             let deposit_amount_elt = document.getElementById("deposit_amount")
+            console.log(deposit_amount_elt)
 
             //create element that will show input
             let newElt = document.createElement("input")
@@ -119,34 +128,53 @@
             newElt.setAttribute("type", "number")
             newElt.setAttribute("value", (deposit_amount_elt.innerHTML).replace(/\s/g, ''))
             // newElt.value = deposit_amount_elt.innerHTML
-
+            console.log(newElt)
             //Create form element
             let formElt = document.createElement("form")
             formElt.setAttribute('id', 'form1')
-            newElt.classList.add('col-sm-5')
+            newElt.classList.add('col-sm-3', 'col-xs-3')
 
             //create element that wil show update icon
-            let newEditBtn = document.createElement("span")
-            newEditBtn.classList.add('glyphicon', 'glyphicon-check', 'col-sm-2')
-            newEditBtn.setAttribute('id', 'update')
-            newEditBtn.setAttribute('type', 'submit')
+            //Text element
+            let newEditBtnTxt = document.createElement("span")
+            newEditBtnTxt.style.fontSize = '10px'
+            newEditBtnTxt.innerText = "Update"
+            // newEditBtnTxt.setAttribute('id', 'update')
+            newEditBtnTxt.setAttribute('type', 'submit')
+
+            //Icon element
+            let newEditBtnIcon = document.createElement("span")
+            newEditBtnIcon.classList.add('glyphicon', 'glyphicon-check')
+            newEditBtnIcon.style.fontSize = '10px'
+
             let title_deposit_amount = document.getElementById("title_deposit_amount")
+
+
 
             //Onclick to show input + wrap it by formElt
             editBtn.addEventListener("click", function() {
+
+                console.log("click on editBtn. ID==>" + editBtn.id)
                 //replace existing deposit_amount value by input field
                 deposit_amount_elt.parentNode.replaceChild(newElt, deposit_amount_elt)
+
                 //replace edit icon by validate one
-                editBtn.parentNode.replaceChild(newEditBtn, editBtn)
+                let EditBtnTxt = document.getElementById('btn-txt')
+                EditBtnTxt.parentNode.replaceChild(newEditBtnTxt, EditBtnTxt)
+
                 newElt.parentNode.appendChild(formElt)
                 formElt.appendChild(newElt)
                 title_deposit_amount.parentNode.insertBefore(formElt, title_deposit_amount.nextSibling)
+
+                //Remove the event listener to enable the update on next event listener 
+                this.removeEventListener('click', arguments.callee, false);
             });
 
             //Onclick to send input value
-            newEditBtn.addEventListener("click", function(e) {
+            newEditBtnTxt.addEventListener("click", function(e) {
+                console.log("click on newEditBtnTxt")
                 //Get form sublitted values
-                let deposit_amount_val = document.getElementById("form1").elements[0].value
+                let deposit_amount_val = document.getElementById("form1").children[0].value
                 console.log("deposit_amount : " + deposit_amount_val)
 
                 let api_url = ''
@@ -171,15 +199,24 @@
                         //Create div element to show with deposit_amount updated value
                         let deposit_amount_upt = document.createElement("div")
                         deposit_amount_upt.setAttribute('id', 'deposit_amount')
-                        deposit_amount_upt.setAttribute('class', 'col-sm-5')
+                        deposit_amount_upt.classList.add('col-sm-5', 'col-xs-2')
                         deposit_amount_upt.value = deposit_amount_val
                         deposit_amount_upt.innerHTML = deposit_amount_val
                         newElt.parentNode.replaceChild(deposit_amount_upt, newElt)
                         //Put back the edit icon
-                        let EditBtn = document.createElement("span")
-                        EditBtn.classList.add('glyphicon', 'glyphicon-edit', 'col-sm-2')
-                        EditBtn.setAttribute('id', 'btn-edit')
-                        newEditBtn.parentNode.replaceChild(EditBtn, newEditBtn)
+                        let EditBtnBack = document.createElement("span")
+                        EditBtnBack.classList.add('glyphicon', 'glyphicon-edit', 'col-sm-2')
+                        EditBtnBack.style.fontSize = '10px'
+                        EditBtnBack.style.color = '#008CBA'
+                        newEditBtnTxt.innerText = 'Edit'
+                        newEditBtnTxt.id = 'btn-txt'
+                        newEditBtnTxt.removeAttribute('type')
+
+                        newEditBtnIcon.parentNode.replaceChild(EditBtnBack, newEditBtnIcon)
+
+                        //restore event listener on Edit btn 
+
+                        editBtn.addEventListener("click", function() {})
                     });
             })
         }

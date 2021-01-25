@@ -128,10 +128,7 @@
             newElt.setAttribute("type", "number")
             newElt.setAttribute("value", (deposit_amount_elt.innerHTML).replace(/\s/g, ''))
             // newElt.value = deposit_amount_elt.innerHTML
-            console.log(newElt)
-            //Create form element
-            let formElt = document.createElement("form")
-            formElt.setAttribute('id', 'form1')
+
             newElt.classList.add('col-sm-3', 'col-xs-3')
 
             //create element that wil show update icon
@@ -150,21 +147,15 @@
             let title_deposit_amount = document.getElementById("title_deposit_amount")
 
 
-
             //Onclick to show input + wrap it by formElt
             editBtn.addEventListener("click", function() {
 
-                console.log("click on editBtn. ID==>" + editBtn.id)
                 //replace existing deposit_amount value by input field
                 deposit_amount_elt.parentNode.replaceChild(newElt, deposit_amount_elt)
 
                 //replace edit icon by validate one
                 let EditBtnTxt = document.getElementById('btn-txt')
                 EditBtnTxt.parentNode.replaceChild(newEditBtnTxt, EditBtnTxt)
-
-                newElt.parentNode.appendChild(formElt)
-                formElt.appendChild(newElt)
-                title_deposit_amount.parentNode.insertBefore(formElt, title_deposit_amount.nextSibling)
 
                 //Remove the event listener to enable the update on next event listener 
                 this.removeEventListener('click', arguments.callee, false);
@@ -174,7 +165,7 @@
             newEditBtnTxt.addEventListener("click", function(e) {
                 console.log("click on newEditBtnTxt")
                 //Get form sublitted values
-                let deposit_amount_val = document.getElementById("form1").children[0].value
+                let deposit_amount_val = document.getElementById("deposit_amount").value
                 console.log("deposit_amount : " + deposit_amount_val)
 
                 let api_url = ''

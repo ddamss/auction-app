@@ -89,17 +89,14 @@ $(document).ready(function() {
         });
     });
 
-    $("#form").submit(function(e) {
-
-        var start_date=$("#start_date").val()
-        var end_date=$("#end_date").val()
-        var current_date = new Date();
-        var dd = current_date.getDate();
-        var mm = current_date.getMonth()+1; 
-        var yyyy = current_date.getFullYear();
-        var hours=current_date.getHours()
-        var minutes=current_date.getMinutes()
-        var seconds=current_date.getSeconds()
+    function formatCurrentDate(CurrentDate, additionalMinute=0){
+        
+        var dd = CurrentDate.getDate();
+        var mm = CurrentDate.getMonth()+1; 
+        var yyyy = CurrentDate.getFullYear();
+        var hours=CurrentDate.getHours()
+        var minutes=CurrentDate.getMinutes()+additionalMinute
+        var seconds=CurrentDate.getSeconds()
 
         if(dd<10) 
         {
@@ -123,8 +120,22 @@ $(document).ready(function() {
             seconds=`0${seconds}`;   
         }
 
-        current_date = `${yyyy}-${mm}-${dd} ${hours}:${minutes}:${seconds}`;
-    
+        return CurrentDate = `${yyyy}-${mm}-${dd} ${hours}:${minutes}:${seconds}`;
+    }
+
+    //By default start_date will be set at +5mn of the current_date. User can modify it indeed
+    var current_date = new Date();
+    current_date=formatCurrentDate(current_date,5)
+    var start_default_date=document.getElementById('start_date')
+    start_default_date.value=current_date
+
+    $("#form").submit(function(e) {
+
+        var start_date=$("#start_date").val()
+        var end_date=$("#end_date").val()
+        var current_date = new Date();
+        current_date=formatCurrentDate(current_date)
+
         if (start_date <= current_date) {
             
             // console.log('start date = ' + start_date + ' < current_date=' + current_date)

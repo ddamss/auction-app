@@ -98,7 +98,6 @@
                         </div>
 
                     </div>
-                    <div style="margin: auto;text-align: center;"><button type="button" class="btn btn-danger" id="delete">Delete account</button></div>
                 </div>
             </div>
 

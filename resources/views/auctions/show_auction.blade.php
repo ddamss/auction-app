@@ -556,7 +556,6 @@
             $("#status_block").remove()
             $("#bid-component").remove();
             $("#clockdiv").remove();
-
         } else if (status == 'coming') {
             // $("#status").html("Auction " + status + " !");
             $("#status").css("color", "orange");
@@ -636,7 +635,7 @@
 
             $("#bid-append").replaceWith($("#bid-component"));
             status = 'live'
-            $(".-footer").html("<p>will finish on the <b>" + end_date + "</b></p>");
+            $(".card-footer").html("<p>will finish on the <b>" + end_date + "</b></p>");
 
             $("#status").html("Auction is live !");
             console.log("STATUS setInterval==> " + status)
